@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    <form method="get" action="kek.py">
+        <label for="r">Rot</label>
+        <input type="range" name="red" id="r" oninput="display_r_value()">
+        <label for="g">Gruen</label>
+        <input type="range" name="green" id="g" oninput="display_g_value()">
+        <label for="b">Blau</label>
+        <input type="range" name="blue" id="b" oninput="display_b_value()">
+    </form>
+
+    <p id="p1"></p>
+    <p id="p2"></p>
+    <p id="p3"></p>
+
+<script>
+    function display_r_value(){
+    r = document.getElementById("r")
+    document.getElementById("p1").innerHTML = r.value}
+
+    function display_g_value(){
+    g = document.getElementById("g")
+    document.getElementById("p2").innerHTML = g.value}
+
+    function display_b_value(){
+    b = document.getElementById("b")
+    document.getElementById("p3").innerHTML = b.value}
+</script>
+</body>
+</html>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('input').forEach(input => {
+                input.oninput = () => {
+                    const request = new XMLHttpRequest();
+                    request.open('PUT', `/${range.id}`);
+                    request.send(`r=/${range.value}`);
+                });
+            });
+        }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Voting App</title>
+        <link rel="stylesheet" href="s">
+    </head>
+    <body>
+        <form method="POST" action="C:\Users\Leon\PycharmProjects\DMXRaspberry\app.py">
+            <label for="r">Rot</label>
+            <input type="range" name="red" id="r" class="r" min="0" max="255">
+            <label for="g">Gruen</label>
+            <input type="range" name="green" id="g" class="g" min="0" max="255">
+            <label for="b">Blau</label>
+            <input type="range" name="blue" id="b" class="b" min="0" max="255">
+            <button type="submit">Szene speichern</button>
+        </form>
+        <p class="r"></p>
+        <p class="g"></p>
+        <p class="b"></p>
+    </body>
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('input').forEach(input => {
+                input.oninput = () => {
+                    const request = new XMLHttpRequest();
+                    request.open('PUT', `/${input.id}`);
+                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+                    request.onload = () => {
+                        const response = request.responseText
+                        document.getElementsByClassName(`${input.className}`)[1].innerText = `${input.className}: ${response}`
+                    }; 
+                    let msg = [document.getElementById("r").value,
+                    document.getElementById("g").value, document.getElementById("b").value]
+                    request.send(`r=${msg[0]}&g=${msg[1]}&b=${msg[2]}`)
+                };
+            });
+        });
+
+    </script>
+</html>
