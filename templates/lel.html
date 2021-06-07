@@ -34,13 +34,3 @@
 </script>
 </body>
 </html>
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('input').forEach(input => {
-                input.oninput = () => {
-                    const request = new XMLHttpRequest();
-                    request.open('PUT', `/${range.id}`);
-                    request.send(`r=/${range.value}`);
-                });
-            });
-        }

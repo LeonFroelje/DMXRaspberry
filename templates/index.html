@@ -3,41 +3,31 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Voting App</title>
+        <title>DMX Steuerung</title>
         <link rel="stylesheet" href="s">
     </head>
     <body>
-        <form method="POST" action="C:\Users\Leon\PycharmProjects\DMXRaspberry\app.py">
-            <label for="r">Rot</label>
-            <input type="range" name="red" id="r" class="r" min="0" max="255">
-            <label for="g">Gruen</label>
-            <input type="range" name="green" id="g" class="g" min="0" max="255">
-            <label for="b">Blau</label>
-            <input type="range" name="blue" id="b" class="b" min="0" max="255">
+        <form method="POST" action="/save">
+            <label for="L1" class="lc">Scheinwerfer 1</label>
+            <input type="checkbox" id="L1" name="L1" value="True" class="Lampe Scheinwerfer">
+            <label for="L2" class="lc">Scheinwerfer 2</label>
+            <input type="checkbox" id="L2" name="L2" value="True" class="Lampe Scheinwerfer">
+            <label for="L3" class="lc">Scheinwerfer 3</label>
+            <input type="checkbox" id="L3" name="L3" value="True" class="Lampe Scheinwerfer">
+            <label for="L4" class="lc">Scheinwerfer 4</label>
+            <input type="checkbox" id="L4" name="L4" value="True" class="Lampe LED-bar">
+            <label for="L5" class="lc">Scheinwerfer 5</label>
+            <input type="checkbox" id="L5" name="L5" value="True" class="Lampe LED-bar">
+            
+            <label for="r" class="lr">Rot</label>
+            <input type="range" name="red" id="r" class="rgb" min="0" max="255">
+            <label for="g" class="lr">Gruen</label>
+            <input type="range" name="green" id="g" class="rgb" min="0" max="255">
+            <label for="b" class="lr">Blau</label>
+            <input type="range" name="blue" id="b" class="rgb" min="0" max="255">
             <button type="submit">Szene speichern</button>
         </form>
-        <p class="r"></p>
-        <p class="g"></p>
-        <p class="b"></p>
     </body>
 
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('input').forEach(input => {
-                input.oninput = () => {
-                    const request = new XMLHttpRequest();
-                    request.open('PUT', `/${input.id}`);
-                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-                    request.onload = () => {
-                        const response = request.responseText
-                        document.getElementsByClassName(`${input.className}`)[1].innerText = `${input.className}: ${response}`
-                    }; 
-                    let msg = [document.getElementById("r").value,
-                    document.getElementById("g").value, document.getElementById("b").value]
-                    request.send(`r=${msg[0]}&g=${msg[1]}&b=${msg[2]}`)
-                };
-            });
-        });
-
-    </script>
+    <script type="text/javascript" src="../static/index.js"></script>
 </html>
