@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     lampen.push(checkbox.id)
                 }
             })
-            fetch(`/${input.id}`, {
+            fetch('/rgbwds', {
                 method : "PUT",
                 headers : {
                     "Content-type" : "application/json"
@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 body : JSON.stringify(`{"r":${document.getElementById("r").value},
 "g":${document.getElementById("g").value},
 "b":${document.getElementById("b").value},
+"ww":${document.getElementById("weiss").value},
+"d":${document.getElementById("dim").value},
+"s":${document.getElementById("strobo").value},
 "lampen":"${lampen.join()}"}`)                        
             }).then(response => {
                 return response.json()

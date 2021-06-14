@@ -1,33 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DMX Steuerung</title>
-        <link rel="stylesheet" href="s">
-    </head>
-    <body>
-        <form method="POST" action="/save">
-            <label for="L1" class="lc">Scheinwerfer 1</label>
-            <input type="checkbox" id="L1" name="L1" value="True" class="Lampe Scheinwerfer">
-            <label for="L2" class="lc">Scheinwerfer 2</label>
-            <input type="checkbox" id="L2" name="L2" value="True" class="Lampe Scheinwerfer">
-            <label for="L3" class="lc">Scheinwerfer 3</label>
-            <input type="checkbox" id="L3" name="L3" value="True" class="Lampe Scheinwerfer">
-            <label for="L4" class="lc">Scheinwerfer 4</label>
-            <input type="checkbox" id="L4" name="L4" value="True" class="Lampe LED-bar">
-            <label for="L5" class="lc">Scheinwerfer 5</label>
-            <input type="checkbox" id="L5" name="L5" value="True" class="Lampe LED-bar">
-            
-            <label for="r" class="lr">Rot</label>
-            <input type="range" name="red" id="r" class="rgb" min="0" max="255">
-            <label for="g" class="lr">Gruen</label>
-            <input type="range" name="green" id="g" class="rgb" min="0" max="255">
-            <label for="b" class="lr">Blau</label>
-            <input type="range" name="blue" id="b" class="rgb" min="0" max="255">
-            <button type="submit">Szene speichern</button>
-        </form>
-    </body>
+{% extends 'layout.html'%}
+{% block content %}
+<input type="button" id="Scheinwerfer" class='selector' value="Scheinwerfer">
+<input type="button" id="Leisten" class='selector' value="LED-Leiste">
+<input type="button" id="Schwarzlicht" class='selector' value="Schwarzlicht">
+{% endblock content %}
 
-    <script type="text/javascript" src="../static/index.js"></script>
-</html>
+{% block scripts%}
+{% for script in scripts%}
+<script src={{script}}></script>
+{% endfor %}
+{% endblock scripts %}    
