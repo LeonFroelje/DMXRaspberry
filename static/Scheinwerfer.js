@@ -27,3 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });
 });
+
+form = document.getElementById('scene')
+form.addEventListener('submit', () => {
+    if (document.getElementById('scenename').value === ''){
+        alert('Szenenname muss angegeben werden')
+        return false
+    }
+    else{
+        return true
+    }
+})
