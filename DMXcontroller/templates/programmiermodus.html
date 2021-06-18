@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="sidenav">
+        <form id="saveprogram" method="POST" action="/saveprogram">
+        <label for="p_name" class="radio-lampen">Programmname: </label>
+        <input type="text" id="p_name" name="p_name">
+        <input type="submit" value="Szene speichern" id="submitprogram">
+        </form>
+        
+        <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer</label>
+        <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ"> 
+        <label for="Leisten" class='radio-lampen'>LED-Leisten</label>
+        <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
+        <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht</label>
+        <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
+        <a href="/Abspielmodus">Zum Abspielmodus</a>
+    </div>
+    <iframe class="main" id="mainframe">
+        Benutze einen anderen Browser du Depp
+    </iframe>
+{% endblock content %}

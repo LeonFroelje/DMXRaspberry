@@ -1,0 +1,11 @@
+{% extends 'layout.html'%}
+{% block content %}
+<input type="button" id="Programmiermodus" class='selector' value="Programmiermodus">
+<input type="button" id="play" class='selector' value="Abspielmodus">
+{% endblock content %}
+
+{% block scripts%}
+{% for script in scripts%}
+<script src={{script}}></script>
+{% endfor %}
+{% endblock scripts %}    
