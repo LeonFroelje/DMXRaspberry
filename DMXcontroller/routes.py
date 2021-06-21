@@ -5,14 +5,18 @@ from flask.helpers import url_for
 import os
 from werkzeug.utils import redirect
 import time
+import threading
 from DMXcontroller.models import Scenes, Programs
 from DMXcontroller import app, db
+from DMXcontroller.player import ProgramPlayer
 
+
+player = ProgramPlayer()
 
 lampen_liste = ['L1', 'L2', 'L3']
 leisten_liste = ['L4', 'L5']
 
-program_scenes = ['test1', 'test2', 'testt', 'testtt', 'stroboo']
+program_scenes = []
 
 lampen_dict = {
     'scheinwerfer' : {
@@ -42,26 +46,49 @@ def index():
     return render_template("index.html", scripts=['../static/main.js'])
 
 
+@app.route("/Abspielmodus")
+def abspielmodus():
+    return render_template("abspielmodus.html",
+     scripts=[url_for('static', filename="abspielmodus.js")],
+     styles=[url_for("static", filename="abspielmodus.css")],
+     programs=Programs.query.all())
+
 @app.route('/Programmiermodus')
 def Programmiermodus():
     return render_template("programmiermodus.html", scripts=[url_for('static', filename='main.js')],
      styles=[url_for('static', filename='navbar.css')])
 
+@app.route("/Programmiermodus/new")
+def Programmiermodus_new():
+    global program_scenes
+    return render_template("programmiermodus_new.html", scripts=[url_for('static', filename='main.js')],
+     styles=[url_for('static', filename='navbar.css')])
+
+
+@app.route("/Programmiermodus/edit/<program_name>")
+def Programmiermodus_edit(program_name):
+    program = Programs.query.filter_by(p_name=program_name).first()
+    return render_template("programmiermodus_edit")
+
 
 @app.route('/Scheinwerfer', methods=['GET'])
 def Scheinwerfer():
     return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
-     styles=[url_for('static', filename='navbar.css')])
+     styles=[url_for('static', filename='navbar.css')], scenes=program_scenes)
 
 
 @app.route('/Leisten')
 def Leisten():
-    return render_template('Leisten.html',styles=[url_for('static', filename='navbar.css')], scripts=[url_for('static', filename='leisten.js')])
+    return render_template('Leisten.html',styles=[url_for('static', filename='navbar.css')],
+     scripts=[url_for('static', filename='leisten.js')],
+     scenes=program_scenes)
 
 
 @app.route('/Schwarzlicht')
 def Schwarzlicht():
-    return render_template('Schwarzlicht.html', styles=[url_for('static', filename='navbar.css')], scripts=[url_for('static', filename='schwarzlich.js')])
+    return render_template('Schwarzlicht.html', styles=[url_for('static', filename='navbar.css')],
+     scripts=[url_for('static', filename='schwarzlich.js')],
+     scenes=program_scenes)
 
 
 @app.route('/Schwarzlichtdmx', methods=['PUT'])
@@ -150,6 +177,20 @@ def shutdown():
     return ''
 
 
+@app.route('/Play/<p_name>')
+def play_program(p_name):
+    global player
+    program = Programs.query.filter_by(p_name=p_name).first()
+    player.program = program.p_scenes.split(",")
+    player.play = True
+    print(program, "\n", player)
+    thread = threading.Thread(target=player.play_program)
+    thread.daemon = True
+    thread.start()
+    return "Programm gestartet"
+
+
+
 @app.route('/Penis')
 def penis():
     global program_scenes
@@ -165,3 +206,5 @@ def loop_through_program(program):
             subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
             time.sleep(0.01)
         i += 1
+
+

@@ -33,7 +33,27 @@
 <form action="/shutdown" method="POST">
     <button type="submit" name="shutdown">Herunterfahren</button>
 </form>
+<br>
+<div id="program-table" class="dropdown">
+    <table>
+        {% if program %}
+        <tr>
+            <th>{{ program }}</th>
+        </tr>
+        {% else %}
+        <tr>
+            <th>Programmszenen</th>
+        </tr>
+        {% endif %}
+        {% for scene in scenes %}
+            <tr>
+                <td>{{ scene }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock content %}
+
 
 <script type="text/javascript" src="../static/scheinwerfer.js"></script>
 
