@@ -12,8 +12,7 @@ from DMXcontroller import app, db
 lampen_liste = ['L1', 'L2', 'L3']
 leisten_liste = ['L4', 'L5']
 
-program_scenes = ['test1', 'test2', 'testt', 'testtt', 'stroboo']
-
+program_scenes = ['Kek1', 'Kek2', 'Kek3', 'Kek4', 'Kek5', 'Kek6', 'Kek7', 'Kek8']
 lampen_dict = {
     'scheinwerfer' : {
         'L1' : '0,0,0,0,0,0,',
@@ -158,10 +157,10 @@ def penis():
 
 def loop_through_program(program):
     i = 0
-    while i < 5:
+    while i < 50:
         for scene in program:
             print(program, scene)
             sc = Scenes.query.filter_by(s_name=scene).first()
             subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
-            time.sleep(0.01)
+            time.sleep(0.1)
         i += 1
