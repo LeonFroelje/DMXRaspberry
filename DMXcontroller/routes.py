@@ -5,14 +5,19 @@ from flask.helpers import url_for
 import os
 from werkzeug.utils import redirect
 import time
+import threading
 from DMXcontroller.models import Scenes, Programs
 from DMXcontroller import app, db
+from DMXcontroller.player import ProgramPlayer
 
+
+player = ProgramPlayer()
 
 lampen_liste = ['L1', 'L2', 'L3']
 leisten_liste = ['L4', 'L5']
 
-program_scenes = ['Kek1', 'Kek2', 'Kek3', 'Kek4', 'Kek5', 'Kek6', 'Kek7', 'Kek8']
+program_scenes = []
+
 lampen_dict = {
     'scheinwerfer' : {
         'L1' : '0,0,0,0,0,0,',
@@ -41,26 +46,48 @@ def index():
     return render_template("index.html", scripts=['../static/main.js'])
 
 
+@app.route("/Abspielmodus")
+def abspielmodus():
+    return render_template("abspielmodus.html",
+     scripts=[url_for('static', filename="abspielmodus.js")],
+     styles=[url_for("static", filename="abspielmodus.css")],
+     programs=Programs.query.all())
+
 @app.route('/Programmiermodus')
 def Programmiermodus():
     return render_template("programmiermodus.html", scripts=[url_for('static', filename='main.js')],
      styles=[url_for('static', filename='navbar.css')])
 
+@app.route("/Programmiermodus/new")
+def Programmiermodus_new():
+    global program_scenes
+    return render_template("programmiermodus_new.html", scripts=[url_for('static', filename='main.js')],
+     styles=[url_for('static', filename='navbar.css')])
+
+
+@app.route("/Programmiermodus/edit")
+def Programmiermodus_edit():
+    return render_template("programmiermodus_edit.html")
+
 
 @app.route('/Scheinwerfer', methods=['GET'])
 def Scheinwerfer():
     return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
-     styles=[url_for('static', filename='navbar.css')])
+     styles=[url_for('static', filename='navbar.css')], scenes=program_scenes)
 
 
 @app.route('/Leisten')
 def Leisten():
-    return render_template('Leisten.html',styles=[url_for('static', filename='navbar.css')], scripts=[url_for('static', filename='leisten.js')])
+    return render_template('Leisten.html',styles=[url_for('static', filename='navbar.css')],
+     scripts=[url_for('static', filename='leisten.js')],
+     scenes=program_scenes)
 
 
 @app.route('/Schwarzlicht')
 def Schwarzlicht():
-    return render_template('Schwarzlicht.html', styles=[url_for('static', filename='navbar.css')], scripts=[url_for('static', filename='schwarzlich.js')])
+    return render_template('Schwarzlicht.html', styles=[url_for('static', filename='navbar.css')],
+     scripts=[url_for('static', filename='schwarzlich.js')],
+     scenes=program_scenes)
 
 
 @app.route('/Schwarzlichtdmx', methods=['PUT'])
@@ -136,7 +163,7 @@ def saveprogram():
     global program_scenes
     data = request.form
     if 'p_name' in data:
-        program = Programs(p_name=data['p_name'], p_scenes=''.join(program_scenes))
+        program = Programs(p_name=data['p_name'], p_scenes=','.join(program_scenes + ' '))
         db.session.add(program)
         db.session.commit()
         return redirect(url_for('Programmiermodus'))
@@ -149,10 +176,30 @@ def shutdown():
     return ''
 
 
+@app.route('/Play/<p_name>')
+def play_program(p_name):
+    global player
+    program = Programs.query.filter_by(p_name=p_name).first()
+    player.program = program.p_scenes.split(",")
+    player.play = True
+    print(program, "\n", player.program)
+    thread = threading.Thread(target=player.play_program)
+    thread.daemon = True
+    thread.start()
+    return "Programm gestartet"
+
+
+
 @app.route('/Penis')
 def penis():
     global program_scenes
-    loop_through_program(program_scenes)
+    test = Programs.query.filter_by(p_name='Test').first()
+    szenen = test.p_scenes.split('T')
+    szenen = szenen[1:]
+    for i,scene in enumerate(szenen):
+        szenen[i] = 'T' + scene
+    print(szenen)
+    loop_through_program(szenen)
     return redirect(url_for('Programmiermodus'))
 
 def loop_through_program(program):
@@ -164,3 +211,5 @@ def loop_through_program(program):
             subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
             time.sleep(0.1)
         i += 1
+
+

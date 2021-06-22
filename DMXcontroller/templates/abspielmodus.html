@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="dropdown">
+    <button onclick="showdropdown()" class="dropbtn">Programme</button>
+    <div id="droptable" class="dropdown-content">
+        <table>
+            {% for program in programs %}
+            <tr class="dropdown-row">
+                <td class="dropdown-data" id={{ program.p_name }}> {{ program.p_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<a href="/Programmiermodus">Zum Programmiermodus</a> 
+{% endblock content %}
