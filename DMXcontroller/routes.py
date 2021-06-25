@@ -209,7 +209,7 @@ def loop_through_program(program):
             print(program, scene)
             sc = Scenes.query.filter_by(s_name=scene).first()
             subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
-            time.sleep(0.1)
+            time.sleep(0.05)
         i += 1
 
 
