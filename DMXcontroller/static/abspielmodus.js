@@ -23,3 +23,22 @@ document.querySelectorAll(".dropdown-data").forEach(row => {
         })
     }
 })
+
+document.getElementById('stop').addEventListener('click', () => {
+fetch('/stop').then(res => {
+  console.log(res.text())
+})
+})
+
+document.getElementById('scenetime').addEventListener('input', () => {
+  document.getElementById('timer').innerHTML = (0.001 * 1.044 ** (document.getElementById('scenetime').value)).toPrecision(3)
+  fetch('/change/scenetime', {
+    method : "PUT",
+    headers : {
+        "Content-type" : "application/json"
+    },
+    body : JSON.stringify(`{"scenetime":${document.getElementById('scenetime').value}}`)
+  }).then(res => {
+    console.log(res.text())
+  })
+})

@@ -203,16 +203,32 @@ def shutdown():
 @app.route('/Play/<p_name>')
 def play_program(p_name):
     global player
-    program = Programs.query.filter_by(p_name=p_name).first()
-    player.program = program.p_scenes.split(",")
-    player.play = True
-    print(program, "\n", player.program)
-    thread = threading.Thread(target=player.play_program)
-    thread.daemon = True
-    thread.start()
-    return "Programm gestartet"
+    if threading.active_count() <= 3:
+        program = Programs.query.filter_by(p_name=p_name).first()
+        player.program = program.p_scenes.split(",")
+        player.play = True
+        print(player.program)
+        thread = threading.Thread(target=player.play_program)
+        thread.start()
+        return "Programm gestartet"
+    else:
+        return 'Andere Programme erst stoppen'
 
 
+@app.route('/change/scenetime', methods=['PUT'])
+def change():
+    global player
+    data = request.get_json()
+    dic = json.loads(data)
+    player.timer = 0.001 * 1.044**(int(dic['scenetime']))
+    return f'Timer changed to {player.timer}' 
+
+
+@app.route('/stop')
+def stop_program():
+    global player
+    player.play = False
+    return 'Programm gestoppt'
 
 @app.route('/Penis')
 def penis():

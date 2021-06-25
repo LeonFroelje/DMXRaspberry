@@ -6,16 +6,18 @@ from DMXcontroller.models import Scenes
 
 class ProgramPlayer():
     play = False
-    program = [1,2,3,4,5,6,7,8,9]
+    program = []
     timer = 0.1
     fadetime = 0
 
     def play_program(self):
-        if self.fadetime:
+        if not self.fadetime:
             while self.play:
                 for scene in self.program:
                     sc = Scenes.query.filter_by(s_name=scene).first()
                     subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
+                    time.sleep(self.timer)
+        
 
     
 
