@@ -17,6 +17,8 @@ lampen_liste = ['L1', 'L2', 'L3']
 leisten_liste = ['L4', 'L5']
 
 program_scenes = []
+curr_scene = ""
+
 
 lampen_dict = {
     'scheinwerfer' : {
@@ -40,17 +42,12 @@ def parse_json(dic, segments):
     return data
 
 
-@app.route("/home")
 @app.route("/")
-def index():
-    return render_template("index.html", scripts=['../static/main.js'])
-
-
 @app.route("/Abspielmodus")
 def abspielmodus():
     return render_template("abspielmodus.html",
      scripts=[url_for('static', filename="abspielmodus.js")],
-     styles=[url_for("static", filename="abspielmodus.css")],
+     styles=[url_for("static", filename="dropdown.css")],
      programs=Programs.query.all())
 
 @app.route('/Programmiermodus')
@@ -67,13 +64,40 @@ def Programmiermodus_new():
 
 @app.route("/Programmiermodus/edit")
 def Programmiermodus_edit():
-    return render_template("programmiermodus_edit.html")
+    programs = Programs.query.all()
+    return render_template("programmiermodus_edit.html", 
+    scripts=[url_for('static', filename="programmier_edit.js")],
+    styles=[url_for("static", filename="dropdown.css"), url_for("static", filename="navbar.css")],
+    programs=programs)
 
 
-@app.route('/Scheinwerfer', methods=['GET'])
-def Scheinwerfer():
-    return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
-     styles=[url_for('static', filename='navbar.css')], scenes=program_scenes)
+@app.route("/Programmiermodus/edit/<string:p_name>")
+def load_program_to_edit(p_name):
+    program = Programs.query.filter_by(p_name=p_name).first()
+    print(program)
+    return str(program)
+
+
+@app.route("/load/scene/<s_name>")
+def load_scene_to_edit(s_name):
+    scene = Scenes.query.filter_by(s_name=s_name).first()
+    subprocess.run(['ola_streaming_client', '-u 2', '-d ' + scene.s_data])
+    global curr_scene
+    curr_scene = scene.s_name
+    return str(scene)
+
+
+@app.route("/Scheinwerfer")
+@app.route('/Scheinwerfer/<p_name>', methods=['GET'])
+def Scheinwerfer(p_name=None):
+    if p_name:
+        print(p_name)
+        program = Programs.query.filter_by(p_name=p_name).first()
+        return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
+        styles=[url_for('static', filename='Lampen.css')], program=program.p_name ,scenes=program.p_scenes.split(","))
+    else:
+        return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
+        styles=[url_for('static', filename='Lampen.css')], scenes=program_scenes)
 
 
 @app.route('/Leisten')
@@ -163,7 +187,7 @@ def saveprogram():
     global program_scenes
     data = request.form
     if 'p_name' in data:
-        program = Programs(p_name=data['p_name'], p_scenes=','.join(program_scenes + ' '))
+        program = Programs(p_name=data['p_name'], p_scenes=','.join(program_scenes))
         db.session.add(program)
         db.session.commit()
         return redirect(url_for('Programmiermodus'))

@@ -38,3 +38,21 @@ form.addEventListener('submit', () => {
         return true
     }
 })
+
+document.querySelectorAll(".table-header").forEach(header =>{
+    header.addEventListener("click", () => {
+    document.querySelectorAll(".table-row").forEach(row => {
+        if(row.classList.contains("show")){
+            row.classList.remove("show")
+        }
+        else{
+            row.classList.add("show")
+        }
+        })
+})
+})
+document.querySelectorAll("table-data").forEach(row => {
+    row.addEventListener("click", () => {
+        fetch(`/load/scene/${row.id}`)
+    })
+})

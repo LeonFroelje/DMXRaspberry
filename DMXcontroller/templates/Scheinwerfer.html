@@ -35,19 +35,19 @@
 </form>
 <br>
 <div id="program-table" class="dropdown">
-    <table>
+    <table id="scene-table">
         {% if program %}
         <tr>
-            <th>{{ program }}</th>
+            <th class="table-header">{{ program }}</th>
         </tr>
         {% else %}
         <tr>
-            <th>Programmszenen</th>
+            <th class="table-header">Programmszenen</th>
         </tr>
         {% endif %}
         {% for scene in scenes %}
-            <tr>
-                <td>{{ scene }}</td>
+            <tr class="table-row">
+                <td id={{ scene }} class="table-data">{{ scene }}</td>
             </tr>
         {% endfor %}
     </table>

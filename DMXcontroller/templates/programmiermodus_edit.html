@@ -1,1 +1,34 @@
 {% extends 'layout.html' %}
+{% block content %}
+<div class="sidenav">
+    <a href="/Programmiermodus">Zum Programmiermodus</a>
+    <form id="saveprogram" method="POST" action="/saveprogram">
+        <div class="dropdown">
+            <button type="button" onclick="showdropdown()" class="dropbtn">Programme</button>
+            <div id="droptable" class="dropdown-content">
+                <table>
+                    {% for program in programs %}
+                    <tr class="dropdown-row">
+                        <td class="dropdown-data" id={{ program.p_name }}> {{ program.p_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    <input type="submit" value="Programm speichern" id="submitprogram">
+    </form>
+    
+    <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer</label>
+    <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ"> 
+    <label for="Leisten" class='radio-lampen'>LED-Leisten</label>
+    <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
+    <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht</label>
+    <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
+    <br>
+    <a href="/Abspielmodus">Zum Abspielmodus</a>
+</div>
+<iframe class="main" id="mainframe">
+    Benutze einen anderen Browser du Depp
+</iframe>
+
+{% endblock content %}
