@@ -7,7 +7,8 @@ class Scenes(db.Model):
     s_data = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return f'Id: {self.s_id}, Name: {self.s_name}, DMX-Daten: {self.s_data}'
+            return f'{{"name":"{self.s_name}","dmx":"{self.s_data}"}}'
+
 
 class Programs(db.Model):
     p_id = db.Column(db.Integer, primary_key=True)
@@ -15,4 +16,4 @@ class Programs(db.Model):
     p_scenes = db.Column(db.Text, unique=True, nullable=False,)
 
     def __repr__(self):
-        return f'Id: {self.p_id}, Name: {self.p_name}, DMX-Daten: {self.p_scenes}'
+        return f'{{"name":"{self.p_name}","scenes":"{self.p_scenes}"}}'

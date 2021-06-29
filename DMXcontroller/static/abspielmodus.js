@@ -19,15 +19,17 @@ window.onclick = function(event) {
 document.querySelectorAll(".dropdown-data").forEach(row => {
     row.onclick = () => {
         fetch(`/Play/${row.id}`).then(res => {
-            console.log(res.text())
-        })
+            return res.text()
+          }).then(text => {alert(text)})
     }
 })
 
 document.getElementById('stop').addEventListener('click', () => {
 fetch('/stop').then(res => {
-  console.log(res.text())
-})
+  return res.text()
+  }).then(text => {
+    console.log(text)
+  })
 })
 
 document.getElementById('scenetime').addEventListener('input', () => {
@@ -39,6 +41,8 @@ document.getElementById('scenetime').addEventListener('input', () => {
     },
     body : JSON.stringify(`{"scenetime":${document.getElementById('scenetime').value}}`)
   }).then(res => {
-    console.log(res.text())
+    return res.text()
+  }).then(text => {
+    console.log(text)
   })
 })

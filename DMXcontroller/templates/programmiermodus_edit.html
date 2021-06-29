@@ -3,13 +3,13 @@
 <div class="sidenav">
     <a href="/Programmiermodus">Zum Programmiermodus</a>
     <form id="saveprogram" method="POST" action="/saveprogram">
-        <div class="dropdown">
-            <button type="button" onclick="showdropdown()" class="dropbtn">Programme</button>
-            <div id="droptable" class="dropdown-content">
+        <div class="dropdown-p">
+            <button type="button" onclick="showdropdown()" class="dropbtn-p">Programme</button>
+            <div id="droptable-p" class="dropdown-content-p">
                 <table>
                     {% for program in programs %}
-                    <tr class="dropdown-row">
-                        <td class="dropdown-data" id={{ program.p_name }}> {{ program.p_name }}</td>
+                    <tr class="dropdown-row-p">
+                        <td class="dropdown-data-p" id={{ program.p_name }}> {{ program.p_name }}</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -26,6 +26,19 @@
     <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
     <br>
     <a href="/Abspielmodus">Zum Abspielmodus</a>
+    <br>
+    <div class="dropdown-s">
+        <button type="button" class="dropbtn-s">Szenen</button>
+        <div id="droptable-s" class="dropdown-content-s">
+            <table>
+                {% for scene in scenes %}
+                <tr class="dropdown-row-s">
+                    <td class="dropdown-data-s" id={{ scene.s_name }}> {{ scene.s_name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 </div>
 <iframe class="main" id="mainframe">
     Benutze einen anderen Browser du Depp
