@@ -67,9 +67,9 @@ def Programmiermodus_new():
 def Programmiermodus_edit():
     programs = Programs.query.all()
     return render_template("programmiermodus_edit.html", 
-    scripts=[url_for('static', filename="programmier_edit.js"), url_for('static', filename='main.js')],
+    scripts=[url_for('static', filename="programmier_edit.js")],
     styles=[url_for("static", filename="dropdown.css"), url_for("static", filename="navbar.css")],
-    programs=programs)
+    programs=programs, scenes=Scenes.query.all())
 
 
 @app.route("/Programmiermodus/edit/<string:p_name>")
@@ -89,15 +89,22 @@ def load_scene_to_edit(s_name):
 
 
 @app.route('/add/scene')
-def add_curr_scene():
+@app.route('/add/scene/<p_name>')
+def add_curr_scene(p_name=None):
     global curr_scene
     global program_scenes
-    if not curr_scene == '':
-        program_scenes.append(curr_scene)
-        print(program_scenes)
-        return 'Szene dem Programm hinzugefuegt'
+    if not p_name:
+        if not curr_scene == '':
+            program_scenes.append(curr_scene)
+            print(program_scenes)
+            return 'Szene dem Programm hinzugefuegt'
+        else:
+            return 'Erst szene auswaehlen'
     else:
-        return 'Erst szene auswaehlen'
+        program = Programs.query.filter_by(p_name=p_name).first()
+        program.p_scenes += curr_scene
+        db.session.commit()
+        return "Szene dem Programm hinzugefuegt"
 
 
 @app.route("/Scheinwerfer")

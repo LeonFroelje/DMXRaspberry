@@ -1,21 +1,27 @@
-document.querySelector('dropbtn-p').addEventListener('click', () => {
-  document.getElementById("droptable-p").classList.toggle("show");
+let curr_program = ""
+let curr_scene = ""
+
+
+function close_dropdown(evt){
+    let btns = document.querySelectorAll('.dropbtn')
+    let l = btns.length
+    if (!evt.target.matches('.dropbtn')){
+      document.querySelectorAll(".dropdown-content").forEach(row => {
+        if (row.classList.contains("show")){
+            row.classList.toggle("show")
+          }
+        })        
+      }   
+}
+
+
+document.querySelectorAll('.dropbtn').forEach(dropbtn => {
+  dropbtn.addEventListener('click', (evt) => {
+    document.getElementById(`droptable-${evt.target.classList[1]}`).classList.toggle("show");
+    window.addEventListener('click', close_dropdown, once=true)
+  })
 })
 
-let curr_program = ""
-
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn-p')) {
-      let dropdowns = document.getElementsByClassName("dropdown-content-p");
-      let i;
-      for (i = 0; i < dropdowns.length; i++) {
-        let openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-  } 
 
 document.querySelectorAll(".dropdown-data-p").forEach(row => {
   row.onclick = () => {
@@ -40,10 +46,6 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
   }
 })
 
-document.querySelector('dropbtn-s').addEventListener('click', () => {
-  document.getElementById("droptable-s").classList.toggle("show");
-})
-
 
 document.querySelectorAll(".dropdown-data-s").forEach(row => {
 row.onclick = () => {
@@ -56,4 +58,12 @@ row.onclick = () => {
       console.log(curr_program, scenes)
     })
   }
+})
+
+
+document.getElementById('addscene').addEventListener('click', () => {
+  fetch(`/add/scene/${curr_program}`).then(res => {
+      return res.text()
+  }).then(text => {
+      alert(text)})
 })
