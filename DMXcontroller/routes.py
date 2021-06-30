@@ -102,7 +102,7 @@ def add_curr_scene(p_name=None):
             return 'Erst szene auswaehlen'
     else:
         program = Programs.query.filter_by(p_name=p_name).first()
-        program.p_scenes += curr_scene
+        program.p_scenes += f',{curr_scene}'
         db.session.commit()
         return "Szene dem Programm hinzugefuegt"
 

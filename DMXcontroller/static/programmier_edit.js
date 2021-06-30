@@ -49,13 +49,11 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
 
 document.querySelectorAll(".dropdown-data-s").forEach(row => {
 row.onclick = () => {
-  fetch(`/Programmiermodus/edit/${row.id}`).then(res => {
+  fetch(`/load/scene/${row.id}`).then(res => {
     return res.text()
     }).then(value => {
-      let program = JSON.parse(value)
-      curr_program = program.name
-      let scenes = program.scenes
-      console.log(curr_program, scenes)
+      console.log(value)
+      document.getElementById('addscene').classList.remove('hide')
     })
   }
 })
@@ -63,6 +61,7 @@ row.onclick = () => {
 
 document.getElementById('addscene').addEventListener('click', () => {
   fetch(`/add/scene/${curr_program}`).then(res => {
+      document.getElementById('addscene').classList.add('hide')
       return res.text()
   }).then(text => {
       alert(text)})
