@@ -58,15 +58,16 @@ def Programmiermodus():
 @app.route("/Programmiermodus/new")
 def Programmiermodus_new():
     global program_scenes
-    return render_template("programmiermodus_new.html", scripts=[url_for('static', filename='main.js')],
-     styles=[url_for('static', filename='navbar.css')])
+    scenes = Scenes.query.all()
+    return render_template("programmiermodus_new.html", scripts=[url_for('static', filename='main.js'), url_for('static', filename='p_new.js')],
+     styles=[url_for('static', filename='navbar.css'), url_for('static', filename='dropdown.css')], scenes=scenes)
 
 
 @app.route("/Programmiermodus/edit")
 def Programmiermodus_edit():
     programs = Programs.query.all()
     return render_template("programmiermodus_edit.html", 
-    scripts=[url_for('static', filename="programmier_edit.js")],
+    scripts=[url_for('static', filename="programmier_edit.js"), url_for('static', filename='main.js')],
     styles=[url_for("static", filename="dropdown.css"), url_for("static", filename="navbar.css")],
     programs=programs)
 
@@ -87,9 +88,22 @@ def load_scene_to_edit(s_name):
     return str(scene)
 
 
+@app.route('/add/scene')
+def add_curr_scene():
+    global curr_scene
+    global program_scenes
+    if not curr_scene == '':
+        program_scenes.append(curr_scene)
+        print(program_scenes)
+        return 'Szene dem Programm hinzugefuegt'
+    else:
+        return 'Erst szene auswaehlen'
+
+
 @app.route("/Scheinwerfer")
 @app.route('/Scheinwerfer/<p_name>', methods=['GET'])
 def Scheinwerfer(p_name=None):
+    global program_scenes
     if p_name:
         print(p_name)
         program = Programs.query.filter_by(p_name=p_name).first()
@@ -100,18 +114,32 @@ def Scheinwerfer(p_name=None):
         styles=[url_for('static', filename='Lampen.css')], scenes=program_scenes)
 
 
+@app.route('/Leisten/<p_name>')
 @app.route('/Leisten')
-def Leisten():
-    return render_template('Leisten.html',styles=[url_for('static', filename='navbar.css')],
-     scripts=[url_for('static', filename='leisten.js')],
-     scenes=program_scenes)
+def Leisten(p_name=None):
+    global program_scenes
+    if p_name:
+        program = Programs.query.filter_by(p_name=p_name).first()
+        return render_template('Leisten.html', title='Leisten', scripts=[url_for('static', filename='leisten.js',)],
+        styles=[url_for('static', filename='Lampen.css')], program=program.p_name, scenes=program.p_scenes.split(','))
+    else:
+        return render_template('Leisten.html',styles=[url_for('static', filename='navbar.css')],
+        scripts=[url_for('static', filename='leisten.js')],
+        scenes=program_scenes)
 
 
+@app.route('/Schwarzlicht/<p_name>')
 @app.route('/Schwarzlicht')
-def Schwarzlicht():
-    return render_template('Schwarzlicht.html', styles=[url_for('static', filename='navbar.css')],
-     scripts=[url_for('static', filename='schwarzlich.js')],
-     scenes=program_scenes)
+def Schwarzlicht(p_name=None):
+    global program_scenes
+    if p_name:
+        program = Programs.query.filter_by(p_name=p_name).first()
+        return render_template('Schwarzlicht.html', title='Schwarzlicht', scripts=[url_for('static', filename='schwarzlich.js',)],
+        styles=[url_for('static', filename='Lampen.css')], program=program.p_name, scenes=program.p_scenes.split(','))
+    else:
+        return render_template('Schwarzlicht.html', styles=[url_for('static', filename='navbar.css')],
+        scripts=[url_for('static', filename='schwarzlich.js')],
+        scenes=program_scenes)
 
 
 @app.route('/Schwarzlichtdmx', methods=['PUT'])
@@ -182,6 +210,21 @@ def savescene():
         return redirect(url_for("Scheinwerfer"))
 
 
+@app.route('/update/scene', methods=['POST'])
+def update_scene():
+    global curr_scene
+    scene = Scenes.query.filter_by(s_name=curr_scene).first()
+    data = request.form
+    dmx_data = ''
+    for gruppe in lampen_dict:
+        for lampe in lampen_dict[gruppe]:
+            dmx_data += lampen_dict[gruppe][lampe]
+    
+    scene.s_data = dmx_data
+    db.session.commit()
+    return ('', 204)
+
+
 @app.route('/saveprogram', methods=['POST'])
 def saveprogram():
     global program_scenes
@@ -203,16 +246,32 @@ def shutdown():
 @app.route('/Play/<p_name>')
 def play_program(p_name):
     global player
-    program = Programs.query.filter_by(p_name=p_name).first()
-    player.program = program.p_scenes.split(",")
-    player.play = True
-    print(program, "\n", player.program)
-    thread = threading.Thread(target=player.play_program)
-    thread.daemon = True
-    thread.start()
-    return "Programm gestartet"
+    if threading.active_count() <= 3:
+        program = Programs.query.filter_by(p_name=p_name).first()
+        player.program = program.p_scenes.split(",")
+        player.play = True
+        print(player.program)
+        thread = threading.Thread(target=player.play_program)
+        thread.start()
+        return "Programm gestartet"
+    else:
+        return 'Andere Programme erst stoppen'
 
 
+@app.route('/change/scenetime', methods=['PUT'])
+def change():
+    global player
+    data = request.get_json()
+    dic = json.loads(data)
+    player.timer = 0.001 * 1.044**(int(dic['scenetime']))
+    return f'Timer changed to {player.timer}' 
+
+
+@app.route('/stop')
+def stop_program():
+    global player
+    player.play = False
+    return 'Programm gestoppt'
 
 @app.route('/Penis')
 def penis():
@@ -233,7 +292,7 @@ def loop_through_program(program):
             print(program, scene)
             sc = Scenes.query.filter_by(s_name=scene).first()
             subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
-            time.sleep(0.1)
+            time.sleep(0.05)
         i += 1
 
 

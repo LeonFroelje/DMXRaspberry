@@ -39,3 +39,9 @@ form.addEventListener('submit', () => {
         return true
     }
 })
+
+document.querySelectorAll("table-data").forEach(row => {
+    row.addEventListener("click", () => {
+        fetch(`/load/scene/${row.id}`)
+    })
+})

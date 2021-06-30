@@ -1,12 +1,12 @@
-function showdropdown() {
-    document.getElementById("droptable").classList.toggle("show");
-}
+document.querySelector('dropbtn-p').addEventListener('click', () => {
+  document.getElementById("droptable-p").classList.toggle("show");
+})
 
 let curr_program = ""
 
 window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-      let dropdowns = document.getElementsByClassName("dropdown-content");
+    if (!event.target.matches('.dropbtn-p')) {
+      let dropdowns = document.getElementsByClassName("dropdown-content-p");
       let i;
       for (i = 0; i < dropdowns.length; i++) {
         let openDropdown = dropdowns[i];
@@ -17,14 +17,14 @@ window.onclick = function(event) {
     }
   } 
 
-document.querySelectorAll(".dropdown-data").forEach(row => {
+document.querySelectorAll(".dropdown-data-p").forEach(row => {
   row.onclick = () => {
     fetch(`/Programmiermodus/edit/${row.id}`).then(res => {
       return res.text()
       }).then(value => {
-        data = value.split(" ")
-        curr_program = data[3].replace(",", "")
-        scenes = data[5]
+        let program = JSON.parse(value)
+        curr_program = program.name
+        let scenes = program.scenes
         console.log(curr_program, scenes)
       })
     }
@@ -37,5 +37,23 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
               document.getElementById('mainframe').srcdoc = text
           })
       })
+  }
+})
+
+document.querySelector('dropbtn-s').addEventListener('click', () => {
+  document.getElementById("droptable-s").classList.toggle("show");
+})
+
+
+document.querySelectorAll(".dropdown-data-s").forEach(row => {
+row.onclick = () => {
+  fetch(`/Programmiermodus/edit/${row.id}`).then(res => {
+    return res.text()
+    }).then(value => {
+      let program = JSON.parse(value)
+      curr_program = program.name
+      let scenes = program.scenes
+      console.log(curr_program, scenes)
+    })
   }
 })
