@@ -1,7 +1,10 @@
-.table-row{
-    display: block;
+tr {
+    border: 1px, navy;
 }
 
 .show{
+    display: block;
+}
+.rgb-slider{
     display: block;
 }

@@ -60,7 +60,7 @@ def Programmiermodus_new():
     global program_scenes
     scenes = Scenes.query.all()
     return render_template("programmiermodus_new.html", scripts=[url_for('static', filename='main.js'), url_for('static', filename='p_new.js')],
-     styles=[url_for('static', filename='navbar.css'), url_for('static', filename='dropdown.css')], scenes=scenes)
+     styles=[url_for('static', filename='index.css')], scenes=scenes)
 
 
 @app.route("/Programmiermodus/edit")
@@ -221,7 +221,6 @@ def savescene():
 def update_scene():
     global curr_scene
     scene = Scenes.query.filter_by(s_name=curr_scene).first()
-    data = request.form
     dmx_data = ''
     for gruppe in lampen_dict:
         for lampe in lampen_dict[gruppe]:

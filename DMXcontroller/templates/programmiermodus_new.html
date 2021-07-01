@@ -1,22 +1,34 @@
-{% extends "layout.html" %}
+{% extends "index.html" %}
 
-{% block content %}
-    <div class="sidenav">
+    {% block nav_1 %}
         <form id="saveprogram" method="POST" action="/saveprogram">
-        <label for="p_name" class="radio-lampen">Programmname: </label>
-        <input type="text" id="p_name" name="p_name">
-        <input type="submit" value="Programm speichern" id="submitprogram">
+            <label for="p_name" class="radio-lampen">Programmname</label>
+            <input type="text" id="p_name" name="p_name">
+            <input type="submit" value="Programm speichern" id="submitprogram">
         </form>
-        
+    {% endblock nav_1 %}
+    
+    {% block nav_2 %}    
         <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer</label>
         <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ"> 
+    {% endblock nav_2 %}
+    
+    {% block nav_3 %}
         <label for="Leisten" class='radio-lampen'>LED-Leisten</label>
         <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
+    
+    {% endblock nav_3 %}
+
+    {% block nav_4 %}
         <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht</label>
         <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
-        <br>
+    {% endblock nav_4 %}
+
+    {% block nav_5 %}
         <a href="/Abspielmodus">Zum Abspielmodus</a>
-        <br>
+    {% endblock nav_5%}
+
+    {% block nav_6 %}
         <div class="dropdown">
             <button type="button" onclick="showdropdown()" class="dropbtn">Szenen</button>
             <div id="droptable" class="dropdown-content">
@@ -29,10 +41,14 @@
                 </table>
             </div>
         </div>
-        <button type="button" id="addscene">Szene hinzufuegen</button>
-    </div>
-    <iframe class="main" id="mainframe">
-        Benutze einen anderen Browser du Depp
-    </iframe>
-    
-{% endblock content %}
+    {% endblock nav_6%}
+        
+    {% block nav_7 %}
+        <button type="button" id="addscene" class="hide">Szene hinzufuegen</button>
+    {% endblock nav_7%}
+
+    {% block content %}
+        <iframe class="main" id="mainframe">
+            Benutze einen anderen Browser du Depp
+        </iframe>
+    {% endblock content %}

@@ -8,22 +8,22 @@
     <br>
 
     {% for i in range(1,9,1) %}
-    <label for='r-{{ i }}'>Rot Segment {{ i }}</label>
-    <input type="range" name="red-{{ i }}" id="r{{ i }}" class="Lrgb" min="0" max="255" value="0">
-    <label for='g-{{ i }}'>Gruen Segment {{ i }}</label>
-    <input type="range" name="green-{{ i }}" id="g{{ i }}" class="Lrgb" min="0" max="255" value="0">
-    <label for='r-{{ i }}'>Blau Segment {{ i }}</label>
-    <input type="range" name="blue-{{ i }}" id="b{{ i }}" class="Lrgb" min="0" max="255" value="0">
-    <br>
+    <div class="rbg-slider">
+        <label for='r-{{ i }}'>Rot Segment {{ i }}</label>
+        <input type="range" name="red-{{ i }}" id="r{{ i }}" class="Lrgb" min="0" max="255" value="0">
+        <label for='g-{{ i }}'>Gruen Segment {{ i }}</label>
+        <input type="range" name="green-{{ i }}" id="g{{ i }}" class="Lrgb" min="0" max="255" value="0">
+        <label for='r-{{ i }}'>Blau Segment {{ i }}</label>
+        <input type="range" name="blue-{{ i }}" id="b{{ i }}" class="Lrgb" min="0" max="255" value="0">
     {% endfor %}
-    
+    </div>
     <br>
     <label for="scenename">Szenenname</label>
     <input type="text" id='scenename' name='scenename'>
     
     <button type="submit" id='submit'>Szene speichern</button>    
 </form>
-
+<br><br>
 <form action="/shutdown" method="POST">
     <button type="submit" name="shutdown">Herunterfahren</button>
 </form>
