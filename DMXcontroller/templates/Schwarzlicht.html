@@ -1,12 +1,10 @@
-{% extends "layout.html" %}
-{% block content %}
 <form method="POST" action="/savescene" id='scene'>
     <label for="dim">Helligkeit</label>
-    <input type="range" id='dim' name='dimmer' class='uv' value="0" min="0" max="255">
+    <input type="range" id='dim' name='dimmer' class='uv' value="0" min="0" max="255" orient="vertical">
     <label for="strobe">Strobo</label>
-    <input type="range" id='strobe' name='strobe' class='uv' value="0" min="0" max="255">
+    <input type="range" id='strobe' name='strobe' class='uv' value="0" min="0" max="255" orient="vertical">
     <label for="dur">Strobo dauer</label>
-    <input type="range" id='dur' name='strobe_dur' class='uv' value="0" min="0" max="255">
+    <input type="range" id='dur' name='strobe_dur' class='uv' value="0" min="0" max="255" orient="vertical">
     <br>
     <label for="scenename">Szenenname</label>
     <input type="text" id='scenename' name='scenename'>
@@ -33,4 +31,11 @@
         </tr>
     {% endfor %}
 </table>
-{% endblock content %}
+
+{% for script in scripts %}
+<script type="text/javascript" src={{ script }}></script>
+{% endfor %}
+
+{% for style in styles %}
+<link rel="stylesheet" href={{ style }}>
+{% endfor %}

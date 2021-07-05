@@ -75,7 +75,6 @@ def Programmiermodus_edit():
 @app.route("/Programmiermodus/edit/<string:p_name>")
 def load_program_to_edit(p_name):
     program = Programs.query.filter_by(p_name=p_name).first()
-    print(program)
     return str(program)
 
 
@@ -96,7 +95,6 @@ def add_curr_scene(p_name=None):
     if not p_name:
         if not curr_scene == '':
             program_scenes.append(curr_scene)
-            print(program_scenes)
             return 'Szene dem Programm hinzugefuegt'
         else:
             return 'Erst szene auswaehlen'
@@ -112,13 +110,12 @@ def add_curr_scene(p_name=None):
 def Scheinwerfer(p_name=None):
     global program_scenes
     if p_name:
-        print(p_name)
         program = Programs.query.filter_by(p_name=p_name).first()
         return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
-        styles=[url_for('static', filename='Lampen.css')], program=program.p_name ,scenes=program.p_scenes.split(","))
+        styles=[url_for('static', filename='Scheinwerfer.css')], program=program.p_name ,scenes=program.p_scenes.split(","))
     else:
         return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
-        styles=[url_for('static', filename='Lampen.css')], scenes=program_scenes)
+        styles=[url_for('static', filename='Scheinwerfer.css')], scenes=program_scenes)
 
 
 @app.route('/Leisten/<p_name>')
@@ -128,9 +125,9 @@ def Leisten(p_name=None):
     if p_name:
         program = Programs.query.filter_by(p_name=p_name).first()
         return render_template('Leisten.html', title='Leisten', scripts=[url_for('static', filename='leisten.js',)],
-        styles=[url_for('static', filename='Lampen.css')], program=program.p_name, scenes=program.p_scenes.split(','))
+        styles=[url_for('static', filename='Leisten.css')], program=program.p_name, scenes=program.p_scenes.split(','))
     else:
-        return render_template('Leisten.html',styles=[url_for('static', filename='navbar.css')],
+        return render_template('Leisten.html',styles=[url_for('static', filename='Leisten.css')],
         scripts=[url_for('static', filename='leisten.js')],
         scenes=program_scenes)
 
@@ -141,10 +138,10 @@ def Schwarzlicht(p_name=None):
     global program_scenes
     if p_name:
         program = Programs.query.filter_by(p_name=p_name).first()
-        return render_template('Schwarzlicht.html', title='Schwarzlicht', scripts=[url_for('static', filename='schwarzlich.js',)],
-        styles=[url_for('static', filename='Lampen.css')], program=program.p_name, scenes=program.p_scenes.split(','))
+        return render_template('Schwarzlicht.html', title='Schwarzlicht', scripts=[url_for('static', filename='schwarzlich.js')],
+        styles=[url_for('static', filename='Schwarzlicht.css')], program=program.p_name, scenes=program.p_scenes.split(','))
     else:
-        return render_template('Schwarzlicht.html', styles=[url_for('static', filename='navbar.css')],
+        return render_template('Schwarzlicht.html', styles=[url_for('static', filename='Schwarzlicht.css')],
         scripts=[url_for('static', filename='schwarzlich.js')],
         scenes=program_scenes)
 
@@ -256,7 +253,6 @@ def play_program(p_name):
         program = Programs.query.filter_by(p_name=p_name).first()
         player.program = program.p_scenes.split(",")
         player.play = True
-        print(player.program)
         thread = threading.Thread(target=player.play_program)
         thread.start()
         return "Programm gestartet"
@@ -287,7 +283,6 @@ def penis():
     szenen = szenen[1:]
     for i,scene in enumerate(szenen):
         szenen[i] = 'T' + scene
-    print(szenen)
     loop_through_program(szenen)
     return redirect(url_for('Programmiermodus'))
 
@@ -295,7 +290,6 @@ def loop_through_program(program):
     i = 0
     while i < 50:
         for scene in program:
-            print(program, scene)
             sc = Scenes.query.filter_by(s_name=scene).first()
             subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
             time.sleep(0.05)

@@ -1,4 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('input.uv').forEach(input => {
         input.oninput = () => {
             fetch('/Schwarzlichtdmx', {
@@ -14,7 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         }
     })
-})
+
+    
 form = document.getElementById('scene')
 form.addEventListener('submit', (event) => {
     if (document.getElementById('scenename').value === ''){

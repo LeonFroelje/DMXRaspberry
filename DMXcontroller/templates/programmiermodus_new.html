@@ -9,19 +9,25 @@
     {% endblock nav_1 %}
     
     {% block nav_2 %}    
-        <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer</label>
-        <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ"> 
+        <label for="Scheinwerfer" class='radio-lampen'>
+            <img src={{ url_for('static', filename='Scheinwerfer_an1.png')}} class="resize-h">
+            <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ">
+        </label>
     {% endblock nav_2 %}
     
     {% block nav_3 %}
-        <label for="Leisten" class='radio-lampen'>LED-Leisten</label>
+    <label for="Leisten" class='radio-lampen'>
+        <img src={{ url_for('static', filename='LED_Bar_an.png')}} class="resize-v">
         <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
-    
+    </label>
+
     {% endblock nav_3 %}
 
     {% block nav_4 %}
-        <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht</label>
-        <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
+        <label for="Schwarzlicht" class='radio-lampen'>
+            <img src={{ url_for('static', filename='Stairville_blacklight_aus.png')}} id="blacklight">
+            <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
+        </label>
     {% endblock nav_4 %}
 
     {% block nav_5 %}
@@ -29,13 +35,13 @@
     {% endblock nav_5%}
 
     {% block nav_6 %}
-        <div class="dropdown">
-            <button type="button" onclick="showdropdown()" class="dropbtn">Szenen</button>
-            <div id="droptable" class="dropdown-content">
+        <div class="dropdown-s">
+            <button type="button" class="dropbtn s">Szenen <i class="fas fa-chevron-down"></i></button>
+            <div id="droptable-s" class="dropdown-content">
                 <table>
                     {% for scene in scenes %}
                     <tr class="dropdown-row">
-                        <td class="dropdown-data" id={{ scene.s_name }}> {{ scene.s_name }}</td>
+                        <td class="dropdown-data-s" id={{ scene.s_name }}> {{ scene.s_name }}</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -46,9 +52,14 @@
     {% block nav_7 %}
         <button type="button" id="addscene" class="hide">Szene hinzufuegen</button>
     {% endblock nav_7%}
+    {% block nav_8 %}
+    <div>
+        <form action="/shutdown" method="POST">
+            <button type="submit" class="shutdown" name="shutdown">Herunterfahren <i class="fas fa-power-off"></i></button>
+        </form>
+    </div>
+    {% endblock nav_8 %}
 
     {% block content %}
-        <iframe class="main" id="mainframe">
-            Benutze einen anderen Browser du Depp
-        </iframe>
+        <div class="main" id="mainframe"></div>
     {% endblock content %}

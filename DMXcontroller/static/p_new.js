@@ -1,32 +1,52 @@
+function nodeScriptClone(node){
+    let script  = document.createElement(node.tagName);
+    script.text = node.innerHTML;
+
+    let i = -1, attrs = node.attributes, attr;
+    while ( ++i < attrs.length ) {                                    
+          script.setAttribute( (attr = attrs[i]).name, attr.value );
+    }
+    return script;
+}
+
+
 document.querySelectorAll('input.Lampen-typ').forEach(radio => {
     radio.onclick = () => {
         fetch(`/${radio.id}`).then(res => {
             res.text().then(text => {
-                document.getElementById('mainframe').srcdoc = text
+                document.getElementById('mainframe').innerHTML = text
+            }).then(() => {
+                document.getElementById('mainframe').childNodes.forEach(node => {
+                if(node.tagName === 'SCRIPT' || node.tagName === 'LINK'){
+                    document.getElementById('mainframe').replaceChild(nodeScriptClone(node), node)
+                    }
+                })
             })
         })
     }
 })
 
-function showdropdown() {
-    document.getElementById("droptable").classList.toggle("show");
+function close_dropdown(evt){
+    let btns = document.querySelectorAll('.dropbtn')
+    let l = btns.length
+    if (!evt.target.matches('.dropbtn')){
+      document.querySelectorAll(".dropdown-content").forEach(row => {
+        if (row.classList.contains("show")){
+            row.classList.toggle("show")
+          }
+        })    
+      }   
 }
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-      let dropdowns = document.getElementsByClassName("dropdown-content");
-      let i;
-      for (i = 0; i < dropdowns.length; i++) {
-        let openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-  } 
 
-document.querySelectorAll(".dropdown-data").forEach(row => {
+document.querySelectorAll('.dropbtn').forEach(dropbtn => {
+  dropbtn.addEventListener('click', (evt) => {
+    document.getElementById(`droptable-${evt.target.classList[1]}`).classList.toggle("show");
+    window.addEventListener('click', close_dropdown, once=true)
+  })
+})
+
+document.querySelectorAll(".dropdown-data-s").forEach(row => {
     row.onclick = () => {
         document.getElementById('addscene').classList.remove('hide')
         fetch(`/load/scene/${row.id}`).then(res => {

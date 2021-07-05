@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('input.Lrgb').forEach(input => {
+    document.querySelectorAll('input.rgb-slider').forEach(input => {
         input.oninput = () => {
             let lampen = []
             document.querySelectorAll("input.Lampe-Leiste").forEach(checkbox =>{
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         };
     });
-});
 
 form = document.getElementById('scene')
 form.addEventListener('submit', () => {
