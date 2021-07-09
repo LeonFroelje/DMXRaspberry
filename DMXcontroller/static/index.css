@@ -119,6 +119,18 @@
     .desktop{
         display: none !important;
     }
+
+    .fa-chevron-circle-up{
+        position: relative;
+        bottom: 10px;
+        font-size: 0.8em;
+    }
+
+    .fa-chevron-circle-down{
+        position: relative;
+        bottom: 10px;
+        font-size: 0.8em;
+    }
     
     #open_navbar{
         display: inline !important;
@@ -156,7 +168,6 @@
     }
 
     .wrapper > div:nth-child(1) {
-        position: static;
         display: grid;
         background-color: #111;
         overflow-y: scroll;
@@ -328,6 +339,10 @@ body{
 .fa-times-circle{
     color: #a02222;
     margin: 0vh 1vh 0vh 1vh;
+}
+
+.fa-chevron-circle-up{
+
 }
 
 .fa-save{

@@ -9,6 +9,35 @@ function nodeScriptClone(node){
     return script;
 }
 
+document.getElementById("open_navbar").addEventListener("click", (evt) => {
+    let button = document.getElementById("open_navbar")
+    document.querySelectorAll(".navdiv").forEach(div => {
+        if(div.classList.contains("show")){
+            div.classList.remove("show")
+            div.style.display = "none"
+            //document.getElementById("open_navbar").style.bottom = "0px"
+            button.style.position = "fixed"
+            button.style.height = "6vh"
+        }
+        else{
+            div.classList.add("show")
+            div.style.display = "inline-block"
+            //document.getElementById("open_navbar").style.bottom = "30vh"
+            button.style.position = "relative"
+            document.getElementById("nav-1").style.width = "100%"
+            button.style.width = "100%"
+            button.style.height = "6vh"
+        }
+    })
+    if(document.getElementById("icon-open-navbar").classList.contains("fa-chevron-circle-up")){
+        document.getElementsByClassName("fa-chevron-circle-up")[0].classList.replace("fa-chevron-circle-up", "fa-chevron-circle-down")
+    }
+    else{
+        document.getElementsByClassName("fa-chevron-circle-down")[0].classList.replace("fa-chevron-circle-down", "fa-chevron-circle-up")
+    }
+    document.getElementById("nav-1").style.display = "inline"
+})
+
 //When one of the radio buttons is clicked, a request is sent to the server which fetches the according HTML code to load into the mainframe
 document.querySelectorAll('input.Lampen-typ').forEach(radio => {
     radio.onclick = () => {
