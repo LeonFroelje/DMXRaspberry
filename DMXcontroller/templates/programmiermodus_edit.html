@@ -59,6 +59,25 @@
     <button type="button" id="addscene" class="hide">Szene hinzufuegen</button>
 {% endblock nav_7 %}
 
+{% block nav_8 %}
+    <div id="edit_nav_1" class="mobile">
+        <form id="saveprogram-m" method="POST" action="/saveprogram">
+            <div class="dropdown" id="edit_p_selector_div_m">
+                <button type="button" id="program-selector-m" class="dropbtn pm">Programme <i id="dropdown-warn-m" class="fas fa-exclamation-triangle"></i></button>
+                <div id="droptable-pm" class="dropdown-content">
+                    <table>
+                        {% for program in programs %}
+                        <tr class="dropdown-row">
+                            <td class="dropdown-data-p" id={{ program.p_name }}> {{ program.p_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <button class="glow-on-hover" type="submit" id='submitprogram-m' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
+        </form>
+    </div>
+{% endblock nav_8 %}
 {% block content %}
     <div class="main" id="mainframe">
     </div>

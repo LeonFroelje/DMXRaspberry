@@ -47,7 +47,7 @@ def parse_json(dic, segments):
 def abspielmodus():
     return render_template("abspielmodus.html",
      scripts=[url_for('static', filename="abspielmodus.js")],
-     styles=[url_for("static", filename="dropdown.css")],
+     styles=[url_for("static", filename="index.css")],
      programs=Programs.query.all())
 
 
@@ -70,8 +70,9 @@ def Programmiermodus_edit():
 
 @app.route("/Programmiermodus/edit/<string:p_name>")
 def load_program_to_edit(p_name):
-    program = Programs.query.filter_by(p_name=p_name).first()
-    return str(program)
+    if(p_name):
+        program = Programs.query.filter_by(p_name=p_name).first()
+        return str(program)
 
 
 @app.route("/load/scene/<s_name>")
@@ -109,6 +110,11 @@ def Scheinwerfer(p_name=None):
         program = Programs.query.filter_by(p_name=p_name).first()
         return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
         styles=[url_for('static', filename='Scheinwerfer.css')], program=program.p_name , scenes=program.p_scenes.split(","))
+    
+    elif p_name == "":
+        reason = "Die gewünschte URL wurde nicht gefunden. Du musst zunächst ein Programm auswählen, bevor du es bearbeiten kannst"
+        return render_template("404.html", reason=reason)
+
     else:
         return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
         styles=[url_for('static', filename='Scheinwerfer.css')], scenes=program_scenes)

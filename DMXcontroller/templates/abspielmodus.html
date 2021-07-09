@@ -1,22 +1,25 @@
-<div class="dropdown">
-    <button onclick="showdropdown()" class="dropbtn">Programme</button>
-    <div id="droptable" class="dropdown-content">
-        <table>
-            {% for program in programs %}
-            <tr class="dropdown-row">
-                <td class="dropdown-data" id={{ program.p_name }}> {{ program.p_name }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+{% extends "index.html" %}
+{% block content %}
+    <div class="dropdown">
+        <button onclick="showdropdown()" class="dropbtn">Programme</button>
+        <div id="droptable" class="dropdown-content">
+            <table>
+                {% for program in programs %}
+                <tr class="dropdown-row">
+                    <td class="dropdown-data" id={{ program.p_name }}> {{ program.p_name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
-</div>
 
-<input type="range" min=0 max=255 value="125" id='scenetime'>
-<p id='timer'></p>
-<p id='test'></p>
+    <input type="range" min=0 max=255 value="125" id='scenetime'>
+    <p id='timer'></p>
+    <p id='test'></p>
 
-<button id='stop' type="button">Programm anhalten</button>
-<br><br>
-<a href="/Programmiermodus/new">Neues Programm erstellen</a>
-<br><br>
-<a href="/Programmiermodus/edit">Programm bearbeiten</a> 
+    <button id='stop' type="button">Programm anhalten</button>
+    <br><br>
+    <a href="/Programmiermodus/new">Neues Programm erstellen</a>
+    <br><br>
+    <a href="/Programmiermodus/edit">Programm bearbeiten</a> 
+{% endblock content%}
