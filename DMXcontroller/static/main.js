@@ -1,0 +1,5 @@
+class Leiste {
+    constructor(params) {
+        
+    }
+}

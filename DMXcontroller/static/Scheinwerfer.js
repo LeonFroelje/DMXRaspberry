@@ -127,3 +127,4 @@ document.querySelectorAll(".Lampe-Scheinwerfer").forEach(checkbox => {
         }
     })
 })
+

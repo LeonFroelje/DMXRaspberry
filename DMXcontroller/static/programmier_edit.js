@@ -1,7 +1,6 @@
 let curr_program = ""
 let curr_scene = ""
 
-
 function close_dropdown(evt){
     let btns = document.querySelectorAll('.dropbtn')
     let l = btns.length
@@ -31,6 +30,10 @@ document.querySelectorAll(".dropdown-data-p").forEach(row => {
         let program = JSON.parse(value)
         curr_program = program.name
         let scenes = program.scenes
+        let warn = document.getElementById("dropdown-warn")
+        if (!warn.classList.contains("hide")){
+          warn.classList.add("hide")
+        }
         console.log(curr_program, scenes)
       })
     }
@@ -40,7 +43,7 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
   radio.onclick = () => {
       fetch(`/${radio.id}/${curr_program}`).then(res => {
           res.text().then(text => {
-              document.getElementById('mainframe').srcdoc = text
+              document.getElementById('mainframe').innerHTML = text
           })
       })
   }

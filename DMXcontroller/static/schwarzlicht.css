@@ -1,0 +1,117 @@
+#mainframe{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 2vh;
+}
+#scene{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-row: 1fr 1fr;
+    grid-row: 1/3;
+    grid-column: 1/4;
+    gap: 1vh;
+}
+#scene > div{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #235789;
+    padding: 1vh 1vw 1vh 0vw;
+}
+
+#scene > :last-child{
+    border: 3px solid #235789;
+    display: inline-block;
+    grid-row: 4;
+    grid-column: 1/4;
+    height: 18vh;
+    position: relative;
+    padding: 1vh 1vw;
+}
+#scene > :last-child > label{
+    color: white;
+    position: absolute;
+    font-size: 1em;
+    display: inline-block;
+}
+
+#scene > :last-child > label::after{
+    content: ":";
+}
+#scene > :last-child > input{
+    position: absolute;
+    top: 3vh;
+    width: 20vw;
+    min-width: 5vw;
+    min-height: 3vh;
+}
+#scene > :last-child > input:focus{
+    border: #a02222 solid 3px;
+}
+.checkdiv{
+    border: none;
+    display: none;
+    font-size: 1vw;
+    margin: 0vh 1vw 0vh 1vw;
+}
+
+#length {
+    position: absolute;
+    top: 0vh;
+    left: 22vw;
+}
+
+#specials {
+    position: absolute;
+    top: 7vh;
+    left: 22vw;
+}
+
+#unique{
+    position: absolute;
+    top: 14vh;
+    left: 22vw;
+}
+
+.checkdiv > p {
+    display: inline-block;
+    font-size: 1vw;
+}
+
+#scene > :last-child > button{
+    position: absolute;
+    bottom: 2vh;
+}
+#scene div input[type="range"] {
+    -webkit-appearance: none;
+    width: 10%;
+    height: 100%;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+#scene div input[type="range"]:hover {
+    opacity: 1;
+  }
+  
+#scene div input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #235789;
+    cursor: pointer;
+  }
+  
+#scene div input[type="range"]::-moz-range-thumb {
+    width: 100%;
+    height: 20px;
+    background: #235789;
+    cursor: pointer;
+    border-radius: 0px;
+  }

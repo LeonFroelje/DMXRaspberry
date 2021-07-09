@@ -1,31 +1,30 @@
 {% extends "index.html" %}
 
     {% block nav_1 %}
-        <form id="saveprogram" method="POST" action="/saveprogram">
+        <form id="saveprogram" method="POST" action="/saveprogram" class="desktop">
             <label for="p_name" class="radio-lampen">Programmname</label>
             <input type="text" id="p_name" name="p_name">
-            <input type="submit" value="Programm speichern" id="submitprogram">
+            <button class="glow-on-hover" type="submit" id='submitprogram' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
         </form>
+        
+        <button type="button" id="open_navbar" class="mobile"><i class="fas fa-chevron-circle-up"></i></button>
     {% endblock nav_1 %}
     
     {% block nav_2 %}    
-        <label for="Scheinwerfer" class='radio-lampen'>
-            <img src={{ url_for('static', filename='Scheinwerfer_an1.png')}} class="resize-h">
+        <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer: 
             <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ">
         </label>
     {% endblock nav_2 %}
     
     {% block nav_3 %}
-    <label for="Leisten" class='radio-lampen'>
-        <img src={{ url_for('static', filename='LED_Bar_an.png')}} class="resize-v">
+    <label for="Leisten" class='radio-lampen'>Leisten: 
         <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
     </label>
 
     {% endblock nav_3 %}
 
     {% block nav_4 %}
-        <label for="Schwarzlicht" class='radio-lampen'>
-            <img src={{ url_for('static', filename='Stairville_blacklight_aus.png')}} id="blacklight">
+        <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht: 
             <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
         </label>
     {% endblock nav_4 %}
@@ -35,6 +34,10 @@
     {% endblock nav_5%}
 
     {% block nav_6 %}
+        <a href="/Programmiermodus/edit">Programm bearbeiten</a>
+    {% endblock nav_6 %}
+
+    {% block nav_7 %}
         <div class="dropdown-s">
             <button type="button" class="dropbtn s">Szenen <i class="fas fa-chevron-down"></i></button>
             <div id="droptable-s" class="dropdown-content">
@@ -47,18 +50,18 @@
                 </table>
             </div>
         </div>
-    {% endblock nav_6%}
-        
-    {% block nav_7 %}
-        <button type="button" id="addscene" class="hide">Szene hinzufuegen</button>
     {% endblock nav_7%}
+        
     {% block nav_8 %}
+        <button type="button" id="addscene" class="hide">Szene hinzufuegen</button>
+    {% endblock nav_8%}
+    {% block nav_9 %}
     <div>
         <form action="/shutdown" method="POST">
             <button type="submit" class="shutdown" name="shutdown">Herunterfahren <i class="fas fa-power-off"></i></button>
         </form>
     </div>
-    {% endblock nav_8 %}
+    {% endblock nav_9 %}
 
     {% block content %}
         <div class="main" id="mainframe"></div>

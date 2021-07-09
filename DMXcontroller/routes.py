@@ -50,10 +50,6 @@ def abspielmodus():
      styles=[url_for("static", filename="dropdown.css")],
      programs=Programs.query.all())
 
-@app.route('/Programmiermodus')
-def Programmiermodus():
-    return render_template("programmiermodus.html", scripts=[url_for('static', filename='main.js')],
-     styles=[url_for('static', filename='navbar.css')])
 
 @app.route("/Programmiermodus/new")
 def Programmiermodus_new():
@@ -68,7 +64,7 @@ def Programmiermodus_edit():
     programs = Programs.query.all()
     return render_template("programmiermodus_edit.html", 
     scripts=[url_for('static', filename="programmier_edit.js")],
-    styles=[url_for("static", filename="dropdown.css"), url_for("static", filename="navbar.css")],
+    styles=[url_for("static", filename="index.css")],
     programs=programs, scenes=Scenes.query.all())
 
 
@@ -112,7 +108,7 @@ def Scheinwerfer(p_name=None):
     if p_name:
         program = Programs.query.filter_by(p_name=p_name).first()
         return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
-        styles=[url_for('static', filename='Scheinwerfer.css')], program=program.p_name ,scenes=program.p_scenes.split(","))
+        styles=[url_for('static', filename='Scheinwerfer.css')], program=program.p_name , scenes=program.p_scenes.split(","))
     else:
         return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
         styles=[url_for('static', filename='Scheinwerfer.css')], scenes=program_scenes)
@@ -138,11 +134,11 @@ def Schwarzlicht(p_name=None):
     global program_scenes
     if p_name:
         program = Programs.query.filter_by(p_name=p_name).first()
-        return render_template('Schwarzlicht.html', title='Schwarzlicht', scripts=[url_for('static', filename='schwarzlich.js')],
+        return render_template('Schwarzlicht.html', title='Schwarzlicht', scripts=[url_for('static', filename='schwarzlicht.js')],
         styles=[url_for('static', filename='Schwarzlicht.css')], program=program.p_name, scenes=program.p_scenes.split(','))
     else:
         return render_template('Schwarzlicht.html', styles=[url_for('static', filename='Schwarzlicht.css')],
-        scripts=[url_for('static', filename='schwarzlich.js')],
+        scripts=[url_for('static', filename='schwarzlicht.js')],
         scenes=program_scenes)
 
 
@@ -165,14 +161,16 @@ def Leisten_rgb():
     global lampen_dict
     global leisten_liste
     data = request.get_json()
+    print(data)
     dic = json.loads(data)
     dmx_data = ''
     for leiste in leisten_liste:
         if leiste in dic['leisten']:
-            lampen_dict['leisten'][leiste] = parse_json(dic, 8)
+            lampen_dict['leisten'][leiste] = dic["data"]
     for gruppe in lampen_dict:
         for lampe in lampen_dict[gruppe]:
             dmx_data += lampen_dict[gruppe][lampe]
+    print(dmx_data)
     subprocess.run(['ola_streaming_client', '-u 2', '-d ' + dmx_data])
     return jsonify(dic)
 
