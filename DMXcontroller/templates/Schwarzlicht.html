@@ -1,21 +1,39 @@
-{% extends "layout.html" %}
-{% block content %}
 <form method="POST" action="/savescene" id='scene'>
-    <label for="dim">Helligkeit</label>
-    <input type="range" id='dim' name='dimmer' class='uv' value="0" min="0" max="255">
-    <label for="strobe">Strobo</label>
-    <input type="range" id='strobe' name='strobe' class='uv' value="0" min="0" max="255">
-    <label for="dur">Strobo dauer</label>
-    <input type="range" id='dur' name='strobe_dur' class='uv' value="0" min="0" max="255">
-    <br>
-    <label for="scenename">Szenenname</label>
-    <input type="text" id='scenename' name='scenename'>
 
-    <button type="submit" id='submit'>Szene speichern</button>    
-</form>
+    <div>
+        <label for="dim">Helligkeit</label>
+        <input type="range" id='dim' name='dimmer' class='uv' value="0" min="0" max="255" orient="vertical">
+    </div>
 
-<form action="/shutdown" method="POST">
-    <button type="submit" name="shutdown">Herunterfahren</button>
+    <div>
+        <label for="strobe">Strobo</label>
+        <input type="range" id='strobe' name='strobe' class='uv' value="0" min="0" max="255" orient="vertical">
+    </div>
+
+    <div>
+        <label for="dur">Strobo dauer</label>
+        <input type="range" id='dur' name='strobe_dur' class='uv' value="0" min="0" max="255" orient="vertical">
+    </div>
+
+    <div>
+        <label for="scenename">Szenenname</label>
+        <input type="text" id='scenename' name='scenename'>
+        <button class="glow-on-hover" type="submit" id='submit'>Szene speichern <i class="far fa-save"></i></button>
+        <div class="checkdiv" id="length">
+            <i class="far fa-times-circle"></i>
+            <p>Szenenname muss mindestens 3 Zeichen beinhalten</p>
+        </div>
+        <div class="checkdiv" id="specials">
+            <i class="far fa-times-circle"></i>
+            <p>Sonderzeichen (außer "_") sind nicht erlaubt</p>
+        </div>
+        <div class="checkdiv" id="unique">
+            <i class="far fa-check-circle"></i>
+            <p>Szenenname ist einzigartig</p>
+        </div>
+    
+    </div>
+
 </form>
 <table>
     {% if program %}
@@ -33,4 +51,11 @@
         </tr>
     {% endfor %}
 </table>
-{% endblock content %}
+
+{% for script in scripts %}
+<script type="text/javascript" src={{ script }}></script>
+{% endfor %}
+
+{% for style in styles %}
+<link rel="stylesheet" href={{ style }}>
+{% endfor %}

@@ -1,38 +1,75 @@
-{% extends "layout.html" %}
+{% extends "index.html" %}
 
-{% block content %}
-    <div class="sidenav">
-        <form id="saveprogram" method="POST" action="/saveprogram">
-        <label for="p_name" class="radio-lampen">Programmname: </label>
-        <input type="text" id="p_name" name="p_name">
-        <input type="submit" value="Programm speichern" id="submitprogram">
+    {% block nav_1 %}
+        <form id="saveprogram" method="POST" action="/saveprogram" class="desktop">
+            <label for="p_name" class="radio-lampen">Programmname</label>
+            <input type="text" id="p_name" name="p_name">
+            <button class="glow-on-hover" type="submit" id='submitprogram' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
         </form>
         
-        <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer</label>
-        <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ"> 
-        <label for="Leisten" class='radio-lampen'>LED-Leisten</label>
+        <button type="button" id="open_navbar" class="mobile"><i id="icon-open-navbar" class="fas fa-chevron-circle-up"></i></button>
+    {% endblock nav_1 %}
+    
+    {% block nav_2 %}    
+        <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer: 
+            <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ">
+        </label>
+    {% endblock nav_2 %}
+    
+    {% block nav_3 %}
+    <label for="Leisten" class='radio-lampen'>Leisten: 
         <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
-        <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht</label>
-        <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
-        <br>
+    </label>
+
+    {% endblock nav_3 %}
+
+    {% block nav_4 %}
+        <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht: 
+            <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
+        </label>
+    {% endblock nav_4 %}
+
+    {% block nav_5 %}
         <a href="/Abspielmodus">Zum Abspielmodus</a>
-        <br>
-        <div class="dropdown">
-            <button type="button" onclick="showdropdown()" class="dropbtn">Szenen</button>
-            <div id="droptable" class="dropdown-content">
+    {% endblock nav_5%}
+
+    {% block nav_6 %}
+        <a href="/Programmiermodus/edit">Programm bearbeiten</a>
+    {% endblock nav_6 %}
+
+    {% block nav_7 %}
+        <div class="dropdown-s">
+            <button type="button" class="dropbtn s">Szenen <i class="fas fa-chevron-down"></i></button>
+            <div id="droptable-s" class="dropdown-content">
                 <table>
                     {% for scene in scenes %}
                     <tr class="dropdown-row">
-                        <td class="dropdown-data" id={{ scene.s_name }}> {{ scene.s_name }}</td>
+                        <td class="dropdown-data-s" id={{ scene.s_name }}> {{ scene.s_name }}</td>
                     </tr>
                     {% endfor %}
                 </table>
             </div>
         </div>
-        <button type="button" id="addscene">Szene hinzufuegen</button>
+    {% endblock nav_7%}
+        
+    {% block nav_8 %}
+        <button type="button" id="addscene" class="hide">Szene hinzufuegen</button>
+    {% endblock nav_8%}
+    {% block nav_9 %}
+    <div>
+        <form action="/shutdown" method="POST">
+            <button type="submit" class="shutdown" name="shutdown">Herunterfahren <i class="fas fa-power-off"></i></button>
+        </form>
     </div>
-    <iframe class="main" id="mainframe">
-        Benutze einen anderen Browser du Depp
-    </iframe>
-    
-{% endblock content %}
+    {% endblock nav_9 %}
+
+    {% block nav_10 %}
+    <form id="saveprogram-m" method="POST" action="/saveprogram" class="mobile">
+        <label for="p_name" class="radio-lampen">Programmname</label>
+        <input type="text" id="p_name-m" name="p_name">
+        <button class="glow-on-hover" type="submit" id='submitprogram-m' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
+    </form>
+    {% endblock nav_10 %}
+    {% block content %}
+        <div class="main" id="mainframe"></div>
+    {% endblock content %}

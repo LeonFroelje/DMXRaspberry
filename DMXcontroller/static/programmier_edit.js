@@ -1,7 +1,6 @@
 let curr_program = ""
 let curr_scene = ""
 
-
 function close_dropdown(evt){
     let btns = document.querySelectorAll('.dropbtn')
     let l = btns.length
@@ -14,6 +13,34 @@ function close_dropdown(evt){
       }   
 }
 
+document.getElementById("open_navbar").addEventListener("click", (evt) => {
+  let button = document.getElementById("open_navbar")
+  document.querySelectorAll(".navdiv").forEach(div => {
+      if(div.classList.contains("show")){
+          div.classList.remove("show")
+          div.style.display = "none"
+          //document.getElementById("open_navbar").style.bottom = "0px"
+          button.style.position = "fixed"
+          button.style.height = "6vh"
+      }
+      else{
+          div.classList.add("show")
+          div.style.display = "inline-block"
+          //document.getElementById("open_navbar").style.bottom = "30vh"
+          button.style.position = "relative"
+          document.getElementById("nav-1").style.width = "100%"
+          button.style.width = "100%"
+          button.style.height = "6vh"
+      }
+  })
+  if(document.getElementById("icon-open-navbar").classList.contains("fa-chevron-circle-up")){
+      document.getElementsByClassName("fa-chevron-circle-up")[0].classList.replace("fa-chevron-circle-up", "fa-chevron-circle-down")
+  }
+  else{
+      document.getElementsByClassName("fa-chevron-circle-down")[0].classList.replace("fa-chevron-circle-down", "fa-chevron-circle-up")
+  }
+  document.getElementById("nav-1").style.display = "inline"
+})
 
 document.querySelectorAll('.dropbtn').forEach(dropbtn => {
   dropbtn.addEventListener('click', (evt) => {
@@ -21,7 +48,6 @@ document.querySelectorAll('.dropbtn').forEach(dropbtn => {
     window.addEventListener('click', close_dropdown, once=true)
   })
 })
-
 
 document.querySelectorAll(".dropdown-data-p").forEach(row => {
   row.onclick = () => {
@@ -31,6 +57,10 @@ document.querySelectorAll(".dropdown-data-p").forEach(row => {
         let program = JSON.parse(value)
         curr_program = program.name
         let scenes = program.scenes
+        let warn = document.getElementById("dropdown-warn")
+        if (!warn.classList.contains("hide")){
+          warn.classList.add("hide")
+        }
         console.log(curr_program, scenes)
       })
     }
@@ -40,7 +70,7 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
   radio.onclick = () => {
       fetch(`/${radio.id}/${curr_program}`).then(res => {
           res.text().then(text => {
-              document.getElementById('mainframe').srcdoc = text
+              document.getElementById('mainframe').innerHTML = text
           })
       })
   }

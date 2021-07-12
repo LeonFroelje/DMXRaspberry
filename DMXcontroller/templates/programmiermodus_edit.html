@@ -1,32 +1,49 @@
-{% extends 'layout.html' %}
-{% block content %}
-<div class="sidenav">
-    <a href="/Programmiermodus">Zum Programmiermodus</a>
-    <form id="saveprogram" method="POST" action="/saveprogram">
-        <div class="dropdown">
-            <button type="button" class="dropbtn p">Programme</button>
-            <div id="droptable-p" class="dropdown-content">
-                <table>
-                    {% for program in programs %}
-                    <tr class="dropdown-row">
-                        <td class="dropdown-data-p" id={{ program.p_name }}> {{ program.p_name }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
+{% extends 'index.html' %}
+{% block nav_1 %}
+    <div id="edit_nav_1" class="desktop">
+        <form id="saveprogram" method="POST" action="/saveprogram">
+            <div class="dropdown" id="edit_p_selector_div">
+                <button type="button" id="program-selector" class="dropbtn p">Programme <i id="dropdown- warn" class="fas fa-exclamation-triangle"></i></button>
+                <div id="droptable-p" class="dropdown-content">
+                    <table>
+                        {% for program in programs %}
+                        <tr class="dropdown-row">
+                            <td class="dropdown-data-p" id={{ program.p_name }}> {{ program.p_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
-        </div>
-    <input type="submit" value="Programm speichern" id="submitprogram">
-    </form>
-    
+            <button class="glow-on-hover" type="submit" id='submitprogram' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
+        </form>
+    </div>
+    <button type="button" id="open_navbar" class="mobile"><i id="icon-open-navbar" class="fas fa-chevron-circle-up"></i></button>
+{% endblock nav_1 %}
+
+{% block nav_2 %}
     <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer</label>
     <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ"> 
+{% endblock nav_2 %}
+
+{% block nav_3 %}
     <label for="Leisten" class='radio-lampen'>LED-Leisten</label>
     <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
+{% endblock nav_3 %}
+
+{% block nav_4 %}
     <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht</label>
     <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
-    <br>
+{% endblock nav_4%}
+
+{% block nav_5%}
     <a href="/Abspielmodus">Zum Abspielmodus</a>
-    <br>
+{% endblock nav_5%}
+
+{% block nav_6 %}
+    <a href="/Programmiermodus/new">Neues Programm erstellen</a>
+{% endblock nav_6%}
+
+{% block nav_7 %}
     <div class="dropdown-s">
         <button type="button" class="dropbtn s">Szenen</button>
         <div id="droptable-s" class="dropdown-content">
@@ -40,9 +57,28 @@
         </div>
     </div>
     <button type="button" id="addscene" class="hide">Szene hinzufuegen</button>
-</div>
-<iframe class="main" id="mainframe">
-    Benutze einen anderen Browser du Depp
-</iframe>
+{% endblock nav_7 %}
 
+{% block nav_8 %}
+    <div id="edit_nav_1" class="mobile">
+        <form id="saveprogram-m" method="POST" action="/saveprogram">
+            <div class="dropdown" id="edit_p_selector_div_m">
+                <button type="button" id="program-selector-m" class="dropbtn pm">Programme <i id="dropdown-warn-m" class="fas fa-exclamation-triangle"></i></button>
+                <div id="droptable-pm" class="dropdown-content">
+                    <table>
+                        {% for program in programs %}
+                        <tr class="dropdown-row">
+                            <td class="dropdown-data-p" id={{ program.p_name }}> {{ program.p_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <button class="glow-on-hover" type="submit" id='submitprogram-m' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
+        </form>
+    </div>
+{% endblock nav_8 %}
+{% block content %}
+    <div class="main" id="mainframe">
+    </div>
 {% endblock content %}

@@ -1,0 +1,8 @@
+<div class="nav-wrapper">
+    {% for i in range(1,13)%}
+        <div id="nav-{{ i }}">
+            {% block nav_{{ i }} %}
+            {% endblock %}
+        </div>
+    {% endfor %}
+</div>

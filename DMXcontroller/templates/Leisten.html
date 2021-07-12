@@ -1,31 +1,58 @@
-{% extends "layout.html" %}
-{% block content%}
 <form method="POST" action="/savescene" id='scene'>
-    <label for="L4" class="lc">Leiste 1</label>
-    <input type="checkbox" id="L4" name="L4" value="True" class="Lampe-Leiste">
-    <label for="L5" class="lc">Leiste 2</label>
-    <input type="checkbox" id="L5" name="L5" value="True" class="Lampe-Leiste">
-    <br>
+    <div>
+        <label for="L4" class="lc">Leiste 1</label>
+        <input type="checkbox" id="L4" name="L4" value="True" class="Lampe-Leiste">
+    </div>
 
-    {% for i in range(1,9,1) %}
-    <label for='r-{{ i }}'>Rot Segment {{ i }}</label>
-    <input type="range" name="red-{{ i }}" id="r{{ i }}" class="Lrgb" min="0" max="255" value="0">
-    <label for='g-{{ i }}'>Gruen Segment {{ i }}</label>
-    <input type="range" name="green-{{ i }}" id="g{{ i }}" class="Lrgb" min="0" max="255" value="0">
-    <label for='r-{{ i }}'>Blau Segment {{ i }}</label>
-    <input type="range" name="blue-{{ i }}" id="b{{ i }}" class="Lrgb" min="0" max="255" value="0">
-    <br>
-    {% endfor %}
-    
-    <br>
-    <label for="scenename">Szenenname</label>
-    <input type="text" id='scenename' name='scenename'>
-    
-    <button type="submit" id='submit'>Szene speichern</button>    
-</form>
+    <div>
+        <label for="L5" class="lc">Leiste 2</label>
+        <input type="checkbox" id="L5" name="L5" value="True" class="Lampe-Leiste">
+    </div>
 
-<form action="/shutdown" method="POST">
-    <button type="submit" name="shutdown">Herunterfahren</button>
+    <div class="rgb-container">
+        <div class="LeistenContainer">
+            {% for i in range(1,9,1) %}
+            <img src="../static/Leiste_{{ i }}.png" class="LeistenSegmente" id="leiste_seg_{{ i }}" alt="Nix">
+            {% endfor %}
+        </div>
+        <div class="slider-container">
+            <div>
+                <label for="r" class="lr">Rot</label>
+                <input type="range" name="red" id="r-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
+            </div>
+        
+            <div>
+                <label for="g" class="lr">Gruen</label>
+                <input type="range" name="green" id="g-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
+            </div>
+        
+            <div>
+                <label for="b" class="lr">Blau</label>
+                <input type="range" name="blue" id="b-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
+            </div>
+        </div>
+        <div class="preview-container">
+            
+        </div>
+    </div>
+    <div>
+        <label for="scenename">Szenenname</label>
+        <input type="text" id='scenename' name='scenename'>
+        <button class="glow-on-hover" type="submit" id='submit'>Szene speichern <i class="far fa-save"></i></button>
+        
+        <div class="checkdiv" id="length">
+            <i class="far fa-times-circle"></i>
+            <p>Szenenname muss mindestens 3 Zeichen beinhalten</p>
+        </div>
+        <div class="checkdiv" id="specials">
+            <i class="far fa-times-circle"></i>
+            <p>Sonderzeichen (außer "_") sind nicht erlaubt</p>
+        </div>
+        <div class="checkdiv" id="unique">
+            <i class="far fa-check-circle"></i>
+            <p>Szenenname ist einzigartig</p>
+        </div>
+    </div>
 </form>
 <table>
     {% if program %}
@@ -43,4 +70,12 @@
         </tr>
     {% endfor %}
 </table>
-{% endblock content %}
+
+
+{% for style in styles %}
+<link rel="stylesheet" href={{ style }}>
+{% endfor %}
+
+{% for script in scripts %}
+<script type="text/javascript" src={{ script }}></script>
+{% endfor %}

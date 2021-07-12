@@ -1,39 +1,85 @@
-{% extends "layout.html" %}
-{% block content%}
 <form method="POST" action="/savescene" id='scene'>
-    <label for="L1" class="lc">Scheinwerfer 1</label>
-    <input type="checkbox" id="L1" name="L1" value="True" class="Lampe Scheinwerfer">
-    <label for="L2" class="lc">Scheinwerfer 2</label>
-    <input type="checkbox" id="L2" name="L2" value="True" class="Lampe Scheinwerfer">
-    <label for="L3" class="lc">Scheinwerfer 3</label>
-    <input type="checkbox" id="L3" name="L3" value="True" class="Lampe Scheinwerfer">
-    <br>
+    <div>
+        <label for="l1">Scheinwerfer 1
+            <label for="L1" class="lc" id="l1">
+                <img src={{ url_for('static', filename='Scheinwerfer_aus1.png')}} class="aus">
+                <img src={{ url_for("static", filename="Scheinwerfer_an1.png" )}} class="an hide resize-h">
+                <input type="checkbox" id="L1" name="L1" value="True" class="Lampe-Scheinwerfer aus">
+            </label>
+        </label>
+    </div>
+    
+    <div>
+        <label for="l2">Scheinwerfer 2
+            <label for="L2" id="l2" class="lc">
+                <img src={{ url_for('static', filename='Scheinwerfer_aus1.png')}} class="aus">
+                <img src={{ url_for("static", filename="Scheinwerfer_an1.png" )}} class="an hide resize-h">
+                <input type="checkbox" id="L2" name="L2" value="True" class="Lampe-Scheinwerfer aus">
+            </label>
+        </label>
+    </div>
 
-    <label for="r" class="lr">Rot</label>
-    <input type="range" name="red" id="r" class="rgb" min="0" max="255" value="0">
-    <label for="g" class="lr">Gruen</label>
-    <input type="range" name="green" id="g" class="rgb" min="0" max="255" value="0">
-    <label for="b" class="lr">Blau</label>
-    <input type="range" name="blue" id="b" class="rgb" min="0" max="255" value="0">
-    <br>
-    <label for="weiss" class="lr">Warmweiss/Kaltweiss</label>
-    <input type="range" name="white" id="weiss" class="rgb" min="0" max="255" value="0">
-    <label for="dim" class="lr">Helligkeit</label>
-    <input type="range" name="dimmer" id="dim" class="rgb" min="0" max="255" value="128">
-    <label for="strobo" class="lr">Strobo</label>
-    <input type="range" name="strobe" id="strobo" class="rgb" min="0" max="255" value="0">
+    <div>
+        <label for="l3">Scheinwerfer 3
+            <label for="L3" id="l3" class="lc">
+                <img src={{ url_for('static', filename='Scheinwerfer_aus1.png')}} class="aus">
+                <img src={{ url_for("static", filename="Scheinwerfer_an1.png" )}} class="an hide resize-h">
+                <input type="checkbox" id="L3" name="L3" value="True" class="Lampe-Scheinwerfer aus">
+            </label>
+        </label>
+    </div>
+
+    <div>
+        <label for="r" class="lr">Rot</label>
+        <input type="range" name="red" id="r-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
+    </div>
+
+    <div>
+        <label for="g" class="lr">Gruen</label>
+        <input type="range" name="green" id="g-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
+    </div>
+
+    <div>
+        <label for="b" class="lr">Blau</label>
+        <input type="range" name="blue" id="b-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
+    </div>
     
-    <br>
-    <label for="scenename">Szenenname</label>
-    <input type="text" id='scenename' name='scenename'>
+    <div>
+        <label for="weiss" class="lr">Weiß</label>
+        <input type="range" name="white" id="weiss-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
+    </div>
+
+    <div>
+        <label for="dim" class="lr">Helligkeit</label>
+        <input type="range" name="dimmer" id="dim-slider" class="rgb-slider" min="0" max="255" value="128" orient="vertical">
+    </div>
+
+    <div>
+        <label for="strobo" class="lr">Strobo</label>
+        <input type="range" name="strobe" id="strobo-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
+    </div>    
     
-    <button type="submit" id='submit'>Szene speichern</button>
+    <div>
+        <label for="scenename">Szenenname</label>
+        <input type="text" id='scenename' name='scenename'>
+        <button class="glow-on-hover" type="submit" id='submit'>Szene speichern <i class="far fa-save"></i></button>
+        
+        <div class="checkdiv" id="length">
+            <i class="far fa-times-circle"></i>
+            <p>Szenenname muss mindestens 3 Zeichen beinhalten</p>
+        </div>
+        <div class="checkdiv" id="specials">
+            <i class="far fa-times-circle"></i>
+            <p>Sonderzeichen (außer "_") sind nicht erlaubt</p>
+        </div>
+        <div class="checkdiv" id="unique">
+            <i class="far fa-check-circle"></i>
+            <p>Szenenname ist einzigartig</p>
+        </div>
+    </div>
 </form>
 
-<form action="/shutdown" method="POST">
-    <button type="submit" name="shutdown">Herunterfahren</button>
-</form>
-<br>
+
 <div id="program-table" class="dropdown">
     <table id="scene-table">
         {% if program %}
@@ -52,8 +98,11 @@
         {% endfor %}
     </table>
 </div>
-{% endblock content %}
 
+{% for script in scripts %}
+<script type="text/javascript" src={{ script }}></script>
+{% endfor %}
 
-<script type="text/javascript" src="../static/scheinwerfer.js"></script>
-
+{% for style in styles %}
+<link rel="stylesheet" href={{ style }}>
+{% endfor %}

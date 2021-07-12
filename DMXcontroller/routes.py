@@ -47,20 +47,16 @@ def parse_json(dic, segments):
 def abspielmodus():
     return render_template("abspielmodus.html",
      scripts=[url_for('static', filename="abspielmodus.js")],
-     styles=[url_for("static", filename="dropdown.css")],
+     styles=[url_for("static", filename="index.css")],
      programs=Programs.query.all())
 
-@app.route('/Programmiermodus')
-def Programmiermodus():
-    return render_template("programmiermodus.html", scripts=[url_for('static', filename='main.js')],
-     styles=[url_for('static', filename='navbar.css')])
 
 @app.route("/Programmiermodus/new")
 def Programmiermodus_new():
     global program_scenes
     scenes = Scenes.query.all()
     return render_template("programmiermodus_new.html", scripts=[url_for('static', filename='main.js'), url_for('static', filename='p_new.js')],
-     styles=[url_for('static', filename='navbar.css'), url_for('static', filename='dropdown.css')], scenes=scenes)
+     styles=[url_for('static', filename='index.css')], scenes=scenes)
 
 
 @app.route("/Programmiermodus/edit")
@@ -68,15 +64,15 @@ def Programmiermodus_edit():
     programs = Programs.query.all()
     return render_template("programmiermodus_edit.html", 
     scripts=[url_for('static', filename="programmier_edit.js")],
-    styles=[url_for("static", filename="dropdown.css"), url_for("static", filename="navbar.css")],
+    styles=[url_for("static", filename="index.css")],
     programs=programs, scenes=Scenes.query.all())
 
 
 @app.route("/Programmiermodus/edit/<string:p_name>")
 def load_program_to_edit(p_name):
-    program = Programs.query.filter_by(p_name=p_name).first()
-    print(program)
-    return str(program)
+    if(p_name):
+        program = Programs.query.filter_by(p_name=p_name).first()
+        return str(program)
 
 
 @app.route("/load/scene/<s_name>")
@@ -96,7 +92,6 @@ def add_curr_scene(p_name=None):
     if not p_name:
         if not curr_scene == '':
             program_scenes.append(curr_scene)
-            print(program_scenes)
             return 'Szene dem Programm hinzugefuegt'
         else:
             return 'Erst szene auswaehlen'
@@ -112,13 +107,17 @@ def add_curr_scene(p_name=None):
 def Scheinwerfer(p_name=None):
     global program_scenes
     if p_name:
-        print(p_name)
         program = Programs.query.filter_by(p_name=p_name).first()
         return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
-        styles=[url_for('static', filename='Lampen.css')], program=program.p_name ,scenes=program.p_scenes.split(","))
+        styles=[url_for('static', filename='Scheinwerfer.css')], program=program.p_name , scenes=program.p_scenes.split(","))
+    
+    elif p_name == "":
+        reason = "Die gewünschte URL wurde nicht gefunden. Du musst zunächst ein Programm auswählen, bevor du es bearbeiten kannst"
+        return render_template("404.html", reason=reason)
+
     else:
         return render_template('Scheinwerfer.html', title='Scheinwerfer', scripts=[url_for('static', filename='Scheinwerfer.js')],
-        styles=[url_for('static', filename='Lampen.css')], scenes=program_scenes)
+        styles=[url_for('static', filename='Scheinwerfer.css')], scenes=program_scenes)
 
 
 @app.route('/Leisten/<p_name>')
@@ -128,9 +127,9 @@ def Leisten(p_name=None):
     if p_name:
         program = Programs.query.filter_by(p_name=p_name).first()
         return render_template('Leisten.html', title='Leisten', scripts=[url_for('static', filename='leisten.js',)],
-        styles=[url_for('static', filename='Lampen.css')], program=program.p_name, scenes=program.p_scenes.split(','))
+        styles=[url_for('static', filename='Leisten.css')], program=program.p_name, scenes=program.p_scenes.split(','))
     else:
-        return render_template('Leisten.html',styles=[url_for('static', filename='navbar.css')],
+        return render_template('Leisten.html',styles=[url_for('static', filename='Leisten.css')],
         scripts=[url_for('static', filename='leisten.js')],
         scenes=program_scenes)
 
@@ -141,11 +140,11 @@ def Schwarzlicht(p_name=None):
     global program_scenes
     if p_name:
         program = Programs.query.filter_by(p_name=p_name).first()
-        return render_template('Schwarzlicht.html', title='Schwarzlicht', scripts=[url_for('static', filename='schwarzlich.js',)],
-        styles=[url_for('static', filename='Lampen.css')], program=program.p_name, scenes=program.p_scenes.split(','))
+        return render_template('Schwarzlicht.html', title='Schwarzlicht', scripts=[url_for('static', filename='schwarzlicht.js')],
+        styles=[url_for('static', filename='Schwarzlicht.css')], program=program.p_name, scenes=program.p_scenes.split(','))
     else:
-        return render_template('Schwarzlicht.html', styles=[url_for('static', filename='navbar.css')],
-        scripts=[url_for('static', filename='schwarzlich.js')],
+        return render_template('Schwarzlicht.html', styles=[url_for('static', filename='Schwarzlicht.css')],
+        scripts=[url_for('static', filename='schwarzlicht.js')],
         scenes=program_scenes)
 
 
@@ -169,13 +168,16 @@ def Leisten_rgb():
     global leisten_liste
     data = request.get_json()
     dic = json.loads(data)
+    print(dic['data'])
     dmx_data = ''
     for leiste in leisten_liste:
         if leiste in dic['leisten']:
-            lampen_dict['leisten'][leiste] = parse_json(dic, 8)
+            lampen_dict['leisten'][leiste] = dic["data"]
+    print(lampen_dict)
     for gruppe in lampen_dict:
         for lampe in lampen_dict[gruppe]:
             dmx_data += lampen_dict[gruppe][lampe]
+    print(dmx_data)
     subprocess.run(['ola_streaming_client', '-u 2', '-d ' + dmx_data])
     return jsonify(dic)
 
@@ -212,16 +214,15 @@ def savescene():
         db.session.add(szene)
         db.session.commit()
         program_scenes.append(name)
-        return redirect(url_for("Scheinwerfer"))
+        return ('', 204)
     else:
-        return redirect(url_for("Scheinwerfer"))
+        return ('Szenenname fehlt', 404)
 
 
 @app.route('/update/scene', methods=['POST'])
 def update_scene():
     global curr_scene
     scene = Scenes.query.filter_by(s_name=curr_scene).first()
-    data = request.form
     dmx_data = ''
     for gruppe in lampen_dict:
         for lampe in lampen_dict[gruppe]:
@@ -257,7 +258,6 @@ def play_program(p_name):
         program = Programs.query.filter_by(p_name=p_name).first()
         player.program = program.p_scenes.split(",")
         player.play = True
-        print(player.program)
         thread = threading.Thread(target=player.play_program)
         thread.start()
         return "Programm gestartet"
@@ -288,7 +288,6 @@ def penis():
     szenen = szenen[1:]
     for i,scene in enumerate(szenen):
         szenen[i] = 'T' + scene
-    print(szenen)
     loop_through_program(szenen)
     return redirect(url_for('Programmiermodus'))
 
@@ -296,7 +295,6 @@ def loop_through_program(program):
     i = 0
     while i < 50:
         for scene in program:
-            print(program, scene)
             sc = Scenes.query.filter_by(s_name=scene).first()
             subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
             time.sleep(0.05)

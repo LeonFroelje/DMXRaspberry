@@ -23,26 +23,25 @@ function update(){
     }
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('input.rgb').forEach(input => {
-        input.oninput = () => {
-            let lampen = []
-            document.querySelectorAll("input.Lampe").forEach(checkbox =>{
-                if(checkbox.checked){
-                    lampen.push(checkbox.id)
+document.querySelectorAll('input.rgb-slider').forEach(input => {
+    input.oninput = () => {
+        let lampen = []
+        document.querySelectorAll("input.Lampe-Scheinwerfer").forEach(checkbox =>{
+            if(checkbox.checked){
+                lampen.push(checkbox.id)
                 }
             })
-            fetch('/rgbwds', {
-                method : "PUT",
-                headers : {
+        fetch('/rgbwds', {
+            method : "PUT",
+            headers : {
                     "Content-type" : "application/json"
                 },
-                body : JSON.stringify(`{"r":${document.getElementById("r").value},
-"g":${document.getElementById("g").value},
-"b":${document.getElementById("b").value},
-"ww":${document.getElementById("weiss").value},
-"d":${document.getElementById("dim").value},
-"s":${document.getElementById("strobo").value},
+            body : JSON.stringify(`{"r":${document.getElementById("r-slider").value},
+"g":${document.getElementById("g-slider").value},
+"b":${document.getElementById("b-slider").value},
+"ww":${document.getElementById("weiss-slider").value},
+"d":${document.getElementById("dim-slider").value},
+"s":${document.getElementById("strobo-slider").value},
 "lampen":"${lampen.join()}"}`)                        
             }).then(response => {
                 return response.json()
@@ -51,10 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         };
     });
-});
 
-let form = document.getElementById('scene')
-form.addEventListener('submit', submit)
+document.getElementById('scene').addEventListener('submit', submit)
 
 document.querySelectorAll(".table-header").forEach(header =>{
     header.addEventListener("click", () => {
@@ -83,3 +80,51 @@ document.querySelectorAll(".table-data").forEach(row => {
         })
     })
 })
+
+document.getElementById("scenename").addEventListener("focus", evt => {
+    document.querySelectorAll(".checkdiv").forEach(check_query => {
+        check_query.classList.toggle("show")
+    })
+})
+
+document.getElementById("scenename").addEventListener("focusout", evt => {
+    document.querySelectorAll(".checkdiv").forEach(check_query => {
+        check_query.classList.toggle("show")
+    })
+})
+
+
+document.getElementById("scenename").addEventListener("input", (evt) => {
+    let scenename = evt.target.value
+    if(scenename.length >= 3){
+            document.getElementById("length").childNodes[0].classList.replace("fa-times-circle", "fa-check-circle");
+            document.getElementById("length").childNodes[1].innerHTML = "Szenenname ist länger als drei Zeichen lang"          
+    }
+    if(scenename.match('^[\w+]')){
+            document.getElementById("specials").childNodes[0].classList.replace("fa-times-circle", "fa-check-circle")
+            document.getElementById("length").childNodes[1].innerHTML = "Szenenname beinhaltet keine Sonderzeichen"
+    }
+    let szenen = document.querySelectorAll(".dropdown-data-s")
+    let _ = szenen.length
+    let unique = document.getElementById("unique")
+    for(let i = 0; i < _; i++){
+        if(szenen[i].id === scenename){
+            unique.childNodes[0].classList.replace("fa-check-circle", "fa-times-circle")
+            unique.childNodes[1].innerHTML = "Szenenname muss einzigartig sein"
+        }
+    }
+})
+
+document.querySelectorAll(".Lampe-Scheinwerfer").forEach(checkbox => {
+    checkbox.addEventListener("click", evt => {
+        if (evt.target.classList.contains("aus")){
+            let label = evt.target.parentNode
+            label.childNodes.forEach(node => {
+                if (node.tagName === "IMG"){
+                    node.classList.toggle("hide")
+                }
+            }) 
+        }
+    })
+})
+

@@ -1,11 +1,83 @@
-{% extends 'layout.html'%}
-{% block content %}
-<input type="button" id="Programmiermodus" class='selector' value="Programmiermodus">
-<input type="button" id="play" class='selector' value="Abspielmodus">
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>DMX Steuerung</title>
+        {% endif %}
+        <script src="https://kit.fontawesome.com/70a1180563.js" crossorigin="anonymous"></script>
+        {% if styles %}
+        {% for style in styles%}
+        <link rel="stylesheet" href={{ style }}>
+        {% endfor %}
+        {% endif %}
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="navbar">
+                <div class="navdiv" id="nav-1">
+                    {% block nav_1 %}
+                    {% endblock nav_1 %}
+                </div>
+                <div class="navdiv" id="nav-2">
+                    {% block nav_2 %}
+                    {% endblock nav_2 %}
+                </div>
+                <div class="navdiv" id="nav-3">
+                    {% block nav_3 %}
+                    {% endblock nav_3 %}
+                </div>
+                <div class="navdiv" id="nav-4">
+                    {% block nav_4 %}
+                    {% endblock nav_4 %}
+                </div>
+                <div class="navdiv" id="nav-5">
+                    {% block nav_5 %}
+                    {% endblock nav_5 %}
+                </div>
+                <div class="navdiv" id="nav-6">
+                    {% block nav_6 %}
+                    {% endblock nav_6 %}
+                </div>
+                <div class="navdiv" id="nav-7">
+                    {% block nav_7 %}
+                    {% endblock nav_7 %}
+                </div>
+                <div class="navdiv" id="nav-8">
+                    {% block nav_8 %}
+                    {% endblock nav_8 %}
+                </div>
+                <div class="navdiv" id="nav-9">
+                    {% block nav_9 %}
+                    {% endblock nav_9 %}
+                </div>
+                <div class="navdiv" id="nav-10">
+                    {% block nav_10 %}
+                    {% endblock nav_10 %}
+                </div>
+                <div class="navdiv" id="nav-11">
+                    {% block nav_11 %}
+                    {% endblock nav_11 %}
+                </div>
+                <div class="navdiv" id="nav-12">
+                    {% block nav_12 %}
+                    {% endblock nav_12 %}
+                </div>
+            </div>
 
-{% block scripts%}
-{% for script in scripts%}
-<script src={{script}}></script>
-{% endfor %}
-{% endblock scripts %}    
+            <div>
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    </body>
+    {% if scripts %}
+    {% for script in scripts%}
+    <script src={{ script }}></script>
+    {% endfor %}
+    {% endif %}
+
+</html>
