@@ -31,9 +31,12 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
     })
     if(document.getElementById("icon-open-navbar").classList.contains("fa-chevron-circle-up")){
         document.getElementsByClassName("fa-chevron-circle-up")[0].classList.replace("fa-chevron-circle-up", "fa-chevron-circle-down")
+        document.getElementById("open_navbar").style.border = "3px solid #a54e4e"
     }
     else{
         document.getElementsByClassName("fa-chevron-circle-down")[0].classList.replace("fa-chevron-circle-down", "fa-chevron-circle-up")
+        document.getElementById("open_navbar").style.border = "3px solid #8db580"
+
     }
     document.getElementById("nav-1").style.display = "inline"
 })

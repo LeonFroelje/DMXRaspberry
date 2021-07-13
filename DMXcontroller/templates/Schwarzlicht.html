@@ -17,8 +17,12 @@
 
     <div>
         <label for="scenename">Szenenname</label>
-        <input type="text" id='scenename' name='scenename'>
-        <button class="glow-on-hover" type="submit" id='submit'>Szene speichern <i class="far fa-save"></i></button>
+        <input type="text" id='scenename' name='scenename' autocomplete="off">
+
+        <div class="gradient-border" id="mobile-submit">
+            <button class="glow-on-hover" type="submit" id='submit'>Szene speichern <i class="far fa-save"></i></button>
+        </div>
+
         <div class="checkdiv" id="length">
             <i class="far fa-times-circle"></i>
             <p>Szenenname muss mindestens 3 Zeichen beinhalten</p>
@@ -35,22 +39,31 @@
     </div>
 
 </form>
-<table>
-    {% if program %}
-    <tr>
-        <th>{{ program }}</th>
-    </tr>
-    {% else %}
-    <tr>
-        <th>Programmszenen</th>
-    </tr>
-    {% endif %}
-    {% for scene in scenes %}
+
+<div id="program-table">
+    <table id="scene-table">
+        {% if program %}
         <tr>
-            <td class="scene-row show">{{ scene }}</td>
+            <th class="table-header">{{ program }}</th>
         </tr>
-    {% endfor %}
-</table>
+        {% else %}
+        <tr>
+            <th class="table-header">Programmszenen</th>
+        </tr>
+        {% endif %}
+        {% for scene in scenes %}
+            <tr class="table-row">
+                <td id={{ scene }} class="table-data" draggable="true">{{ scene }}</td>
+                <td class="mobile"><i class="fas fa-minus-square mobile"></i></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div>
+        <i class="fas fa-undo"></i>
+        <i class="fas fa-trash"></i>
+    </div>
+</div>
+
 
 {% for script in scripts %}
 <script type="text/javascript" src={{ script }}></script>

@@ -126,7 +126,7 @@
 }
 
 
-@media screen and (max-width: 600px) and (orientation: portrait){
+@media screen and (max-width: 600px){
 
     .rgb-slider{/*
         transform: rotate(270deg);
@@ -142,13 +142,14 @@
     }
 
     #mainframe{
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 2fr 1fr;
+        display: flex;
+        flex-direction: column;
         max-height: 100%;
+        overflow-y: auto;
     }
     #scene{
-        grid-row: 1;
+        flex-grow: 2;
+        flex-basis: 60%;
         display: grid;
         grid-template-rows: 0.3fr 1fr 1fr 1fr;
         grid-template-columns: 1fr 1fr 1fr;
@@ -157,25 +158,25 @@
     #scene > :nth-child(1){
         grid-row: 1;
         grid-column: 1;
-        min-height: 10vh;
-        font-size: 2vh;
+        min-height: 20vw;
+        font-size: 1em;
         overflow:hidden;
     }
 
     #scene > :nth-child(2){
         grid-row: 1;
         grid-column: 2;
-        min-height: 10vh;
-        font-size: 2vh;
+        min-height: 20vw;
+        font-size: 1em;
         overflow:hidden;
     }
 
     #scene > :nth-child(3){
         grid-row: 1;
         grid-column: 3;
-        min-height: 10vh;
-        font-size: 2vh;
+        font-size: 1em;
         overflow:hidden;
+        min-height: 20vw;
     }
 
     #scene > :last-child{
@@ -184,23 +185,45 @@
         margin: 0vh .5vw;
         width: 100%;
         max-width: 98%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 1vh;
+        padding: 1vh;
+        min-height: 14vh;
+        overflow-y: visible;
     }
 
-    #scene div{
+    #scene > div{
         border: 3px solid #235789;
         max-width: 31vw;
         overflow-y: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #scene > div > label{
+        align-self: flex-start;
+    }
+
+    #scene > div > input[type="range"]{
+        align-self: center;
     }
     
+    .lc{
+        display: flex;
+        justify-content: flex-start;
+    }
+
     img.aus{
         position: relative;
-        width: 8vh;
+        width: 45%;
         height: auto;
         left: 30%;
     }    
 
     img.an{
-        width: 8.1vh;
+        width: 40.1%;
         height: auto;
         position: relative;
         left: 30%;
@@ -210,6 +233,16 @@
         height: 15vh;
         width: 5vw;
         align-self: center;
+    }
+    #submit{
+        width: 100%;
+        height: 100%;
+        font-size: 1.1em;
+    }
+
+    #mobile-submit{
+        grid-row: 3;
+        grid-column: 1;
     }
 
     #L1{
@@ -222,46 +255,120 @@
         visibility: hidden;
     }
     .checkdiv{
-        border: none !important;
+        display: none;
+        border: none;
         font-size: 1vw;
         margin: 0vh 1vw 0vh 1vw;
+        overflow-x: auto;
+        width: 100%;
     }
     #scene > :last-child > label::after{
         content: ":";
     }
-    #scene > :last-child > input{
-        position: relative;
-        top: 4vh;
-        right: 17vw;
-        width: 40vw;
-        min-width: 5vw;
-        min-height: 3vh;
+
+    #scene > :last-child > label{
+        font-size: 1.4em;
     }
-    #scene > :last-child > input:focus{
-        border: #a02222 solid 3px;
+
+    #scene > :last-child > input{
+        grid-row: 2;
+        grid-column: 1;
+        min-width: 5vw;
     }
 
     #length {
-        font-size: 1rem;
-        position: relative;
-        top: 0vh;
-        left: 10%;
+        font-size: 1em;
+        grid-row: 1;
+        grid-column: 2;
     }
 
     #specials {
-        position: relative;
+        font-size: 1em;
+        grid-row: 2;
+        grid-column: 2;
     }
     #unique{
-        position: relative;
+        font-size: 1em;
+        grid-row: 3;
+        grid-column: 2;
     }
 
     .checkdiv > p {
         display: inline-block;
-        font-size: 1vw;
+        font-size: 0.4em;
+        overflow-wrap: break-word;
+        word-break: break-all;
     }
 
     #scene > :last-child > button{
-        position: absolute;
-        bottom: 2vh;
+        grid-row: 3;
+        grid-column: 1;
+        font-size: 1em;
+    }
+
+    #program-table{
+        flex-grow: 1;
+        flex-basis: 40%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 2vh;
+    }
+    .fa-trash{
+        color: #a02222;
+        font-size: 4em;
+        align-self: flex-start;
+        justify-self: auto;
+        margin: 1vh 1vw;
+        }
+
+    .fa-trash:hover{
+        color: #a54e4e;
+        cursor: pointer;
+    }
+
+    .table-data{
+        cursor: grab;
+        font-size: 1.2em;
+        height: 100%;
+        width: 93%;
+    }
+
+    .table-row{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+    }
+    
+    #program-table{
+        border: 3px solid #235789;
+    }
+    #scene-table{
+        border-right: 3px dotted #235789;
+        width: 80%;
+        max-height: 25vh;
+        overflow-y: auto;
+    }
+
+    #scene-table tr > td:hover{
+        background-color: #444444;
+    }
+    #scene-table tr > td.selected-row{
+        background-color: #3ec22c;
+    }
+
+    .fa-minus-square{
+        color: #a02222;
+        font-size: 1.5em;
+    }
+
+    .fa-undo{
+        display: none;
+        font-size: 1.1em;
+        color: #3ec22c;
+        position: relative;
+        left: 70%;
+        top: 5%;
     }
 }

@@ -1,22 +1,47 @@
+from functools import reduce
 import threading
 import time
 import subprocess
+import numpy as np
+from math import floor
 from DMXcontroller.models import Scenes
 
 
 class ProgramPlayer():
     play = False
     program = []
-    timer = 0.1
-    fadetime = 0
+    scenetime = 2
+    fadetime = 1
+    fadefactor = 10
 
     def play_program(self):
+        reducer = np.vectorize(lambda v: floor(v - self.fadefactor *(v/255)))
         if not self.fadetime:
             while self.play:
                 for scene in self.program:
                     sc = Scenes.query.filter_by(s_name=scene).first()
                     subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
-                    time.sleep(self.timer)
+                    time.sleep(self.scenetime)
+        elif self.fadetime:
+            while self.play:
+                for scene in self.program:
+                    sc = Scenes.query.filter_by(s_name=scene).first()
+                    subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
+                    time.sleep(self.scenetime)
+                    arr = np.array(sc.s_data[:-1].split(',')).astype(int)
+                    print(arr)
+                    while arr[arr > 0].size > 0:
+                        arr[arr > 0] = reducer(arr[arr > 0])
+                        print(arr)
+                        arr[arr < 0] = 0
+                        subprocess.run(['ola_streaming_client', '-u 2', '-d ' + ','.join([str(v) for v in arr])])
+                       
+
+
+    def calc_fadetime(self, x):
+        self.fadefactor = x
+        self.fadetime =  8.447*x**(-.935)
+        return self.fadetime
         
 
     
