@@ -9,6 +9,12 @@
         <input type="checkbox" id="L5" name="L5" value="True" class="Lampe-Leiste">
     </div>
 
+    <div class="button-container" id="button-container">
+        <button type="button" id="select-all" class="select-buttons">Alle auswählen</button>
+        <button type="button" id="toggle-all" class="select-buttons">Invertieren</button>
+        <button type="button" id="deselect-all" class="select-buttons">Alle abwählen</button>
+    </div>
+
     <div class="rgb-container">
         <div class="LeistenContainer">
             {% for i in range(1,9,1) %}
@@ -31,15 +37,15 @@
                 <input type="range" name="blue" id="b-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
             </div>
         </div>
-        <div class="preview-container">
-            
-        </div>
     </div>
     <div>
         <label for="scenename">Szenenname</label>
-        <input type="text" id='scenename' name='scenename'>
-        <button class="glow-on-hover" type="submit" id='submit'>Szene speichern <i class="far fa-save"></i></button>
+        <input type="text" id='scenename' name='scenename' autocomplete="off">
         
+        <div class="gradient-border">
+            <button class="glow-on-hover" type="submit" id='submit'>Szene speichern <i class="far fa-save"></i></button>
+        </div>
+
         <div class="checkdiv" id="length">
             <i class="far fa-times-circle"></i>
             <p>Szenenname muss mindestens 3 Zeichen beinhalten</p>
@@ -54,23 +60,30 @@
         </div>
     </div>
 </form>
-<table>
-    {% if program %}
-    <tr>
-        <th>{{ program }}</th>
-    </tr>
-    {% else %}
-    <tr>
-        <th>Programmszenen</th>
-    </tr>
-    {% endif %}
-    {% for scene in scenes %}
-        <tr>
-            <td class="scene-row">{{ scene }}</td>
-        </tr>
-    {% endfor %}
-</table>
 
+<div id="program-table">
+    <table id="scene-table">
+        {% if program %}
+        <tr>
+            <th class="table-header">{{ program }}</th>
+        </tr>
+        {% else %}
+        <tr>
+            <th class="table-header">Programmszenen</th>
+        </tr>
+        {% endif %}
+        {% for scene in scenes %}
+            <tr class="table-row">
+                <td id={{ scene }} class="table-data" draggable="true">{{ scene }}</td>
+                <td class="mobile"><i class="fas fa-minus-square mobile"></i></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div>
+        <i class="fas fa-undo"></i>
+        <i class="fas fa-trash"></i>
+    </div>
+</div>
 
 {% for style in styles %}
 <link rel="stylesheet" href={{ style }}>

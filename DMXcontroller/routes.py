@@ -102,6 +102,13 @@ def add_curr_scene(p_name=None):
         return "Szene dem Programm hinzugefuegt"
 
 
+@app.route("/remove/<s_name>")
+def remove_scene(s_name):
+    global program_scenes
+    program_scenes.remove(s_name)
+    return ("Szene entfernt", 204)
+
+
 @app.route("/Scheinwerfer")
 @app.route('/Scheinwerfer/<p_name>', methods=['GET'])
 def Scheinwerfer(p_name=None):
@@ -168,16 +175,13 @@ def Leisten_rgb():
     global leisten_liste
     data = request.get_json()
     dic = json.loads(data)
-    print(dic['data'])
     dmx_data = ''
     for leiste in leisten_liste:
         if leiste in dic['leisten']:
             lampen_dict['leisten'][leiste] = dic["data"]
-    print(lampen_dict)
     for gruppe in lampen_dict:
         for lampe in lampen_dict[gruppe]:
             dmx_data += lampen_dict[gruppe][lampe]
-    print(dmx_data)
     subprocess.run(['ola_streaming_client', '-u 2', '-d ' + dmx_data])
     return jsonify(dic)
 
@@ -241,9 +245,9 @@ def saveprogram():
         program = Programs(p_name=data['p_name'], p_scenes=','.join(program_scenes))
         db.session.add(program)
         db.session.commit()
-        return redirect(url_for('Programmiermodus'))
+        return ("Programm gespeichert", 204)
     else:
-        return redirect(url_for('Programmiermodus'))
+        return ("Erst Programmnamen angeben", 400)
 
 @app.route("/shutdown", methods=["POST"])
 def shutdown():

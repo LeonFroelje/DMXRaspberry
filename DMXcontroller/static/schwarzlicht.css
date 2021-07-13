@@ -1,117 +1,317 @@
-#mainframe{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    gap: 2vh;
-}
-#scene{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-row: 1fr 1fr;
-    grid-row: 1/3;
-    grid-column: 1/4;
-    gap: 1vh;
-}
-#scene > div{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border: 3px solid #235789;
-    padding: 1vh 1vw 1vh 0vw;
+
+@media screen and (min-width: 600px){
+    #mainframe{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+        gap: 2vh;
+    }
+    #scene{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-row: 1fr 1fr;
+        grid-row: 1/3;
+        grid-column: 1/4;
+        gap: 1vh;
+    }
+    #scene > div{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border: 3px solid #235789;
+        padding: 1vh 1vw 1vh 0vw;
+    }
+
+    #scene > :last-child{
+        border: 3px solid #235789;
+        display: inline-block;
+        grid-row: 4;
+        grid-column: 1/4;
+        height: 18vh;
+        position: relative;
+        padding: 1vh 1vw;
+    }
+    #scene > :last-child > label{
+        color: white;
+        position: absolute;
+        font-size: 1em;
+        display: inline-block;
+    }
+
+    #scene > :last-child > label::after{
+        content: ":";
+    }
+    #scene > :last-child > input{
+        position: absolute;
+        top: 3vh;
+        width: 20vw;
+        min-width: 5vw;
+        min-height: 3vh;
+    }
+    #scene > :last-child > input:focus{
+        border: #a02222 solid 3px;
+    }
+    .checkdiv{
+        border: none;
+        display: none;
+        font-size: 1vw;
+        margin: 0vh 1vw 0vh 1vw;
+    }
+
+    #length {
+        position: absolute;
+        top: 0vh;
+        left: 22vw;
+    }
+
+    #specials {
+        position: absolute;
+        top: 7vh;
+        left: 22vw;
+    }
+
+    #unique{
+        position: absolute;
+        top: 14vh;
+        left: 22vw;
+    }
+
+    .checkdiv > p {
+        display: inline-block;
+        font-size: 1vw;
+    }
+
+    #scene > :last-child > button{
+        position: absolute;
+        bottom: 2vh;
+    }
+    #scene div input[type="range"] {
+        -webkit-appearance: none;
+        width: 10%;
+        height: 100%;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+    
+    #scene div input[type="range"]:hover {
+        opacity: 1;
+    }
+    
+    #scene div input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #235789;
+        cursor: pointer;
+    }
+    
+    #scene div input[type="range"]::-moz-range-thumb {
+        width: 100%;
+        height: 20px;
+        background: #235789;
+        cursor: pointer;
+        border-radius: 0px;
+    }
 }
 
-#scene > :last-child{
-    border: 3px solid #235789;
-    display: inline-block;
-    grid-row: 4;
-    grid-column: 1/4;
-    height: 18vh;
-    position: relative;
-    padding: 1vh 1vw;
-}
-#scene > :last-child > label{
-    color: white;
-    position: absolute;
-    font-size: 1em;
-    display: inline-block;
-}
+@media screen and (max-width: 600px){
+    #mainframe{
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+        overflow-y: auto;
+    }
+    #scene{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 1vh;
+    }
 
-#scene > :last-child > label::after{
-    content: ":";
-}
-#scene > :last-child > input{
-    position: absolute;
-    top: 3vh;
-    width: 20vw;
-    min-width: 5vw;
-    min-height: 3vh;
-}
-#scene > :last-child > input:focus{
-    border: #a02222 solid 3px;
-}
-.checkdiv{
-    border: none;
-    display: none;
-    font-size: 1vw;
-    margin: 0vh 1vw 0vh 1vw;
-}
+    #scene > div {
+        border: 3px solid #235789;
+    }
 
-#length {
-    position: absolute;
-    top: 0vh;
-    left: 22vw;
-}
+    #scene > :nth-child(1){
+        display: flex;
+        flex-direction: column;
+        grid-row: 1;
+        grid-column: 1;
+    }
+    #scene > :nth-child(2){
+        display: flex;
+        flex-direction: column;
+        grid-row: 1;
+        grid-column: 2;
+    }
+    #scene > :nth-child(3){
+        display: flex;
+        flex-direction: column;
+        grid-row: 1;
+        grid-column: 3;
+    }
+    #scene > :last-child{
+        grid-row: 2;
+        grid-column: 1/4;
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 1vh;
+    }
+    .uv{/*
+        transform: rotate(270deg);
+       -moz-transform: rotate(270deg);*/
+       -webkit-appearance: slider-vertical;
+       width: 20%;
+       height: 95%;
+       background: #d3d3d3;
+       outline: none;
+       opacity: 0.7;
+       -webkit-transition: .2s;
+       transition: opacity .2s;
+       align-self: center;
+    }
 
-#specials {
-    position: absolute;
-    top: 7vh;
-    left: 22vw;
-}
+    #submit{
+        width: 100%;
+        height: 100%;
+        font-size: 1.1em;
+    }
 
-#unique{
-    position: absolute;
-    top: 14vh;
-    left: 22vw;
-}
+    #mobile-submit{
+        grid-row: 3;
+        grid-column: 1;
+    }
 
-.checkdiv > p {
-    display: inline-block;
-    font-size: 1vw;
-}
+    #L1{
+        visibility: hidden;
+    }
+    #L2{
+        visibility: hidden;
+    }
+    #L3{
+        visibility: hidden;
+    }
+    .checkdiv{
+        display: none;
+        border: none;
+        font-size: 1vw;
+        margin: 0vh 1vw 0vh 1vw;
+        overflow-x: auto;
+        width: 100%;
+    }
+    #scene > :last-child > label::after{
+        content: ":";
+    }
 
-#scene > :last-child > button{
-    position: absolute;
-    bottom: 2vh;
+    #scene > :last-child > label{
+        font-size: 1.4em;
+    }
+
+    #scene > :last-child > input{
+        grid-row: 2;
+        grid-column: 1;
+        min-width: 5vw;
+    }
+
+    #length {
+        font-size: 1em;
+        grid-row: 1;
+        grid-column: 2;
+    }
+
+    #specials {
+        font-size: 1em;
+        grid-row: 2;
+        grid-column: 2;
+    }
+    #unique{
+        font-size: 1em;
+        grid-row: 3;
+        grid-column: 2;
+    }
+
+    .checkdiv > p {
+        display: inline-block;
+        font-size: 0.4em;
+        overflow-wrap: break-word;
+        word-break: break-all;
+    }
+
+    #scene > :last-child > button{
+        grid-row: 3;
+        grid-column: 1;
+        font-size: 1em;
+    }
+
+    #program-table{
+        flex-grow: 1;
+        flex-basis: 40%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 2vh;
+    }
+    .fa-trash{
+        color: #a02222;
+        font-size: 4em;
+        align-self: flex-start;
+        justify-self: auto;
+        margin: 1vh 1vw;
+        }
+
+    .fa-trash:hover{
+        color: #a54e4e;
+        cursor: pointer;
+    }
+
+    .table-data{
+        cursor: grab;
+        font-size: 1.2em;
+        height: 100%;
+        width: 93%;
+    }
+
+    .table-row{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+    }
+    
+    #program-table{
+        border: 3px solid #235789;
+    }
+    #scene-table{
+        border-right: 3px dotted #235789;
+        width: 80%;
+        max-height: 25vh;
+        overflow-y: auto;
+    }
+
+    #scene-table tr > td:hover{
+        background-color: #444444;
+    }
+    #scene-table tr > td.selected-row{
+        background-color: #3ec22c;
+    }
+
+    .fa-minus-square{
+        color: #a02222;
+        font-size: 1.5em;
+    }
+
+    .fa-undo{
+        display: none;
+        font-size: 1.1em;
+        color: #3ec22c;
+        position: relative;
+        left: 70%;
+        top: 5%;
+    }
 }
-#scene div input[type="range"] {
-    -webkit-appearance: none;
-    width: 10%;
-    height: 100%;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-  }
-  
-#scene div input[type="range"]:hover {
-    opacity: 1;
-  }
-  
-#scene div input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #235789;
-    cursor: pointer;
-  }
-  
-#scene div input[type="range"]::-moz-range-thumb {
-    width: 100%;
-    height: 20px;
-    background: #235789;
-    cursor: pointer;
-    border-radius: 0px;
-  }
