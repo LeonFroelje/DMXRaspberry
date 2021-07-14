@@ -40,7 +40,10 @@ class ProgramPlayer():
 
     def calc_fadetime(self, x):
         self.fadefactor = x
-        self.fadetime =  8.447*x**(-.935)
+        try:
+            self.fadetime =  8.447*x**(-.935)
+        except ZeroDivisionError:
+            self.fadetime = 0
         return self.fadetime
         
 

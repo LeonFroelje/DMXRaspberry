@@ -46,3 +46,23 @@ document.getElementById('scenetime').addEventListener('input', () => {
     console.log(text)
   })
 })
+
+document.getElementById("fadetime").addEventListener("input", evt => {
+  fetch("/change/fadetime", {
+    method : "PUT",
+    headers : {
+      "Content-type" : "application/json"
+    },
+    body : JSON.stringify(`{"fadetime":${evt.target.value}}`)
+  }).then(res => {
+    return res.text()
+  }).then(text => {
+    if(evt.target.value > 0){
+      document.getElementById("fadetimer").innerHTML = 8.447 * evt.target.value**(-.935)
+    }
+    else{
+      document.getElementById("fadetimer").innerHTML = 0
+    }
+  })
+
+})

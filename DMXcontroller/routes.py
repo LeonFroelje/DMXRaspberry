@@ -283,7 +283,9 @@ def change_fadetime():
     global player
     data = request.get_json()
     dic = json.loads(data)
-    return player.calc_fadetime(dic['fadetime'])
+    fadetime = player.calc_fadetime(dic["fadetime"])
+    print(fadetime)
+    return str(fadetime)
 
 
 
@@ -291,26 +293,4 @@ def change_fadetime():
 def stop_program():
     global player
     player.play = False
-    return 'Programm gestoppt'
-
-@app.route('/Penis')
-def penis():
-    global program_scenes
-    test = Programs.query.filter_by(p_name='Test').first()
-    szenen = test.p_scenes.split('T')
-    szenen = szenen[1:]
-    for i,scene in enumerate(szenen):
-        szenen[i] = 'T' + scene
-    loop_through_program(szenen)
-    return redirect(url_for('Programmiermodus'))
-
-def loop_through_program(program):
-    i = 0
-    while i < 50:
-        for scene in program:
-            sc = Scenes.query.filter_by(s_name=scene).first()
-            subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
-            time.sleep(0.05)
-        i += 1
-
-
+    return ''
