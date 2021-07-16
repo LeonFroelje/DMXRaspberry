@@ -58,7 +58,7 @@ document.getElementById("fadetime").addEventListener("input", evt => {
     return res.text()
   }).then(text => {
     if(evt.target.value > 0){
-      document.getElementById("fadetimer").innerHTML = 8.447 * evt.target.value**(-.935)
+      document.getElementById("fadetimer").innerHTML = (8.447 * evt.target.value**(-.935)).toPrecision(3)
     }
     else{
       document.getElementById("fadetimer").innerHTML = 0

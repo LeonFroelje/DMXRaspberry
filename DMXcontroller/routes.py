@@ -11,7 +11,7 @@ from DMXcontroller import app, db
 from DMXcontroller.player import ProgramPlayer
 
 
-player = ProgramPlayer()
+player = ProgramPlayer(scenetime=1, fadetime=0, fadefactor=0)
 
 lampen_liste = ['L1', 'L2', 'L3']
 leisten_liste = ['L4', 'L5']
@@ -274,8 +274,8 @@ def change():
     global player
     data = request.get_json()
     dic = json.loads(data)
-    player.timer = 0.001 * 1.044**(int(dic['scenetime']))
-    return f'Timer changed to {player.timer}' 
+    player.scenetime = 0.001 * 1.044**(int(dic['scenetime']))
+    return f'Timer changed to {player.scenetime}' 
 
 
 @app.route('/change/fadetime', methods=['PUT'])
@@ -284,7 +284,6 @@ def change_fadetime():
     data = request.get_json()
     dic = json.loads(data)
     fadetime = player.calc_fadetime(dic["fadetime"])
-    print(fadetime)
     return str(fadetime)
 
 
