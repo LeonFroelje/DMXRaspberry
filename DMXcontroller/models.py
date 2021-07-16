@@ -17,3 +17,32 @@ class Programs(db.Model):
 
     def __repr__(self):
         return f'{{"name":"{self.p_name}","scenes":"{self.p_scenes}"}}'
+
+
+
+class Program():
+    def __init__(self, program):
+        self.curr_scene = -1
+        self.play = False
+        self.program = program
+        self.scenes = self.program.p_scenes.split(",")
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.play:
+            self.curr_scene += 1
+            try:
+                return self.scenes[self.curr_scene]
+            except IndexError:
+                self.curr_scene = 0
+                return self.scenes[self.curr_scene]
+        else:
+            raise(StopIteration)
+
+    def start_program(self):
+        self.play = True
+
+    def stop_program(self):
+        self.play = False

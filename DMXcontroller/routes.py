@@ -260,10 +260,8 @@ def play_program(p_name):
     global player
     if threading.active_count() <= 3:
         program = Programs.query.filter_by(p_name=p_name).first()
-        player.program = program.p_scenes.split(",")
-        player.play = True
-        thread = threading.Thread(target=player.play_program)
-        thread.start()
+        player.load_program(program)
+        player.start_program()
         return "Programm gestartet"
     else:
         return 'Andere Programme erst stoppen'
@@ -291,5 +289,5 @@ def change_fadetime():
 @app.route('/stop')
 def stop_program():
     global player
-    player.play = False
+    player.stop_program()
     return ''
