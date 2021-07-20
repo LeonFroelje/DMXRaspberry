@@ -1,3 +1,11 @@
+.Lampe-Scheinwerfer{
+    margin:0;
+    padding:0;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
+}
+
 @media screen and (min-width: 600px){
         tr {
         border: 1px, navy;

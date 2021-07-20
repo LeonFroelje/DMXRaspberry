@@ -2,7 +2,7 @@
 
     {% block nav_1 %}
         <form id="saveprogram" method="POST" action="/saveprogram" class="desktop">
-            <label for="p_name" class="radio-lampen">Programmname</label>
+            <label for="p_name">Programmname</label>
             <input type="text" id="p_name" name="p_name">
             <button class="glow-on-hover" type="submit" id='submitprogram' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
         </form>
@@ -13,17 +13,17 @@
     {% block nav_2 %}
     <div class="radio-container">
         <div>
-            <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer: 
+            <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer
                 <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ">
             </label>
         </div>
         <div>
-            <label for="Leisten" class='radio-lampen'>Leisten: 
+            <label for="Leisten" class='radio-lampen'>Leisten
                 <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
             </label>
         </div>
         <div>
-            <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht: 
+            <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht 
                 <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
             </label>
         </div>
@@ -66,7 +66,7 @@
 
     {% block nav_6 %}
     <form id="saveprogram-m" method="POST" action="/saveprogram" class="mobile">
-        <label for="p_name" class="radio-lampen">Programmname</label>
+        <label for="p_name">Programmname</label>
         <input type="text" id="p_name-m" name="p_name">
         <div class="gradient-border">
             <button type="submit" id='submitprogram-m' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>

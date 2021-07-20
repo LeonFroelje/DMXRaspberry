@@ -80,6 +80,22 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
     }
 })
 
+document.querySelectorAll(".radio-lampen").forEach(label => {
+    label.addEventListener("click", evt => {
+        let i = 0
+        let labels = document.querySelectorAll(".radio-lampen")
+        let labels_l = labels.length
+        for(i; i < labels_l; i++){
+            if(labels[i].parentElement.classList.contains("current")){
+                labels[i].parentElement.classList.remove("current")
+            }
+        }
+        if(!evt.target.parentElement.classList.contains("current")){
+            evt.target.parentElement.classList.add("current")
+        }
+    })
+})
+
 function close_dropdown(evt){
     let btns = document.querySelectorAll('.dropbtn')
     let l = btns.length
