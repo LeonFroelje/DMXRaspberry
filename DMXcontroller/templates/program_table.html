@@ -1,0 +1,13 @@
+    <table class="program-tabelle">
+        <tbody class="program-wrapper" id="program-wrapper">
+            {% for program in programs %}
+                <tr class="program-row">
+                    <td class="program-name" id={{ program.p_name }}>{{ program.p_name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="stopbutton-container">
+        <button id='stop' type="button">Programm anhalten</button>
+    </div>   

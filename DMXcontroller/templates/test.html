@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <table>
+        <tbody>
+            {% for i in range(16) %}
+                <tr>
+                    {% for j in range(32) %}
+                        <td id="{{ i * j }}" class="addresse">xd</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

@@ -9,6 +9,21 @@ function nodeScriptClone(node){
     return script;
 }
 
+document.addEventListener("DOMContentLoaded", evt => {
+    fetch(`/Scheinwerfer`).then(res => {
+        return res.text()
+    }).then(text => {
+        document.getElementById('mainframe').innerHTML = text
+    }).then(() => {
+        document.getElementById("mainframe").childNodes.forEach(child => {
+            if(child.tagName === "SCRIPT" || child.tagName === "LINK"){
+                clone = nodeScriptClone(child)
+                child.remove()
+                document.getElementsByTagName("body")[0].appendChild(clone)
+            }
+        })
+    })
+})
 document.getElementById("open_navbar").addEventListener("click", (evt) => {
     let button = document.getElementById("open_navbar")
     document.querySelectorAll(".navdiv").forEach(div => {
@@ -62,6 +77,14 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
         fetch(`/${radio.id}`).then(res => {
             res.text().then(text => {
                 document.getElementById('mainframe').innerHTML = text
+                document.querySelectorAll(".radio-lampen").forEach(label => {
+                    if(label.parentElement.classList.contains("current")){
+                        label.parentElement.classList.remove("current")
+                    }
+                    if(label.childNodes[1] === radio){
+                        label.parentElement.classList.add("current")
+                    }
+                })
             }).then(() => {
                 //The HTML of the response is now being searched for scripts or stylesheets,
                 //because they need to be reinserted to the DOM to be loaded properly.
@@ -80,22 +103,6 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
     }
 })
 
-document.querySelectorAll(".radio-lampen").forEach(label => {
-    label.addEventListener("click", evt => {
-        let i = 0
-        let labels = document.querySelectorAll(".radio-lampen")
-        let labels_l = labels.length
-        for(i; i < labels_l; i++){
-            if(labels[i].parentElement.classList.contains("current")){
-                labels[i].parentElement.classList.remove("current")
-            }
-        }
-        if(!evt.target.parentElement.classList.contains("current")){
-            evt.target.parentElement.classList.add("current")
-        }
-    })
-})
-
 function close_dropdown(evt){
     let btns = document.querySelectorAll('.dropbtn')
     let l = btns.length
@@ -111,7 +118,7 @@ function close_dropdown(evt){
 
 document.querySelectorAll('.dropbtn').forEach(dropbtn => {
   dropbtn.addEventListener('click', (evt) => {
-    document.getElementById(`droptable-${evt.target.classList[1]}`).classList.toggle("show");
+    document.getElementById(`droptable-${evt.currentTarget.classList[1]}`).classList.toggle("show");
     window.addEventListener('click', close_dropdown, once=true)
   })
 })
@@ -133,3 +140,8 @@ document.getElementById('addscene').addEventListener('click', () => {
     }).then(text => {
         alert(text)})
   })
+
+
+document.getElementById("backbutton").addEventListener("click", evt => {
+
+})
