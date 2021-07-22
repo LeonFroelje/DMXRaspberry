@@ -47,8 +47,15 @@ def parse_json(dic, segments):
 def abspielmodus():
     return render_template("abspielmodus.html",
      scripts=[url_for('static', filename="abspielmodus.js")],
-     styles=[url_for("static", filename="index.css")],
+     styles=[url_for("static", filename="index.css"), url_for("static", filename="abspielmodus.css")],
      programs=Programs.query.all())
+
+
+@app.route("/Abspielmodus/player/<player_page>")
+def get_player_page(player_page):
+    if(player_page == "program_table"):
+        return render_template("program_table.html", programs=Programs.query.all())
+    return render_template(f"{player_page}.html")
 
 
 @app.route("/Programmiermodus/new")
@@ -254,21 +261,18 @@ def shutdown():
     os.system('sudo shutdown -h now')
     return ''
 
-
 @app.route('/Play/<p_name>')
 def play_program(p_name):
     global player
-    if threading.active_count() <= 3:
-        program = Programs.query.filter_by(p_name=p_name).first()
-        player.load_program(program)
-        player.start_program()
-        return "Programm gestartet"
-    else:
-        return 'Andere Programme erst stoppen'
+    program = Programs.query.filter_by(p_name=p_name).first()
+    player.load_program(program)
+    player.start_program()
+    return "Programm gestartet"
+
 
 
 @app.route('/change/scenetime', methods=['PUT'])
-def change():
+def change_scenetime():
     global player
     data = request.get_json()
     dic = json.loads(data)
@@ -291,3 +295,8 @@ def stop_program():
     global player
     player.stop_program()
     return ''
+
+
+@app.route("/Penis")
+def Penis():
+    return render_template("test.html")

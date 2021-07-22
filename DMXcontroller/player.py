@@ -62,7 +62,11 @@ class ProgramPlayer():
         return self.fadetime
 
     def load_program(self, program):
-        self.program = Program(program)
+        if self.program:
+            self.stop_program()
+            self.program = program
+        else:
+            self.program = Program(program)
 
     def start_program(self):
         self.program.start_program()

@@ -59,10 +59,33 @@
         padding: .5vh .5vw .5vh .5vw;
         min-height: 11vh;
     }
+    #scene > :nth-child(1) > label {
+        font-size: 1em;
+        width: 100%;
+    }
+
+    #scene > div > label > label{
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+    }
+
+    #scene > :nth-child(2) > label {
+        font-size: 1em;
+        min-width: 50%;
+    }
+
+    #scene > :nth-child(3) > label {
+        font-size: 1em;
+        min-width: 50%;
+    }
+
     #scene > div > label {
         font-size: 1em;
         min-width: 50%;
     }
+
     #scene > :last-child{
         display: inline-block;
         grid-row: 4;
