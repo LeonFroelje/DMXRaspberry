@@ -20,6 +20,7 @@ class ProgramPlayer():
         reducer = np.vectorize(lambda v: floor(v - self.fadefactor *(v/255)))
         increaser = np.vectorize(lambda v, d: ceil(v + self.fadefactor * (d / 255)))
         for scene in self.program:
+            print(self.fadetime)
             if not self.fadetime:
                 sc = Scenes.query.filter_by(s_name=scene).first()
                 subprocess.run(['ola_streaming_client', '-u 2', '-d ' + sc.s_data])
@@ -51,11 +52,13 @@ class ProgramPlayer():
 
 
     def calc_fadetime(self, x):
-        self.fadefactor = x
         try:
             self.fadetime =  8.447*x**(-.935)
         except ZeroDivisionError:
             self.fadetime = 0
+            print(self.fadetime)
+        
+        self.fadefactor = x
         return self.fadetime
 
     def load_program(self, program):
