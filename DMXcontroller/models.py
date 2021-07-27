@@ -19,7 +19,6 @@ class Programs(db.Model):
         return f'{{"name":"{self.p_name}","scenes":"{self.p_scenes}"}}'
 
 
-
 class Program():
     def __init__(self, program):
         self.curr_scene = -1
@@ -46,3 +45,30 @@ class Program():
 
     def stop_program(self):
         self.play = False
+
+
+class Universe:
+    def __init__(self, name, fixtures = []):
+        self.name = name
+        self.fixtures = fixtures
+    
+    def add_fixture(self, fixture):
+        self.fixtures.append(fixture)
+
+    
+class Fixture:
+    def __init__(self, name, address, dmx_modes=[], default_mode=0) -> None:
+        self.name = name
+        if address >= 1 and address <=512:
+            self.start_address = address
+        else:
+            pass
+        self.dmx_modes = dmx_modes
+        self.default_mode = default_mode
+        self.channels = {}
+        for i in range(1, dmx_modes[default_mode]):
+            self.channels[str(i)] = None
+
+    def set_frame(self, data):
+        pass
+
