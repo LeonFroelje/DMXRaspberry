@@ -1,5 +1,7 @@
-{% for i in range(8)%}
-    <div class="midi-container" id="midi-cont-{{ i }}">
-        <button class="midi-button" id="midi-{{ i }}"></button>
-    </div>
-{% endfor %}
+<div class="midi-wrapper">
+    {% for scene in scenen %}
+        <div class="midi-container" id="container-{{ scene.s_name }}">
+            <button class="midi-button" id="{{ scene.s_name }}">{{ scene.s_name }}</button>
+        </div>
+    {% endfor %}
+</div>

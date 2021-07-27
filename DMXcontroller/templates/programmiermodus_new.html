@@ -11,7 +11,44 @@
     {% endblock nav_1 %}
     
     {% block nav_2 %}
-    <div class="radio-container">
+    <div class="universe-container desktop">
+        <div class="universe-header">
+            <h3 class="universe-name">{{ universe.name }}</h3>
+        </div>
+        <ul class="universe-fixtures">
+            {% for fixture in universe.fixtures %}
+                <div class="fixture-container" id="fixture-container-{{ fixture.name }}">
+                    <li class="{{ fixture.fixture_class }}" id="{{ fixture.name }}">{{ fixture.start_address }}    {{ fixture.name }}</li>
+                </div>
+            {% endfor %}
+        </ol>
+    </div>
+
+    <div class="dropdown-scene-container mobile">
+        <div class="dropdown-s">
+            <button type="button" class="dropbtn sm">Szenen <i class="fas fa-chevron-down"></i></button>
+            <div id="droptable-sm" class="dropdown-content">
+                <table>
+                    {% for scene in scenes %}
+                    <tr class="dropdown-row">
+                        <td class="dropdown-data-s" id={{ scene.s_name }}> {{ scene.s_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <button type="button" id="addscene" class="hide glow-on-hover">Szene hinzufügen <i class="fas fa-plus-circle"></i></button>
+    </div>
+
+    {% endblock nav_2 %}
+    
+    {% block nav_3 %}
+    <div class="link-container desktop">
+        <a href="/Abspielmodus">Zum Abspielmodus</a>
+        <a href="/Programmiermodus/edit">Programm bearbeiten</a>
+    </div>
+
+    <div class="universe-container mobile">
         <div class="current">
             <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer
                 <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ">
@@ -27,19 +64,11 @@
                 <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
             </label>
         </div>
-
-    </div>
-    {% endblock nav_2 %}
-    
-    {% block nav_3 %}
-    <div class="link-container">
-        <a href="/Abspielmodus">Zum Abspielmodus</a>
-        <a href="/Programmiermodus/edit">Programm bearbeiten</a>
     </div>
     {% endblock nav_3 %}
 
     {% block nav_4 %}
-    <div class="dropdown-scene-container">
+    <div class="dropdown-scene-container desktop">
         <div class="dropdown-s">
             <button type="button" class="dropbtn s">Szenen <i class="fas fa-chevron-down"></i></button>
             <div id="droptable-s" class="dropdown-content">
@@ -54,6 +83,12 @@
         </div>
         <button type="button" id="addscene" class="hide glow-on-hover">Szene hinzufügen <i class="fas fa-plus-circle"></i></button>
     </div>
+
+    <div class="link-container mobile">
+        <a href="/Abspielmodus">Zum Abspielmodus</a>
+        <a href="/Programmiermodus/edit">Programm bearbeiten</a>
+    </div>
+
     {% endblock nav_4 %}
 
     {% block nav_5 %}

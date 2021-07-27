@@ -13,6 +13,22 @@ class Player{
       return res.text()
       }).then(text => {
         document.getElementById("player-main").innerHTML = text
+        switch(this.pages[this.curr_page]){
+          case "program_table":
+            document.getElementById("header-player").innerHTML = "Programme"
+            break;
+          
+          case "MIDI_buttons":
+            document.getElementById("header-player").innerHTML = "MIDI-Knöpfe"
+            break;
+  
+          case "music_player":
+            document.getElementById("header-player").innerHTML = "Musik"
+            break;
+          }
+  
+      }).finally(() => {
+        refresh_event_listeners(this.pages[this.curr_page])
       })
   }
 
@@ -25,9 +41,66 @@ class Player{
       return res.text()
       }).then(text => {
         document.getElementById("player-main").innerHTML = text
+        switch(this.pages[this.curr_page]){
+        case "program_table":
+          document.getElementById("header-player").innerHTML = "Programme"
+          break;
+        
+        case "MIDI_buttons":
+          document.getElementById("header-player").innerHTML = "MIDI-Knöpfe"
+          break;
+
+        case "music_player":
+          document.getElementById("header-player").innerHTML = "Musik"
+          break;
+        }
+      }).finally(() => {
+        refresh_event_listeners(this.pages[this.curr_page])
       })
   }
 }
+
+function refresh_event_listeners(curr_page){
+  switch(curr_page){
+    case "program_table":
+      document.getElementById('stop').addEventListener('click', () => {
+        fetch('/stop').then(res => {
+          return res.text()
+          }).then(text => {
+            console.log(text)
+          })
+      })  
+      
+      document.querySelectorAll(".program-row").forEach(program_row => {
+        program_row.addEventListener("click", evt => {
+          fetch(`/Play/${program_row.firstElementChild.id}`).then(res => {
+            document.querySelectorAll(".program-row").forEach(row => {
+              if(row.classList.contains("selected")){
+                row.classList.remove("selected")
+              }
+            })
+            program_row.classList.add("selected")
+          })
+        })
+      })
+      break;
+
+    case "MIDI_buttons":
+      document.querySelectorAll(".midi-button").forEach(button => {
+        button.addEventListener("click", evt => {
+          fetch(`/load/scene/${evt.currentTarget.id}`)
+          evt.currentTarget.classList.add("clicked")
+          setTimeout(() => {
+            document.querySelectorAll(".clicked").forEach(button => {
+              button.classList.remove("clicked")
+            })
+          }, 200)
+        })
+      });
+      break; 
+  }
+}
+
 
 
 player = new Player(["program_table", "MIDI_buttons", "music_player"])
@@ -94,6 +167,7 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
           //document.getElementById("open_navbar").style.bottom = "0px"
           button.style.position = "fixed"
           button.style.height = "6vh"
+          document.querySelector(".wrapper").lastElementChild.style.gridRow = "1/3"
       }
       else{
           div.classList.add("show")
@@ -103,6 +177,7 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
           document.getElementById("nav-1").style.width = "100%"
           button.style.width = "100%"
           button.style.height = "6vh"
+          document.querySelector(".wrapper").lastElementChild.style.gridRow = "1"
       }
   })
   if(document.getElementById("icon-open-navbar").classList.contains("fa-chevron-circle-up")){
@@ -115,4 +190,13 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
 
   }
   document.getElementById("nav-1").style.display = "inline"
+})
+
+document.querySelectorAll(".midi-button").forEach(button => {
+  button.addEventListener("click", evt => {
+    evt.currentTarget.classList.add("clicked")
+    setTimeout(() => {
+      evt.currentTarget.classList.remove("clicked")
+    }, .4)
+  })
 })

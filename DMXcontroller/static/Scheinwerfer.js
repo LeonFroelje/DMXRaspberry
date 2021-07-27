@@ -72,23 +72,23 @@ function update(){
 document.querySelectorAll('input.rgb-slider').forEach(input => {
     input.oninput = () => {
         let lampen = []
-        document.querySelectorAll("input.Lampe-Scheinwerfer").forEach(checkbox =>{
-            if(checkbox.checked){
-                lampen.push(checkbox.id)
+        document.querySelectorAll(".Scheinwerfer").forEach(fixture =>{
+            if(fixture.classList.contains("current")){
+                lampen.push(fixture.id)
                 }
             })
-        fetch('/rgbwds', {
+        fetch('/Scheinwerferdmx', {
             method : "PUT",
             headers : {
                     "Content-type" : "application/json"
                 },
-            body : JSON.stringify(`{"r":${document.getElementById("r-slider").value},
-"g":${document.getElementById("g-slider").value},
-"b":${document.getElementById("b-slider").value},
-"ww":${document.getElementById("weiss-slider").value},
-"d":${document.getElementById("dim-slider").value},
-"s":${document.getElementById("strobo-slider").value},
-"lampen":"${lampen.join()}"}`)                        
+            body : JSON.stringify(`{ "channels" : {"rot":${document.getElementById("r-slider").value},
+"gruen":${document.getElementById("g-slider").value},
+"blau":${document.getElementById("b-slider").value},
+"weiss":${document.getElementById("weiss-slider").value},
+"helligkeit":${document.getElementById("dim-slider").value},
+"strobo":${document.getElementById("strobo-slider").value},},
+"fixtures":"${lampen.join()}"}`)                        
             }).then(response => {
                 return response.json()
             }).then(data => {

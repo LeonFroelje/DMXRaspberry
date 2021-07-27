@@ -1,0 +1,9 @@
+{
+    "dmx_modes" : [3],
+    "default_mode" : 0,
+    "channels_3" : {
+        "helligkeit" : "0",
+        "strobo" : "0",
+        "strobo_dauer" : "0"
+    }
+}

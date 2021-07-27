@@ -1,0 +1,30 @@
+{
+    "dmx_modes" : [24],
+    "default_mode" : 0,
+    "channels_24" : {
+        "rot_1" : "0",
+        "gruen_1" : "0",
+        "blau_1" : "0",
+        "rot_2" : "0",
+        "gruen_2" : "0",
+        "blau_2" : "0",
+        "rot_3" : "0",
+        "gruen_3" : "0",
+        "blau_3" : "0",
+        "rot_4" : "0",
+        "gruen_4" : "0",
+        "blau_4" : "0",
+        "rot_5" : "0",
+        "gruen_5" : "0",
+        "blau_5" : "0",
+        "rot_6" : "0",
+        "gruen_6" : "0",
+        "blau_6" : "0",
+        "rot_7" : "0",
+        "gruen_7" : "0",
+        "blau_7" : "0",
+        "rot_8" : "0",
+        "gruen_8" : "0",
+        "blau_8" : "0"
+    }
+}

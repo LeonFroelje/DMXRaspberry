@@ -1,0 +1,12 @@
+{
+    "dmx_modes" : [3, 6],
+    "default_mode" : 1,
+    "channels_6" : {
+        "rot" : "0",
+        "gruen" : "0",
+        "blau" : "0",
+        "weiss" : "0",
+        "helligkeit" : "0",
+        "strobo" : "0"
+    }
+}

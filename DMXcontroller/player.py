@@ -78,7 +78,7 @@ class ProgramPlayer():
         self.program.stop_program()
 
     @staticmethod
-    def send_data(self, universe, data):
+    def send_data(universe, data):
         subprocess.run(['ola_streaming_client', f'-u {universe}', '-d ' + data])
 
         

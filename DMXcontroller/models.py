@@ -1,3 +1,7 @@
+import json
+from os import path
+from posixpath import dirname
+from flask.helpers import url_for
 from DMXcontroller import db
 
 
@@ -54,21 +58,34 @@ class Universe:
     
     def add_fixture(self, fixture):
         self.fixtures.append(fixture)
+        self.fixtures.sort(key=self.by_address())
+
+    def __str__(self) -> str:
+        return ",".join([str(fixture) for fixture in self.fixtures])
+
+    def change_frame(self, fixture, data):
+        self.fixtures[self.fixtures.index(fixture)].set_frame(data)
+
+    @staticmethod
+    def by_address(elem):
+        return elem.start_address
 
     
 class Fixture:
-    def __init__(self, name, address, dmx_modes=[], default_mode=0) -> None:
+    def __init__(self, name, address, fixture_class) -> None:
         self.name = name
-        if address >= 1 and address <=512:
-            self.start_address = address
-        else:
-            pass
-        self.dmx_modes = dmx_modes
-        self.default_mode = default_mode
+        self.start_address = address
+        self.fixture_class = fixture_class
         self.channels = {}
-        for i in range(1, dmx_modes[default_mode]):
-            self.channels[str(i)] = None
+
+        with open(path.join(path.dirname(__file__), "static", "fixture_templates", f"{self.fixture_class}.json")) as f:
+            self.json = json.load(f)
+            self.dmx_modes = self.json["dmx_modes"]
+            self.curr_mode = self.json["dmx_modes"][self.json["default_mode"]]
+            self.channels = self.json[f"channels_{self.curr_mode}"]
 
     def set_frame(self, data):
-        pass
+        self.channels = data
 
+    def __str__(self) -> str:
+        return ",".join([value for value in self.channels.values()])

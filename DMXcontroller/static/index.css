@@ -91,32 +91,49 @@
         font-size: 1.4rem;
     }
 
-    .radio-container{
+    .universe-container{
         margin-top: 1em;
         margin-left: .8em;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-content: flex-start;
-        gap: 1em;
         width: 90%;
+        border: 2px solid #3d7ab2;
+        height: 36vh;
+        max-height: 36vh;
+        overflow-y: auto;
+    }
+    
+    .universe-container > :first-child{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+        height: 2em;
+        border-bottom: 2px solid #3d7ab2;
     }
 
-    .radio-container > div{
+    li::marker{
+        content: "├  ";
         font-size: 1.5em;
-        border: 2px solid #235789;
-        text-align: center;
-        line-height: 4rem;
-        height: 4rem;
+        color: #a02222;
     }
 
-    .radio-container > div > label{
-        display: inline-block;
-        width: 100%;
+    .fixture-container > li{
+        font-size: 1.5em;
     }
 
-    .radio-container > div > label > input{
-        display: none;
+    .fixture-container > li::before{
+        content: "";
+    }
+
+    .fixture-container > li.current::marker{
+        color: #3ec22c;
+    }
+
+    .fixture-container > li:hover{
+        cursor: pointer;
+    }
+
+    .fixture-container > li::selection{
+        background-color: #050401;
     }
 
     .link-container{
@@ -263,14 +280,14 @@
 
     .fa-chevron-circle-up{
         position: relative;
-        bottom: 5px;
+        bottom: 20%;
         font-size: 0.8em;
         color: #3ec22c;
     }
 
     .fa-chevron-circle-down{
         position: relative;
-        bottom: 5px;
+        bottom: 10px;
         font-size: 0.8em;
         color: #a02222;
     }
@@ -294,12 +311,24 @@
         display: block;
     }
 
+    #nav-2{
+        margin-bottom: .5em;
+        width: 100%;
+        flex-basis: 5em;
+    }
+    #nav-3{
+        margin-bottom: .5em;
+    }
+    #nav-4{
+        margin-bottom: .5em;
+    }
+
     .wrapper{
         position: absolute;
         top: 0px;
         left: 0px;
         display: grid;
-        grid-template-rows: 1fr 2fr;
+        grid-template-rows: 50vh 50vh;
         height: 100vh;
         width: 100vw;
     }
@@ -318,12 +347,12 @@
         background-color: #111;
         overflow-y: scroll;
         width: 100%;
-        grid-row: 3;
+        grid-row: 2;
         margin-bottom: 0px;
-        gap: .5em;
+        z-index: 2;
     }
 
-    .radio-container{
+    .universe-container{
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
@@ -331,13 +360,13 @@
         gap: 1vw;
     }
 
-    .radio-container > div {
+    .universe-container > div {
         display: inline-block;
         border: 2px solid #235789;
         width: 30vw;
     }
 
-    .radio-container > div > label{
+    .universe-container > div > label{
         width: 30vw;
         height: 100%;
     }
@@ -362,6 +391,47 @@
         background-color: #303036;
         border: none;
     }
+
+    .dropdown-scene-container{
+        margin-left: .8rem;
+        margin-top: .3rem;
+        margin-right: .8rem;
+        width: 93%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: .5vh;
+    }
+
+    .dropdown-scene-container > button{
+        height: 3rem;
+        background-color: #050401;
+        border: 2px solid #3d7ab2;
+        border-radius: 15px;
+        color: white;
+        font-size: 1.5rem;
+        padding: 0;
+        width: 100%;
+    }
+    
+    #droptable-sm{
+        width: 100%;
+    }
+
+    .dropdown-content > table{
+        width: 100%;
+        background-color: #303036;
+        color: white;
+    }
+
+    .dropdown-row{
+        width: 100%;
+        color: white;
+        height: 3rem;
+        text-decoration: none;
+        font-size: 1.3rem;
+    }
+
 
 }
 
@@ -426,9 +496,6 @@
     width: fit-content;
 }
 
-div.current{
-    border: 2px solid #3ec22c;
-}
 
 body{
     padding: 0;
@@ -436,6 +503,8 @@ body{
     overflow-y: scroll;
     height: 100vh;
     color: #fff;
+    width: 100vw;
+    overflow-x: hidden;
 }
 .fa-check-circle{
     color: #3ec22c;

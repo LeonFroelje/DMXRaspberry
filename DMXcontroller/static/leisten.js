@@ -106,7 +106,7 @@ document.querySelectorAll('input.rgb-slider').forEach(input => {
             }
             console.log(data)
             
-            fetch('/Leisten_rgb', {
+            fetch('/Leistendmx', {
                 method : "PUT",
                 headers : {
                     "Content-type" : "application/json"

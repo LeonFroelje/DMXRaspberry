@@ -83,7 +83,7 @@
         width: 75%;
         height: 100%;
     }
-    #header-program{
+    #header-player{
         display: inline-block;
         width: 100%;
         text-align: center;
@@ -176,4 +176,49 @@
     #program-wrapper > tr.selected{
         border: 2px solid #3ec22c;
     }
+
+    .midi-wrapper{
+        margin-top: 1em;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-auto-rows: 10vh;
+        gap: 1em;
+        overflow-y: auto;
+        max-height: 50vh;
+    }
+
+    .midi-container{
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    @keyframes midi {
+        from {opacity: 1;}
+        to {opacity: 0.6;}
+    }
+
+    .midi-button{
+        height: 10vh;
+        width: 10vh;
+        border: none;
+        border-radius: 100%;
+        background-color: #a02222;
+        opacity: 0.6;
+        color: white;
+    }
+
+    .clicked{
+        animation: midi .2s linear 0s 1 alternate backwards;
+    }
+
+    .midi-wrapper > :nth-child(3n+2) > .midi-button{
+        background-color: #3ec22c;
+    }
+
+    .midi-wrapper > :nth-child(3n+3) > .midi-button{
+        background-color: #3d7ab2;
+    }
+    
+
 }

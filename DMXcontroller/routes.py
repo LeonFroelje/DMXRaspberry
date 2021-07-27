@@ -6,7 +6,7 @@ import os
 from werkzeug.utils import redirect
 import time
 import threading
-from DMXcontroller.models import Scenes, Programs
+from DMXcontroller.models import Scenes, Programs, Universe, Fixture
 from DMXcontroller import app, db
 from DMXcontroller.player import ProgramPlayer
 
@@ -19,6 +19,15 @@ leisten_liste = ['L4', 'L5']
 program_scenes = []
 curr_scene = ""
 
+leiste_1 = Fixture("leiste_1", 1, "Leisten")
+schwarzlicht = Fixture("schwarzlicht", 25, "Schwarzlicht")
+leiste_2 = Fixture("leiste_2", 28, "Leisten")
+scheinwerfer_1 = Fixture("scheinwerfer_1", 53, "Scheinwerfer")
+scheinwerfer_2 = Fixture("scheinwerfer_2", 59, "Scheinwerfer")
+scheinwerfer_3 = Fixture("scheinwerfer_3", 65, "Scheinwerfer")
+
+universe = Universe("2", [leiste_1, schwarzlicht, leiste_2, scheinwerfer_1, scheinwerfer_2, scheinwerfer_3])
+print(universe)
 
 lampen_dict = {
     'scheinwerfer' : {
@@ -55,15 +64,18 @@ def abspielmodus():
 def get_player_page(player_page):
     if(player_page == "program_table"):
         return render_template("program_table.html", programs=Programs.query.all())
+    elif(player_page == "MIDI_buttons"):
+        return render_template(f"{player_page}.html", scenen = Scenes.query.all()[:30])
     return render_template(f"{player_page}.html")
 
 
 @app.route("/Programmiermodus/new")
 def Programmiermodus_new():
     global program_scenes
+    global universe
     scenes = Scenes.query.all()
     return render_template("programmiermodus_new.html", scripts=[url_for('static', filename='main.js'), url_for('static', filename='p_new.js')],
-     styles=[url_for('static', filename='index.css')], scenes=scenes)
+     styles=[url_for('static', filename='index.css')], scenes=scenes, universe=universe)
 
 
 @app.route("/Programmiermodus/edit")
@@ -176,8 +188,8 @@ def Schwarzlichtdmx():
     subprocess.run(['ola_streaming_client', '-u 2', '-d ' + dmx_data])
     return jsonify(dic)
 
-@app.route('/Leisten_rgb', methods=['POST', 'PUT'])
-def Leisten_rgb():
+@app.route('/Leistendmx', methods=['POST', 'PUT'])
+def Leistendmx():
     global lampen_dict
     global leisten_liste
     data = request.get_json()
@@ -193,21 +205,16 @@ def Leisten_rgb():
     return jsonify(dic)
 
 
-@app.route("/rgbwds", methods=["POST", "PUT"])
-def rbgwds():
-    global lampen_liste
-    global lampen_dict
+@app.route("/Scheinwerferdmx", methods=["POST", "PUT"])
+def Scheinwerferdmx():
+    global universe
     data = request.get_json()
     dic = json.loads(data)
-    dmx_data = ''
-    for lampe in lampen_liste:
-        if lampe in dic['lampen']:
-            lampen_dict['scheinwerfer'][lampe] = f"{dic['r']},{dic['g']},{dic['b']},{dic['ww']},{dic['d']},{dic['s']},"
-    for gruppe in lampen_dict:
-        for lampe in lampen_dict[gruppe]:
-            dmx_data += lampen_dict[gruppe][lampe]
-    subprocess.run(['ola_streaming_client', '-u 2', '-d ' + dmx_data])
-    return jsonify(dic)
+    for fixture in data["fixtures"]:
+        universe.change_frame(fixture, dic["channels"])
+    player.send_data("2", str(universe))
+    return ("", 204)
+
 
 
 @app.route("/savescene", methods=["POST"])

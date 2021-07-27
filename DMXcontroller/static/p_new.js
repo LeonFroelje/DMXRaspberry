@@ -33,6 +33,7 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
             //document.getElementById("open_navbar").style.bottom = "0px"
             button.style.position = "fixed"
             button.style.height = "6vh"
+            document.querySelector(".wrapper").lastElementChild.style.gridRow = "1/3"
         }
         else{
             div.classList.add("show")
@@ -42,6 +43,7 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
             document.getElementById("nav-1").style.width = "100%"
             button.style.width = "100%"
             button.style.height = "6vh"
+            document.querySelector(".wrapper").lastElementChild.style.gridRow = "1"
         }
     })
     if(document.getElementById("icon-open-navbar").classList.contains("fa-chevron-circle-up")){
@@ -54,6 +56,55 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
 
     }
     document.getElementById("nav-1").style.display = "inline"
+})
+
+document.querySelectorAll(".fixture-container > li").forEach(fixture => {
+    fixture.addEventListener("click", evt => {
+        fixtures = document.querySelectorAll(`.fixture-container > li`)
+        i = 0
+        for(i; i < fixtures.length; i++){
+            if(fixtures[i].classList[0] !== evt.currentTarget.classList[0]){
+                fixtures[i].style.opacity = 0.4
+            }
+            else{
+                fixtures[i].style.opacity = 1
+            }
+        }
+        if(document.getElementsByClassName(`${evt.currentTarget.classList[0]} current`).length === 0){
+            document.querySelectorAll(".current").forEach(selected => {
+                selected.classList.remove("current")
+            })
+            evt.currentTarget.classList.add("current")
+            let scripts = document.getElementsByTagName("script")
+            let i = 0
+            for(i; i < scripts.length; i++){
+                if( !scripts[i].src.includes("p_new.js") && !scripts[i].src.includes("main.js") && !scripts[i].src.includes("fontawesome")){
+                    scripts[i].remove();
+                    }
+                }
+            i = 0
+            let links = document.getElementsByTagName("link")
+            for(i; i< links.length; i++){
+                if(!links[i].href.includes("index.css")){
+                    links[i].remove();
+                    }
+                }
+            fetch(`/${evt.currentTarget.classList[0]}`).then(res => {
+                return res.text()
+            }).then(text => {
+                document.getElementById("mainframe").innerHTML = text
+            })
+        }
+        else{
+            evt.currentTarget.classList.toggle("current")
+            if(document.querySelectorAll(".current").length === 0){
+                i = 0
+                for(i; i < fixtures.length; i++){
+                    fixtures[i].style.opacity = 1
+                }
+            }
+        }
+    })
 })
 
 //When one of the radio buttons is clicked, a request is sent to the server which fetches the according HTML code to load into the mainframe
@@ -140,8 +191,3 @@ document.getElementById('addscene').addEventListener('click', () => {
     }).then(text => {
         alert(text)})
   })
-
-
-document.getElementById("backbutton").addEventListener("click", evt => {
-
-})
