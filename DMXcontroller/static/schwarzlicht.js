@@ -5,7 +5,10 @@
                 headers : {
                     'content-type' : 'application/json'
                 },
-                body : JSON.stringify(`{"dim":${document.getElementById('dim').value},"strobe":${document.getElementById('strobe').value},"dur":${document.getElementById('dur').value}}`)
+                body : JSON.stringify(`{"channels" : {"dim" : "${document.getElementById('dim').value}",
+                 "strobe" : "${document.getElementById('strobe').value}",
+                 "dur" : "${document.getElementById('dur').value}"},
+                 "fixtures" : "schwarzlicht"}`)
             }).then((response) => {
                 return response.json()
             }).then((data) => {

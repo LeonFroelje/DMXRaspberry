@@ -64,14 +64,30 @@ function move_to_trash(evt){
 }
 
 segmente = {
-    leiste_seg_1 : "0,0,0,",
-    leiste_seg_2 : "0,0,0,",
-    leiste_seg_3 : "0,0,0,",
-    leiste_seg_4 : "0,0,0,",
-    leiste_seg_5 : "0,0,0,",
-    leiste_seg_6 : "0,0,0,",
-    leiste_seg_7 : "0,0,0,",
-    leiste_seg_8 : "0,0,0,"
+    rot_1 : '0',
+    gruen_1 : '0',
+    blau_1 : '0',
+    rot_2 : '0',
+    gruen_2 : '0',
+    blau_2 : '0',
+    rot_3 : '0',
+    gruen_3 : '0',
+    blau_3 : '0',
+    rot_4 : '0',
+    gruen_4 : '0',
+    blau_4 : '0',
+    rot_5 : '0',
+    gruen_5 : '0',
+    blau_5 : '0',
+    rot_6 : '0',
+    gruen_6 : '0',
+    blau_6 : '0',
+    rot_7 : '0',
+    gruen_7 : '0',
+    blau_7 : '0',
+    rot_8 : '0',
+    gruen_8 : '0',
+    blau_8 : '0',
 };
 
 function update(){
@@ -88,34 +104,39 @@ function update(){
 document.querySelectorAll('input.rgb-slider').forEach(input => {
         input.oninput = () => {
             let lampen = []
-            document.querySelectorAll("input.Lampe-Leiste").forEach(checkbox =>{
-                if(checkbox.checked){
-                    lampen.push(checkbox.id)
+            document.querySelectorAll(".Leisten").forEach(fixture =>{
+                if(fixture.classList.contains('current')){
+                    lampen.push(fixture.id)
                 }
             })
 
-            let rgb = `${document.getElementById("r-slider").value},${document.getElementById("g-slider").value},${document.getElementById("b-slider").value},`
+            let r = document.getElementById('r-slider').value
+            let g = document.getElementById('g-slider').value
+            let b = document.getElementById('b-slider').value
             document.querySelectorAll(".selected").forEach(seg => {
-                    segmente[seg.id] = rgb;
+                    segmente[`rot_${seg.id.slice(-1)}`] = r;
+                    segmente[`gruen_${seg.id.slice(-1)}`] = g;
+                    segmente[`blau_${seg.id.slice(-1)}`] = b;
                 }
             )
 
-            let data = `{"leisten":"${lampen.join()}", "data":"`
+            let data = `{"channels" : {`
             for(let i = 1; i <= 8; i++){
-                data += segmente[`leiste_seg_${i}`]
+                data += `"rot_${i}" : "` + (segmente[`rot_${i}`]) + '",';
+                data += `"gruen_${i}" : "` + (segmente[`gruen_${i}`]) + '",';
+                data += `"blau_${i}" : "` + (segmente[`blau_${i}`]) + '",';
             }
-            console.log(data)
+            data = data.slice(0, -1)
             
             fetch('/Leistendmx', {
                 method : "PUT",
                 headers : {
                     "Content-type" : "application/json"
                 },
-                body : JSON.stringify(data + '"}'                        
+                body : JSON.stringify(data + `}, "fixtures" : "${lampen.join()}"}`                        
             )}).then(response => {
                 return response.json()
             }).then(data => {
-                console.log(data)
             })
         };
     });
@@ -222,7 +243,6 @@ document.getElementsByClassName("fa-trash")[0].addEventListener("drop", evt => {
 evt.preventDefault()
 evt.target.style.color = "#a02222"
 const data = evt.dataTransfer.getData("text/plain")
-console.log(data)
 })
 
 document.querySelectorAll(".fa-minus-square").forEach(icon => {

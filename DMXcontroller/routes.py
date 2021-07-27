@@ -22,12 +22,11 @@ curr_scene = ""
 leiste_1 = Fixture("leiste_1", 1, "Leisten")
 schwarzlicht = Fixture("schwarzlicht", 25, "Schwarzlicht")
 leiste_2 = Fixture("leiste_2", 28, "Leisten")
-scheinwerfer_1 = Fixture("scheinwerfer_1", 53, "Scheinwerfer")
-scheinwerfer_2 = Fixture("scheinwerfer_2", 59, "Scheinwerfer")
-scheinwerfer_3 = Fixture("scheinwerfer_3", 65, "Scheinwerfer")
+scheinwerfer_1 = Fixture("scheinwerfer_1", 52, "Scheinwerfer")
+scheinwerfer_2 = Fixture("scheinwerfer_2", 58, "Scheinwerfer")
+scheinwerfer_3 = Fixture("scheinwerfer_3", 64, "Scheinwerfer")
 
 universe = Universe("2", [leiste_1, schwarzlicht, leiste_2, scheinwerfer_1, scheinwerfer_2, scheinwerfer_3])
-print(universe)
 
 lampen_dict = {
     'scheinwerfer' : {
@@ -179,29 +178,20 @@ def Schwarzlichtdmx():
     global lampen_dict
     data = request.get_json()
     dic = json.loads(data)
-    for licht in lampen_dict['schwarzlicht']:
-        lampen_dict['schwarzlicht'][licht] = f"{dic['dim']},{dic['strobe']},{dic['dur']}"
-    dmx_data = ''
-    for gruppe in lampen_dict:
-        for lampe in lampen_dict[gruppe]:
-            dmx_data += lampen_dict[gruppe][lampe]
-    subprocess.run(['ola_streaming_client', '-u 2', '-d ' + dmx_data])
+    for fixture in dic['fixtures'].split(','):
+        universe.change_frame(fixture, dic['channels'])
+    player.send_data('2', str(universe))
+    print(str(universe))
     return jsonify(dic)
 
 @app.route('/Leistendmx', methods=['POST', 'PUT'])
 def Leistendmx():
-    global lampen_dict
-    global leisten_liste
+    global universe
     data = request.get_json()
     dic = json.loads(data)
-    dmx_data = ''
-    for leiste in leisten_liste:
-        if leiste in dic['leisten']:
-            lampen_dict['leisten'][leiste] = dic["data"]
-    for gruppe in lampen_dict:
-        for lampe in lampen_dict[gruppe]:
-            dmx_data += lampen_dict[gruppe][lampe]
-    subprocess.run(['ola_streaming_client', '-u 2', '-d ' + dmx_data])
+    for fixture in dic['fixtures'].split(','):
+        universe.change_frame(fixture, dic['channels'])
+    player.send_data("2", str(universe))
     return jsonify(dic)
 
 
@@ -222,13 +212,7 @@ def savescene():
     data = request.form
     if 'scenename' in data:
         name = data['scenename']
-        dmx_data = ''
-        global program_scenes
-        global lampen_dict
-        for gruppe in lampen_dict:
-            for lampe in lampen_dict[gruppe]:
-                dmx_data += lampen_dict[gruppe][lampe]
-        szene = Scenes(s_name=name, s_data=dmx_data)
+        szene = Scenes(s_name=name, s_data=str(universe))
         db.session.add(szene)
         db.session.commit()
         program_scenes.append(name)
