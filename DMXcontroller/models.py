@@ -2,6 +2,7 @@ import json
 from os import path
 from posixpath import dirname
 from flask.helpers import url_for
+from numpy.lib.ufunclike import fix
 from DMXcontroller import db
 
 
@@ -64,7 +65,9 @@ class Universe:
         return ",".join([str(fixture) for fixture in self.fixtures])
 
     def change_frame(self, fixture, data):
-        self.fixtures[self.fixtures.index(fixture)].set_frame(data)
+        for _ in self.fixtures:
+            if _.name == fixture: 
+                _.set_frame(data)
 
     @staticmethod
     def by_address(elem):
@@ -86,6 +89,7 @@ class Fixture:
 
     def set_frame(self, data):
         self.channels = data
+        print(self.channels)
 
     def __str__(self) -> str:
         return ",".join([value for value in self.channels.values()])

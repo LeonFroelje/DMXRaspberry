@@ -210,7 +210,7 @@ def Scheinwerferdmx():
     global universe
     data = request.get_json()
     dic = json.loads(data)
-    for fixture in data["fixtures"]:
+    for fixture in dic["fixtures"].split(","):
         universe.change_frame(fixture, dic["channels"])
     player.send_data("2", str(universe))
     return ("", 204)

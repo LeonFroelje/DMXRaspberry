@@ -82,14 +82,14 @@ document.querySelectorAll('input.rgb-slider').forEach(input => {
             headers : {
                     "Content-type" : "application/json"
                 },
-            body : JSON.stringify(`{ "channels" : {"rot":${document.getElementById("r-slider").value},
-"gruen":${document.getElementById("g-slider").value},
-"blau":${document.getElementById("b-slider").value},
-"weiss":${document.getElementById("weiss-slider").value},
-"helligkeit":${document.getElementById("dim-slider").value},
-"strobo":${document.getElementById("strobo-slider").value},},
-"fixtures":"${lampen.join()}"}`)                        
-            }).then(response => {
+            body : JSON.stringify(`{"channels" : {"rot" : "${document.getElementById("r-slider").value}",
+            "gruen" : "${document.getElementById("g-slider").value}",
+            "blau" : "${document.getElementById("b-slider").value}",
+            "weiss" : "${document.getElementById("weiss-slider").value}",
+            "helligkeit" : "${document.getElementById("dim-slider").value}",
+            "strobo" : "${document.getElementById("strobo-slider").value}"},
+            "fixtures" : "${lampen.join()}"}`)                                    
+        }).then(response => {
                 return response.json()
             }).then(data => {
                 console.log(data)
