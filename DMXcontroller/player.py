@@ -28,7 +28,7 @@ class ProgramPlayer():
 
             elif self.fadetime:
                 sc = Scenes.query.filter_by(s_name=scene).first()
-                arr = np.array(sc.s_data[:-1].split(',')).astype(int)
+                arr = np.array(sc.s_data.split(',')).astype(int)
 
                 try:
                     delta = arr - prev_scene

@@ -1,35 +1,5 @@
 <form method="POST" action="/savescene" id='scene'>
     <div>
-        <label for="l1">Scheinwerfer 1
-            <label for="L1" class="lc" id="l1">
-                <img src={{ url_for('static', filename='Scheinwerfer_aus1.png')}} class="aus">
-                <img src={{ url_for("static", filename="Scheinwerfer_an1.png" )}} class="an hide resize-h">
-                <input type="checkbox" id="L1" name="L1" value="True" class="Lampe-Scheinwerfer aus">
-            </label>
-        </label>
-    </div>
-    
-    <div>
-        <label for="l2">Scheinwerfer 2
-            <label for="L2" id="l2" class="lc">
-                <img src={{ url_for('static', filename='Scheinwerfer_aus1.png')}} class="aus">
-                <img src={{ url_for("static", filename="Scheinwerfer_an1.png" )}} class="an hide resize-h">
-                <input type="checkbox" id="L2" name="L2" value="True" class="Lampe-Scheinwerfer aus">
-            </label>
-        </label>
-    </div>
-
-    <div>
-        <label for="l3">Scheinwerfer 3
-            <label for="L3" id="l3" class="lc">
-                <img src={{ url_for('static', filename='Scheinwerfer_aus1.png')}} class="aus">
-                <img src={{ url_for("static", filename="Scheinwerfer_an1.png" )}} class="an hide resize-h">
-                <input type="checkbox" id="L3" name="L3" value="True" class="Lampe-Scheinwerfer aus">
-            </label>
-        </label>
-    </div>
-
-    <div>
         <label for="r" class="lr">Rot</label>
         <input type="range" name="red" id="r-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
     </div>

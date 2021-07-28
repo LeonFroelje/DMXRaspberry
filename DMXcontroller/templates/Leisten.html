@@ -1,26 +1,15 @@
 <form method="POST" action="/savescene" id='scene'>
-    <div>
-        <label for="L4" class="lc">Leiste 1</label>
-        <input type="checkbox" id="L4" name="L4" value="True" class="Lampe-Leiste">
-    </div>
-
-    <div>
-        <label for="L5" class="lc">Leiste 2</label>
-        <input type="checkbox" id="L5" name="L5" value="True" class="Lampe-Leiste">
-    </div>
-
-    <div class="button-container" id="button-container">
-        <button type="button" id="select-all" class="select-buttons">Alle auswählen</button>
-        <button type="button" id="toggle-all" class="select-buttons">Invertieren</button>
-        <button type="button" id="deselect-all" class="select-buttons">Alle abwählen</button>
-    </div>
-
-    <div class="rgb-container">
+        <div class="button-container" id="button-container">
+            <button type="button" id="select-all" class="select-buttons">Alle auswählen</button>
+            <button type="button" id="toggle-all" class="select-buttons">Invertieren</button>
+            <button type="button" id="deselect-all" class="select-buttons">Alle abwählen</button>
+        </div>
         <div class="LeistenContainer">
             {% for i in range(1,9,1) %}
             <img src="../static/Leiste_{{ i }}.png" class="LeistenSegmente" id="leiste_seg_{{ i }}" alt="Nix">
             {% endfor %}
         </div>
+        
         <div class="slider-container">
             <div>
                 <label for="r" class="lr">Rot</label>
@@ -37,7 +26,7 @@
                 <input type="range" name="blue" id="b-slider" class="rgb-slider" min="0" max="255" value="0" orient="vertical">
             </div>
         </div>
-    </div>
+
     <div>
         <label for="scenename">Szenenname</label>
         <input type="text" id='scenename' name='scenename' autocomplete="off">

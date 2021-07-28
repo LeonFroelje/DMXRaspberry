@@ -1,31 +1,6 @@
-
-#scene > div:nth-child(1){
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 3px solid #235789;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    grid-column: 1;
-}
-
-#scene > div:nth-child(2){
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 3px solid #235789;
-    grid-row: 1;
-    grid-column: 2;
-    margin-bottom: 10px;
-    margin-right: 10px;
-}
-
 #scene > div > input[type="range"]{
     display: inline-block;
 }
-
-
-
 
 .selected{
     border-radius: 15% !important;
@@ -47,9 +22,9 @@
     #mainframe{
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(4, minmax(1fr, 5vh));
-        font-size: 2vh;
-        gap: 2vh;
+        grid-template-rows: 3fr 2fr;
+        font-size: 1.3rem;
+        gap: 1rem;
     }
     
     #scene{
@@ -57,15 +32,42 @@
         grid-column: 1/4;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: .5fr 1fr 1fr 1fr;
+        grid-template-rows: 3fr 8fr 6fr;
+        row-gap: 1vh;
+    }
+
+    .button-container{
+        grid-row: 1;
+        grid-column: 3;
+        border: 3px solid #235789;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 1vh 1vw;
+        gap: .3em;
+    }
+
+    .select-buttons{
+        width: 100%;
+        border-radius: 10px;
+        background-color: #3ec22c;
+        border: none;
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
     }
     
     .LeistenContainer{
-        display: inline-block;
-        padding: 1vh 1vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 0;
+        align-items: center;
         border: 3px solid #235789;
-        width: fit-content;
-        height: 7vh;
+        border-right: none;
+        grid-row: 1;
+        grid-column: 1/3;
     }
 
     .LeistenContainer img{
@@ -83,40 +85,41 @@
         border-color: #fdfffc;
         cursor: pointer;
     }
-    
-    .rgb-container{
-        display: inline;
-        grid-column: 1/4;
-        grid-row: 2/4;
-    }
-    
+        
     .slider-container{
         display: flex;
         flex-direction: row;
-        justify-content: start;
+        justify-content: space-between;
+        grid-row: 2;
+        grid-column: 1/4;
     }
     
     .slider-container div {
         display: flex;
-        width: 15vw;
-        height: 30vh;
-        margin: 1vh 1vw 1vh 0vw;
-        align-content: center;
+        flex-direction: column;
+        justify-content: start;
+        width: 30%;
         border: 3px solid #235789;
-        padding: .5vh .5vw .5vh .5vw;
-        min-height: 11vh;
+        padding-bottom: 1em;
+        padding-left: .5em;
+    }
+
+    .slider-container > div > label{
+        align-self: flex-start;
+    }
+
+    .slider-container > div > input{
+        align-self: center;
     }
         
     #scene > :last-child{
         border: 3px solid #235789;
         display: grid;
-        grid-row: 4;
+        grid-row: 3;
         grid-column: 1/4;
-        gap: 1vh;
+        gap: 1em;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
-        height: 18vh;
-        position: relative;
         padding: 1vh 1vw;
     }
     #scene > :last-child > label{
@@ -148,7 +151,6 @@
     }
 
     .checkdiv{
-        font-size: 1em;
         margin: 0vh 1vw 0vh 1vw;
     }
 
@@ -169,7 +171,7 @@
 
     .checkdiv > p {
         display: inline-block;
-        font-size: 1vw;
+        font-size: .8vw;
     }
 
     #scene > :last-child > button{
@@ -199,17 +201,16 @@
     }
 
     #scene{
-        grid-row: 1/4;
-        grid-column: 1/4;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: 0.3fr 1fr 0.5fr;
+        grid-template-rows: 1.5fr 1fr 3fr 2fr;
+        row-gap: 1vh;
     }    
 
     .button-container{
         display: flex;
         grid-row: 1;
-        grid-column: 3;
+        grid-column: 1/4;
         border: 3px solid #235789;
         margin-bottom: 10px;
         flex-direction: column;
@@ -260,44 +261,35 @@
     .LeistenContainer{
         display: flex;
         border: 3px solid #235789;
-        width: 96%;
-        height: 5vh;
         flex-direction: row;
+        gap: 0;
         flex-wrap: nowrap;
-        justify-content: space-evenly;
-        padding: 1vw;
+        justify-content: center;
+        grid-row: 2;
+        grid-column: 1/3;
     }
 
     .LeistenContainer img{
-        flex: 1;
+        height: 6vh;
         width: 11vw;
-        height: auto;
+        align-self: center;
 }
 
-    .rgb-container{
-        display: flex;
-        flex-direction: column;
-        grid-column: 1/4;
-        grid-row: 2;
-        max-height: max-content;
-    }
-    
     .slider-container{
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         width: 101%;
+        grid-row: 3;
     }
     
     .slider-container div {
         display: flex;
         width: 30vw;
-        height: 25vh;
         margin: 1vh 1vw 1vh 0vw;
         align-content: center;
         border: 3px solid #235789;
         padding: .5vh .5vw .5vh .5vw;
-        min-height: 11vh;
     }
     
     .slider-container div input[type="range"]{
@@ -307,16 +299,13 @@
 
     #scene > :last-child{
         grid-column: 1/4;
-        grid-row: 3;
-        margin: 0vh .5vw;
-        width: 100%;
+        grid-row: 4;
         max-width: 94%;
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
         gap: 1vh;
         padding: 1vh;
-        min-height: 19vh;
         margin-bottom: 2vh;
         border: 3px solid #235789;
     }

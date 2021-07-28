@@ -7,7 +7,14 @@
 }
 
 @media screen and (min-width: 600px){
-        tr {
+    #mainframe{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 3fr 2fr;
+        font-size: 1.3rem;
+    }
+    
+    tr {
         border: 1px, navy;
     }
 
@@ -42,117 +49,105 @@
         cursor: pointer;
         border-radius: 0px;
     }
+
     #scene{
-        margin-right: 2vw;
         grid-row: 1;
         grid-column: 1/4;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: .5fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 1em;
     }
+
     #scene > div {
         display: flex;
-        margin: 1vh 1vw 1vh 0vw;
-        align-content:space-around;
+        flex-direction: column;
         justify-content: start;
         border: 3px solid #235789;
-        padding: .5vh .5vw .5vh .5vw;
-        min-height: 11vh;
-    }
-    #scene > :nth-child(1) > label {
-        font-size: 1em;
-        width: 100%;
     }
 
-    #scene > div > label > label{
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        width: 100%;
+    #scene > div > label.lr{
+        font-size: 1em;
+        align-self: flex-start;
     }
 
-    #scene > :nth-child(2) > label {
-        font-size: 1em;
-        min-width: 50%;
-    }
-
-    #scene > :nth-child(3) > label {
-        font-size: 1em;
-        min-width: 50%;
-    }
-
-    #scene > div > label {
-        font-size: 1em;
-        min-width: 50%;
+    #scene > div > input.rgb-slider{
+        align-self: center;
     }
 
     #scene > :last-child{
-        display: inline-block;
-        grid-row: 4;
+        border: 3px solid #235789;
+        display: grid;
+        grid-row: 3;
         grid-column: 1/4;
-        height: 18vh;
-        position: relative;
-        
-    }
-    #scene > :last-child > label{
-        color: white;
-        position: absolute;
-        font-size: 1vw;
-        display: inline-block;
+        gap: .8em;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
     }
 
-    #mainframe{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(3, 1fr);
-        font-size: 2vh;
+    #scene > :last-child > label{
+        grid-row: 1;
+        grid-column: 1;
+        color: white;
+        position: absolute;
+        font-size: 1em;
+        display: inline-block;
     }
 
     #scene > :last-child > label::after{
         content: ":";
     }
     #scene > :last-child > input{
-        position: absolute;
-        top: 3vh;
-        width: 20vw;
-        min-width: 5vw;
-        min-height: 3vh;
+        grid-row: 2;
+        grid-column: 1;
+        min-height: 1.8em;
     }
     #scene > :last-child > input:focus{
         border: #a02222 solid 3px;
     }
+
+    #scenename + div{
+        grid-row: 3;
+        grid-column: 1;
+    }
+
     .checkdiv{
-        font-size: 1vw;
-        margin: 0vh 1vw 0vh 1vw;
-        
+        font-size: 1em;
+        margin: 0em .8em;
     }
+
     #length {
-        position: absolute;
-        top: 0vh;
-        left: 22vw;
+        grid-row: 1;
+        grid-column: 2;
     }
+
     #specials {
-        position: absolute;
-        top: 7vh;
-        left: 22vw;
+        grid-row: 2;
+        grid-column: 2;
     }
+
     #unique{
-        position: absolute;
-        top: 14vh;
-        left: 22vw;
+        grid-row: 3;
+        grid-column: 2;
     }
+
     .checkdiv > p {
         display: inline-block;
-        font-size: 1vw;
+        font-size: .8vw;
     }
+
     #scene > :last-child > button{
-        position: absolute;
-        bottom: 2vh;
+        width: 100%;
     }
 
     img.aus{
         width: 5.25vw;
         height: auto;
+    }
+
+    #program-table{
+        grid-row: 2;
+        grid-column: 1/4;
     }
 }
 
@@ -182,39 +177,15 @@
         flex-grow: 2;
         flex-basis: 60%;
         display: grid;
-        grid-template-rows: 0.3fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 1vw;
-    }
-    #scene > :nth-child(1){
-        grid-row: 1;
-        grid-column: 1;
-        min-height: 20vw;
-        font-size: 1em;
-        overflow:hidden;
-    }
-
-    #scene > :nth-child(2){
-        grid-row: 1;
-        grid-column: 2;
-        min-height: 20vw;
-        font-size: 1em;
-        overflow:hidden;
-    }
-
-    #scene > :nth-child(3){
-        grid-row: 1;
-        grid-column: 3;
-        font-size: 1em;
-        overflow:hidden;
-        min-height: 20vw;
     }
 
     #scene > :last-child{
         grid-column: 1/4;
-        grid-row: 4;
+        grid-row: 3;
         margin: 0vh .5vw;
-        width: 100%;
         max-width: 98%;
         display: grid;
         grid-template-columns: 1fr 1fr;

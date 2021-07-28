@@ -192,18 +192,6 @@ document.getElementById("scenename").addEventListener("input", (evt) => {
     }
 })
 
-document.querySelectorAll(".Lampe-Scheinwerfer").forEach(checkbox => {
-    checkbox.addEventListener("click", evt => {
-        if (evt.target.classList.contains("aus")){
-            let label = evt.target.parentNode
-            label.childNodes.forEach(node => {
-                if (node.tagName === "IMG"){
-                    node.classList.toggle("hide")
-                }
-            }) 
-        }
-    })
-})
 
 document.querySelectorAll(".table-row").forEach(row => {row.addEventListener("dragstart", evt => {
         evt.dataTransfer.setData("text/plain", evt.target.id)

@@ -13,7 +13,7 @@
     {% block nav_2 %}
     <div class="universe-container desktop">
         <div class="universe-header">
-            <h3 class="universe-name">{{ universe.name }}</h3>
+            <h3 class="universe-name">Universum:</h3>
         </div>
         <ul class="universe-fixtures">
             {% for fixture in universe.fixtures %}
@@ -49,21 +49,16 @@
     </div>
 
     <div class="universe-container mobile">
-        <div class="current">
-            <label for="Scheinwerfer" class='radio-lampen'>Scheinwerfer
-                <input type="radio" id="Scheinwerfer" name="Lampen" value="True" class="Lampen-typ">
-            </label>
+        <div class="universe-header">
+            <h3 class="universe-name">Universum:</h3>
         </div>
-        <div>
-            <label for="Leisten" class='radio-lampen'>Leisten
-                <input type="radio" id="Leisten" name="Lampen" value="True" class="Lampen-typ">
-            </label>
-        </div>
-        <div>
-            <label for="Schwarzlicht" class='radio-lampen'>Schwarzlicht 
-                <input type="radio" id="Schwarzlicht" name="Lampen" value="True" class="Lampen-typ">
-            </label>
-        </div>
+        <ul class="universe-fixtures">
+            {% for fixture in universe.fixtures %}
+                <div class="fixture-container" id="fixture-container-{{ fixture.name }}">
+                    <li class="{{ fixture.fixture_class }}" id="{{ fixture.name }}">{{ fixture.start_address }}    {{ fixture.name }}</li>
+                </div>
+            {% endfor %}
+        </ol>
     </div>
     {% endblock nav_3 %}
 
@@ -85,21 +80,18 @@
     </div>
 
     <div class="link-container mobile">
-        <a href="/Abspielmodus">Zum Abspielmodus</a>
-        <a href="/Programmiermodus/edit">Programm bearbeiten</a>
+        <a href="/Abspielmodus"><i class="fas fa-play"></i></a>
+        <a href="/Programmiermodus/edit"><i class="fas fa-edit"></i></a>
     </div>
 
     {% endblock nav_4 %}
 
     {% block nav_5 %}
-    <div class="shutdown-container">
+    <div class="shutdown-container desktop">
         <form action="/shutdown" method="POST">
             <button type="submit" class="shutdown" name="shutdown">Herunterfahren <i class="fas fa-power-off"></i></button>
         </form>
     </div>
-    {% endblock nav_5%}
-
-    {% block nav_6 %}
     <form id="saveprogram-m" method="POST" action="/saveprogram" class="mobile">
         <label for="p_name">Programmname</label>
         <input type="text" id="p_name-m" name="p_name">
@@ -107,7 +99,7 @@
             <button type="submit" id='submitprogram-m' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
         </div>
     </form>
-    {% endblock nav_6 %}
+    {% endblock nav_5%}
 
     {% block content %}
         <div class="main" id="mainframe"></div>
