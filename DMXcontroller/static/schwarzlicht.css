@@ -30,13 +30,18 @@
         grid-column: 1/4;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
+        gap: .8em;
+    }
+
+    #scene > :last-child > *{
+        height: 100%;
     }
 
     #scene > :last-child > label{
         grid-row: 1;
         grid-column: 1;
         color: white;
-        font-size: 1em;
+        font-size: 2em;
     }
 
     #scene > :last-child > label::after{

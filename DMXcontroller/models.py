@@ -23,7 +23,7 @@ class Programs(db.Model):
     def __repr__(self):
         return f'{{"name":"{self.p_name}","scenes":"{self.p_scenes}"}}'
 
-
+#iterable Program class for easier ProgramPlayer implementation
 class Program():
     def __init__(self, program):
         self.curr_scene = -1

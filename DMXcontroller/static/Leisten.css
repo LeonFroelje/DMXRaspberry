@@ -237,11 +237,6 @@
         border: none;
     }
 
-    .gradient-border{
-        background-image: linear-gradient(to right,rgb(255,0,0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(255,0,0));
-        padding: 2px;
-    }
-
     #submit{
         font-size: 1.1em;
     }

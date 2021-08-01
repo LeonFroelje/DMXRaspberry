@@ -18,30 +18,16 @@ leisten_liste = ['L4', 'L5']
 
 program_scenes = []
 curr_scene = ""
-
-leiste_1 = Fixture("leiste_1", 1, "Leisten")
-schwarzlicht = Fixture("schwarzlicht", 25, "Schwarzlicht")
-leiste_2 = Fixture("leiste_2", 28, "Leisten")
-scheinwerfer_1 = Fixture("scheinwerfer_1", 52, "Scheinwerfer")
-scheinwerfer_2 = Fixture("scheinwerfer_2", 58, "Scheinwerfer")
-scheinwerfer_3 = Fixture("scheinwerfer_3", 64, "Scheinwerfer")
+#TODO: Move Universe data to json file/database
+leiste_1 = Fixture("Leiste 1", 1, "Leisten")
+schwarzlicht = Fixture("Schwarzlicht", 25, "Schwarzlicht")
+leiste_2 = Fixture("Leiste 2", 28, "Leisten")
+scheinwerfer_1 = Fixture("Scheinwerfer 1", 52, "Scheinwerfer")
+scheinwerfer_2 = Fixture("Scheinwerfer 2", 58, "Scheinwerfer")
+scheinwerfer_3 = Fixture("Scheinwerfer 3", 64, "Scheinwerfer")
 
 universe = Universe("2", [leiste_1, schwarzlicht, leiste_2, scheinwerfer_1, scheinwerfer_2, scheinwerfer_3])
 
-lampen_dict = {
-    'scheinwerfer' : {
-        'L1' : '0,0,0,0,0,0,',
-        'L2' : '0,0,0,0,0,0,',
-        'L3' : '0,0,0,0,0,0,'
-        },
-    'leisten' : {
-        'L4' : ''.join(['0,' for i in range(24)]),
-        'L5' : ''.join(['0,' for i in range(24)])
-        },
-    'schwarzlicht' : {
-        'L6' : '0,0,0,'
-        }
-    }
 
 def parse_json(dic, segments):
     data = ''
@@ -225,11 +211,7 @@ def savescene():
 def update_scene():
     global curr_scene
     scene = Scenes.query.filter_by(s_name=curr_scene).first()
-    dmx_data = ''
-    for gruppe in lampen_dict:
-        for lampe in lampen_dict[gruppe]:
-            dmx_data += lampen_dict[gruppe][lampe]
-    
+    dmx_data = str(universe)
     scene.s_data = dmx_data
     db.session.commit()
     return ('', 204)

@@ -172,6 +172,7 @@
         flex-direction: column;
         max-height: 100%;
         overflow-y: auto;
+        width: 100vw;
     }
     #scene{
         flex-grow: 2;

@@ -107,18 +107,22 @@ player = new Player(["program_table", "MIDI_buttons", "music_player"])
 
 document.getElementsByClassName("fa-arrow-circle-left")[0].addEventListener("click", evt => {
   player.prev_page
+  evt.currentTarget.classList.add("clicked")
+  setTimeout(() => {
+    document.getElementsByClassName("fa-arrow-circle-left")[0].classList.remove("clicked")
+  }, 200)
 })
 
 document.getElementsByClassName("fa-arrow-circle-right")[0].addEventListener("click", evt => {
   player.next_page
+  evt.currentTarget.classList.add("clicked")
+  setTimeout(() => {
+    document.getElementsByClassName("fa-arrow-circle-right")[0].classList.remove("clicked")
+  }, 200)
 })
 
 document.getElementById('stop').addEventListener('click', () => {
-  fetch('/stop').then(res => {
-    return res.text()
-    }).then(text => {
-      console.log(text)
-    })
+  fetch('/stop')
 })
 
 document.querySelectorAll(".program-row").forEach(program_row => {

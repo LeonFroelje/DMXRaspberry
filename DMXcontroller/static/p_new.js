@@ -65,9 +65,11 @@ document.querySelectorAll(".fixture-container > li").forEach(fixture => {
         for(i; i < fixtures.length; i++){
             if(fixtures[i].classList[0] !== evt.currentTarget.classList[0]){
                 fixtures[i].style.opacity = 0.4
+                fixtures[i].nextElementSibling.style.opacity = 0.4
             }
             else{
                 fixtures[i].style.opacity = 1
+                fixtures[i].nextElementSibling.style.opacity = 1
             }
         }
         if(document.getElementsByClassName(`${evt.currentTarget.classList[0]} current`).length === 0){
@@ -75,6 +77,8 @@ document.querySelectorAll(".fixture-container > li").forEach(fixture => {
                 selected.classList.remove("current")
             })
             evt.currentTarget.classList.add("current")
+            evt.currentTarget.nextElementSibling.classList.add("current")
+
             let scripts = document.getElementsByTagName("script")
             let i = 0
             for(i; i < scripts.length; i++){
@@ -110,12 +114,42 @@ document.querySelectorAll(".fixture-container > li").forEach(fixture => {
         }
         else{
             evt.currentTarget.classList.toggle("current")
+            evt.currentTarget.nextElementSibling.classList.toggle("current")
             if(document.querySelectorAll(".current").length === 0){
                 i = 0
                 for(i; i < fixtures.length; i++){
                     fixtures[i].style.opacity = 1
+                    fixtures[i].nextElementSibling.style.opacity = 1
                 }
             }
+        }
+    })
+})
+
+document.querySelectorAll(".fa-check-square").forEach(check => {
+    check.addEventListener("click", evt => {
+        if(evt.currentTarget.classList.contains("current")){
+            document.querySelectorAll(".current").forEach(curr => {
+                curr.classList.remove("current")
+            })
+            document.querySelectorAll(".fixture-container > li").forEach(li => {
+                li.style.opacity = 1
+                li.nextElementSibling.style.opacity = 1
+            })
+        }
+        else{
+            document.querySelectorAll(`.${evt.currentTarget.previousElementSibling.classList[0]}`).forEach(list_entry => {
+                if(!list_entry.classList.contains("current")){
+                    list_entry.classList.add("current")
+                    list_entry.nextElementSibling.classList.add("current")
+                }
+            })
+            document.querySelectorAll(".fixture-container > li").forEach(li => {
+                if(!li.classList.contains("current")){
+                    li.style.opacity = 0.4
+                    li.nextElementSibling.style.opacity = 0.4
+                }
+            })
         }
     })
 })
