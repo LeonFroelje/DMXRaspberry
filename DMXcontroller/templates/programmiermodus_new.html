@@ -1,31 +1,41 @@
 {% extends "index.html" %}
 
-    {% block nav_1 %}
-        <form id="saveprogram" method="POST" action="/saveprogram" class="desktop">
-            <label for="p_name">Programmname</label>
-            <input type="text" id="p_name" name="p_name">
-            <button class="glow-on-hover" type="submit" id='submitprogram' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
-        </form>
-        
+    {% block nav_1 %}       
+        <div class="universe-container desktop">
+            <div class="universe-header">
+                <h3 class="universe-name">Universum:</h3>
+            </div>
+            <ul class="universe-fixtures">
+                {% for fixture in universe.fixtures %}
+                    <div class="fixture-container" id="fixture-container-{{ fixture.name }}">
+                        <li class="{{ fixture.fixture_class }}" id="{{ fixture.name }}">{{ fixture.name }}</li>
+                        <i class="far fa-check-square selectall"></i>
+                    </div>
+                {% endfor %}
+                <div class="add-fixture-container">
+                    <li class="add-fixture">... <i class="fas fa-plus-circle"></i></li>
+                </div>
+            </ul>
+        </div>
+ 
         <button type="button" id="open_navbar" class="mobile"><i id="icon-open-navbar" class="fas fa-chevron-circle-up"></i></button>
     {% endblock nav_1 %}
     
     {% block nav_2 %}
-    <div class="universe-container desktop">
-        <div class="universe-header">
-            <h3 class="universe-name">Universum:</h3>
-        </div>
-        <ul class="universe-fixtures">
-            {% for fixture in universe.fixtures %}
-                <div class="fixture-container" id="fixture-container-{{ fixture.name }}">
-                    <li class="{{ fixture.fixture_class }}" id="{{ fixture.name }}">{{ fixture.name }}</li>
-                    <i class="far fa-check-square selectall"></i>
-                </div>
-            {% endfor %}
-            <div id="add-fixture-container">
-                <li id="add-fixture">... <i class="fas fa-plus-circle"></i></li>
+    <div class="dropdown-scene-container desktop">
+        <div class="dropdown-s">
+            <button type="button" class="dropbtn s">Szenen <i class="fas fa-chevron-down"></i></button>
+            <div id="droptable-s" class="dropdown-content">
+                <table>
+                    {% for scene in scenes %}
+                    <tr class="dropdown-row">
+                        <td class="dropdown-data-s" id={{ scene.s_name }}> {{ scene.s_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
-        </ul>
+        </div>
+        <button type="button" id="addscene" class="hide glow-on-hover">Szene hinzufügen <i class="fas fa-plus-circle"></i></button>
     </div>
 
     <div class="dropdown-scene-container mobile">
@@ -47,9 +57,10 @@
     {% endblock nav_2 %}
     
     {% block nav_3 %}
-    <div class="link-container desktop">
-        <a href="/Abspielmodus">Zum Abspielmodus</a>
-        <a href="/Programmiermodus/edit">Programm bearbeiten</a>
+    <div class="shutdown-container desktop">
+        <form action="/shutdown" method="POST">
+            <button type="submit" class="shutdown" name="shutdown">Herunterfahren <i class="fas fa-power-off"></i></button>
+        </form>
     </div>
 
     <div class="universe-container mobile">
@@ -63,50 +74,12 @@
                     <i class="far fa-check-square selectall"></i>
                 </div>
             {% endfor %}
-            <div id="add-fixture-container">
-                <li id="add-fixture">... <i class="fas fa-plus-circle"></i></li>
+            <div class="add-fixture-container">
+                <li class="add-fixture">... <i class="fas fa-plus-circle"></i></li>
             </div>
         </ul>
     </div>
     {% endblock nav_3 %}
-
-    {% block nav_4 %}
-    <div class="dropdown-scene-container desktop">
-        <div class="dropdown-s">
-            <button type="button" class="dropbtn s">Szenen <i class="fas fa-chevron-down"></i></button>
-            <div id="droptable-s" class="dropdown-content">
-                <table>
-                    {% for scene in scenes %}
-                    <tr class="dropdown-row">
-                        <td class="dropdown-data-s" id={{ scene.s_name }}> {{ scene.s_name }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-        <button type="button" id="addscene" class="hide glow-on-hover">Szene hinzufügen <i class="fas fa-plus-circle"></i></button>
-    </div>
-
-    <div class="link-container mobile">
-        <a href="/Abspielmodus"><i class="fas fa-play"></i></a>
-        <a href="/Programmiermodus/edit"><i class="fas fa-edit"></i></a>
-    </div>
-
-    {% endblock nav_4 %}
-
-    {% block nav_5 %}
-    <div class="shutdown-container desktop">
-        <form action="/shutdown" method="POST">
-            <button type="submit" class="shutdown" name="shutdown">Herunterfahren <i class="fas fa-power-off"></i></button>
-        </form>
-    </div>
-    <form id="saveprogram-m" method="POST" action="/saveprogram" class="mobile">
-        <input type="text" id="p_name-m" name="p_name" placeholder="Programmname">
-        <div class="gradient-border">
-            <button type="submit" id='submitprogram-m' value="Programm speichern">Programm speichern <i class="far fa-save"></i></button>
-        </div>
-    </form>
-    {% endblock nav_5%}
 
     {% block content %}
         <div class="main" id="mainframe"></div>

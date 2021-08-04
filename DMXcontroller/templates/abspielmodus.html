@@ -54,12 +54,12 @@
         <div class="timer-wrapper">
             <div class="scenetime-container">
                 <label for="scenetime">Szenendauer</label>
-                <input type="range" min=0 max=255 value="125" id='scenetime'>
+                <input type="range" min=0 max=255 value="125" id='scenetime' orient="vertical">
             </div>
             
             <div class="fadetime-container">
-                <label for="fadetime">Fadezeit</label>
-                <input type="range" min="0" max="100" value="30" id="fadetime">
+                <label for="fadetime">Fadezeit<input type="checkbox" name="toggle-fadetime" id="toggle-fadetime"></label>
+                <input type="range" min="0" max="100" value="30" id="fadetime" orient="vertical">
             </div>
         </div>
     </div>

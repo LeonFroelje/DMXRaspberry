@@ -44,11 +44,15 @@
     <table id="scene-table">
         {% if program %}
         <tr>
+            <th class="play"><a href="/Abspielmodus"><i class="fas fa-play"></i></a></th>
             <th class="table-header">{{ program }}</th>
+            <th class="edit"><a href="/Programmiermodus/edit"><i class="fas fa-edit"></i></a></th>
         </tr>
         {% else %}
         <tr>
-            <th class="table-header">Programmszenen</th>
+            <th class="play"><a href="/Abspielmodus"><i class="fas fa-play"></i></a></th>
+            <th class="table-header"><input type="text" name="name" placeholder="Programmname" autocomplete="off" id="program-name"></th>
+            <th class="edit"><a href="/Programmiermodus/edit"><i class="fas fa-edit"></i></a></th>
         </tr>
         {% endif %}
         {% for scene in scenes %}
@@ -57,6 +61,7 @@
                 <td class="mobile"><i class="fas fa-minus-square mobile"></i></td>
             </tr>
         {% endfor %}
+        <tr id="saveprogram-row"><td id="saveprogram"><button type="submit" id="submitprogram" disabled>Programm speichern <i class="far fa-save"></i></button></td></tr>
     </table>
     <div>
         <i class="fas fa-undo"></i>

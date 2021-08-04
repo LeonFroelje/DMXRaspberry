@@ -63,82 +63,62 @@ class Player{
 function refresh_event_listeners(curr_page){
   switch(curr_page){
     case "program_table":
-      document.getElementById('stop').addEventListener('click', () => {
-        fetch('/stop').then(res => {
-          return res.text()
-          }).then(text => {
-            console.log(text)
-          })
-      })  
+      document.getElementById('stop').addEventListener('click', stop_program)   
       
       document.querySelectorAll(".program-row").forEach(program_row => {
-        program_row.addEventListener("click", evt => {
-          fetch(`/Play/${program_row.firstElementChild.id}`).then(res => {
-            document.querySelectorAll(".program-row").forEach(row => {
-              if(row.classList.contains("selected")){
-                row.classList.remove("selected")
-              }
-            })
-            program_row.classList.add("selected")
-          })
-        })
+        program_row.addEventListener("click", play_program)
       })
+
+
       break;
 
     case "MIDI_buttons":
       document.querySelectorAll(".midi-button").forEach(button => {
-        button.addEventListener("click", evt => {
-          fetch(`/load/scene/${evt.currentTarget.id}`)
-          evt.currentTarget.classList.add("clicked")
-          setTimeout(() => {
-            document.querySelectorAll(".clicked").forEach(button => {
-              button.classList.remove("clicked")
-            })
-          }, 200)
-        })
+        button.addEventListener("click", midi_click)
       });
       break; 
   }
 }
 
-
-
-player = new Player(["program_table", "MIDI_buttons", "music_player"])
-
-document.getElementsByClassName("fa-arrow-circle-left")[0].addEventListener("click", evt => {
+function get_prev_page(evt){
   player.prev_page
   evt.currentTarget.classList.add("clicked")
   setTimeout(() => {
     document.getElementsByClassName("fa-arrow-circle-left")[0].classList.remove("clicked")
   }, 200)
-})
+}
 
-document.getElementsByClassName("fa-arrow-circle-right")[0].addEventListener("click", evt => {
+function get_next_page(evt){
   player.next_page
   evt.currentTarget.classList.add("clicked")
   setTimeout(() => {
     document.getElementsByClassName("fa-arrow-circle-right")[0].classList.remove("clicked")
   }, 200)
-})
+}
 
-document.getElementById('stop').addEventListener('click', () => {
-  fetch('/stop')
-})
-
-document.querySelectorAll(".program-row").forEach(program_row => {
-  program_row.addEventListener("click", evt => {
-    fetch(`/Play/${program_row.firstElementChild.id}`).then(res => {
-      document.querySelectorAll(".program-row").forEach(row => {
-        if(row.classList.contains("selected")){
-          row.classList.remove("selected")
-        }
-      })
-      program_row.classList.add("selected")
-    })
+function stop_program(evt){
+  fetch('/stop').then(() => {
+    document.querySelectorAll(".stopbutton-container")[0].style.animationPlayState = "paused";
   })
-})
+  document.querySelectorAll(".selected").forEach(selected => {
+    selected.classList.remove("selected")
+  })
+}
 
-document.getElementById('scenetime').addEventListener('input', () => {
+function play_program(evt){
+  let curr_target = evt.currentTarget
+  fetch(`/Play/${curr_target.firstElementChild.id}`).then(res => {
+    document.querySelectorAll(".program-row").forEach(row => {
+      if(row.classList.contains("selected")){
+        row.classList.remove("selected")
+      }
+    })
+    curr_target.classList.add("selected")
+    document.querySelectorAll(".stopbutton-container")[0].style.animationPlayState = "running"
+  })
+}
+
+function change_scenetime(evt){
   fetch('/change/scenetime', {
     method : "PUT",
     headers : {
@@ -150,9 +130,40 @@ document.getElementById('scenetime').addEventListener('input', () => {
   }).then(text => {
     console.log(text)
   })
-})
+}
 
-document.getElementById("fadetime").addEventListener("input", evt => {
+function toggle_fadetime(evt){
+  let curr_target = evt.currentTarget
+  if(curr_target.checked){
+    document.getElementById("fadetime").style.visibility = "visible"
+    fetch("/change/fadetime", {
+      method : "PUT",
+      headers : {
+        "Content-type" : "application/json"
+      },
+      body : JSON.stringify(`{"fadetime" : ${document.getElementById("fadetime").value}}`)
+    })
+  }
+
+  else{
+    curr_target.classList.add("to-left")
+    curr_target.classList.add("to-red")
+    setTimeout(() => {
+      curr_target.classList.remove("to-left")
+      curr_target.classList.remove("to-red")
+    }, 300)
+    document.getElementById("fadetime").style.visibility = "hidden"
+    fetch("/change/fadetime",{
+      method : "PUT",
+      headers : {
+        "Content-type" : "application/json"
+      },
+      body : JSON.stringify('{"fadetime" : 0}')
+    })
+  }
+}
+
+function change_fadetime(evt){
   fetch("/change/fadetime", {
     method : "PUT",
     headers : {
@@ -160,7 +171,34 @@ document.getElementById("fadetime").addEventListener("input", evt => {
     },
     body : JSON.stringify(`{"fadetime":${evt.target.value}}`)
   })
+}
+
+function midi_click(evt){
+  let curr_target = evt.currentTarget
+  curr_target.classList.add("clicked")
+  setTimeout(() => {
+    curr_target.classList.remove("clicked")
+  }, 400)
+}
+
+
+player = new Player(["program_table", "MIDI_buttons", "music_player"])
+
+document.getElementsByClassName("fa-arrow-circle-left")[0].addEventListener("click", get_prev_page)
+
+document.getElementsByClassName("fa-arrow-circle-right")[0].addEventListener("click", get_next_page)
+
+document.getElementById('stop').addEventListener('click', stop_program)
+
+document.querySelectorAll(".program-row").forEach(program_row => {
+  program_row.addEventListener("click", play_program)
 })
+
+document.getElementById('scenetime').addEventListener('input', change_scenetime)
+
+document.getElementById("toggle-fadetime").addEventListener("click", toggle_fadetime)
+
+document.getElementById("fadetime").addEventListener("input", change_fadetime)
 
 document.getElementById("open_navbar").addEventListener("click", (evt) => {
   let button = document.getElementById("open_navbar")
@@ -168,7 +206,8 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
       if(div.classList.contains("show")){
           div.classList.remove("show")
           div.style.display = "none"
-          //document.getElementById("open_navbar").style.bottom = "0px"
+          document.getElementById("nav-1").style.width = "100%"
+          button.style.width = "100%"
           button.style.position = "fixed"
           button.style.height = "6vh"
           document.querySelector(".wrapper").lastElementChild.style.gridRow = "1/3"
@@ -197,10 +236,5 @@ document.getElementById("open_navbar").addEventListener("click", (evt) => {
 })
 
 document.querySelectorAll(".midi-button").forEach(button => {
-  button.addEventListener("click", evt => {
-    evt.currentTarget.classList.add("clicked")
-    setTimeout(() => {
-      evt.currentTarget.classList.remove("clicked")
-    }, .4)
-  })
+  button.addEventListener("click", midi_click)
 })

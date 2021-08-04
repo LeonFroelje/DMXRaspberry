@@ -129,6 +129,10 @@
         color: #3ec22c;
     }
 
+    .add-fixture-container > li.current::marker{
+        color: #3ec22c;
+    }
+
     .fixture-container > li:hover{
         cursor: pointer;
     }
@@ -278,6 +282,14 @@
         display: none !important;
     }
 
+    input:focus {
+        outline: none;
+    }    
+
+    button:focus{
+        outline: none;
+    }
+
     .fa-chevron-circle-up{
         position: relative;
         bottom: 20%;
@@ -309,6 +321,9 @@
 
     #nav-1{
         display: block;
+        position: sticky;
+        top: 0;
+        z-index: 2;
     }
 
     #nav-2{
@@ -354,13 +369,16 @@
         z-index: 2;
     }
 
+    .wrapper > div:nth-child(2){
+        padding-top: 1em;
+    }
 
     .universe-container{
         margin-top: 1em;
         margin-left: .8em;
         width: 95%;
         border: 2px solid #3d7ab2;
-        max-height: 20vh;
+        max-height: 30vh;
         overflow-y: auto;
         font-family: sans-serif;
         display: flex;
@@ -375,6 +393,10 @@
         font-size: 1em;
         height: 2em;
         border-bottom: 2px solid #3d7ab2;
+        position: sticky;
+        top: 0;
+        background-color: #111;
+        z-index: 2;
     }
 
     li::marker{
@@ -396,7 +418,7 @@
         margin-top: .1em;
     }
 
-    #add-fixture-container{
+    .add-fixture-container{
         font-size: 1.3em;
     }
 
@@ -410,6 +432,10 @@
     }
 
     .fixture-container > li.current::marker{
+        color: #3ec22c;
+    }
+
+    .add-fixture-container > li.current::marker{
         color: #3ec22c;
     }
 
@@ -429,18 +455,14 @@
         width: 100%;
     }
 
-    .link-container{
-        display: flex;
-        justify-content: space-evenly;
-        font-size: 1.5em;
-    }
-
-    .link-container > :first-child{
+    .fa-play{
         color: #ef8354;
+        font-size: 2rem;
     }
 
-    .link-container > :nth-child(2){
+    .fa-edit{
         color: #0e9594;
+        font-size: 2rem;
     }
 
     .wrapper > div:nth-child(2) {
@@ -534,6 +556,7 @@
 
     #droptable-sm{
         width: 100%;
+        z-index: 1;
     }
 
     .dropdown-content > table{
@@ -661,10 +684,7 @@ body{
 .fa-save{
     font-size: 1em;
 }
-a{
-    color: #ffd900;
-    font-size: 1.3em;
-}
+
 .fa-exclamation-triangle{
     color: #ff0000;
     font-size: 2em;

@@ -257,7 +257,48 @@
         flex-direction: row;
         justify-content: space-between;
         margin-top: 2vh;
+        max-height: 25vh;
+        border: 3px solid #235789;
     }
+
+    #saveprogram-row{
+        margin-top: auto;
+        display: block;
+        width: 98%;
+    }
+
+    #saveprogram{
+        display: block;
+        width: 100%;
+        position: sticky;
+    }
+
+    @keyframes animate-border{
+        0%  {border: 2px solid rgb(255,0,0);}
+        16% {border: 2px solid rgb(255,255,0);}
+        33% {border: 2px solid rgb(0,255,0);}
+        50% {border: 2px solid rgb(0,255,255);}
+        66% {border: 2px solid rgb(0,0,255);}
+        83% {border: 2px solid rgb(255,0,255);}
+        100%{border: 2px solid rgb(255,0,0);}
+    }
+
+    #submitprogram:disabled{
+        text-decoration: line-through;
+
+    }
+
+    #submitprogram{
+        width: 100%;
+        border-radius: 15px;
+        height: 2em;
+        background-color: #303036;
+        border: rgb(255,0,0);
+        animation: animate-border 10s linear infinite normal;
+        color: #FFFFFF;
+        font-size: 1.1em;
+    }
+
     .fa-trash{
         color: #a02222;
         font-size: 4em;
@@ -283,16 +324,41 @@
         flex-direction: row;
         justify-content: space-between;
         align-content: center;
+        padding-left: .5rem;
+        padding-right: .5rem;
     }
-    
-    #program-table{
-        border: 3px solid #235789;
-    }
+
     #scene-table{
         border-right: 3px dotted #235789;
         width: 80%;
+        height: 25vh;
         max-height: 25vh;
         overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #scene-table > :first-child{
+        display: flex;
+        flex-direction: column;
+        max-height: 25vh;
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    #scene-table > :first-child > :first-child{
+        display: flex;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: #303036;
+        padding: .5rem 0rem
+    }
+
+    .table-header{
+        font-size: 1.4rem;
+        text-decoration: none;
+        font-family: sans-serif;
     }
 
     #scene-table tr > td:hover{
@@ -300,6 +366,7 @@
     }
     #scene-table tr > td.selected-row{
         background-color: #3ec22c;
+        border-radius: 10px;
     }
 
     .fa-minus-square{
@@ -315,4 +382,10 @@
         left: 70%;
         top: 5%;
     }
+
+    #program-name{
+        height: 2em;
+        border: 2px solid #a02222;
+    }
+
 }

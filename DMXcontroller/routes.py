@@ -1,3 +1,4 @@
+import re
 import subprocess
 from flask import render_template, request, jsonify, flash
 import json
@@ -86,6 +87,11 @@ def load_scene_to_edit(s_name):
     global curr_scene
     curr_scene = scene.s_name
     return str(scene)
+
+
+@app.route("/form/fixture")
+def form_fixture():
+    return render_template("fixture_form.html")
 
 
 @app.route('/add/scene')
@@ -225,6 +231,7 @@ def saveprogram():
         program = Programs(p_name=data['p_name'], p_scenes=','.join(program_scenes))
         db.session.add(program)
         db.session.commit()
+        program_scenes = []
         return ("Programm gespeichert", 204)
     else:
         return ("Erst Programmnamen angeben", 400)

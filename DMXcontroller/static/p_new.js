@@ -138,10 +138,15 @@ document.querySelectorAll(".fa-check-square").forEach(check => {
             })
         }
         else{
+            document.querySelectorAll(".current").forEach(curr => {
+                curr.classList.remove("current")
+            })
             document.querySelectorAll(`.${evt.currentTarget.previousElementSibling.classList[0]}`).forEach(list_entry => {
                 if(!list_entry.classList.contains("current")){
                     list_entry.classList.add("current")
+                    list_entry.style.opacity = 1
                     list_entry.nextElementSibling.classList.add("current")
+                    list_entry.nextElementSibling.style.opacity = 1
                 }
             })
             document.querySelectorAll(".fixture-container > li").forEach(li => {
@@ -150,7 +155,53 @@ document.querySelectorAll(".fa-check-square").forEach(check => {
                     li.nextElementSibling.style.opacity = 0.4
                 }
             })
+            let scripts = document.getElementsByTagName("script")
+            let i = 0
+            for(i; i < scripts.length; i++){
+                if( !scripts[i].src.includes("p_new.js") && !scripts[i].src.includes("main.js") && !scripts[i].src.includes("fontawesome")){
+                    scripts[i].remove();
+                    }
+                }
+            i = 0
+            let links = document.getElementsByTagName("link")
+            for(i; i< links.length; i++){
+                if(!links[i].href.includes("index.css")){
+                    links[i].remove();
+                    }
+                }
+            fetch(`/${evt.currentTarget.previousElementSibling.classList[0]}`).then(res => {
+                return res.text()
+            }).then(text => {
+                document.getElementById("mainframe").innerHTML = text
+            }).then(()=> {
+                document.getElementById('mainframe').childNodes.forEach(node => {
+                    if(node.tagName === 'SCRIPT' || node.tagName === 'LINK'){
+                        //if either a script or a link is found this code is executed
+                        document.getElementsByTagName("body")[0].appendChild(nodeScriptClone(node))
+                        node.remove()   
+                        //if it does it is simply removed
+                    }
+                })
+            })
         }
+    })
+})
+
+document.querySelectorAll(".add-fixture").forEach(add_fixture => {
+    add_fixture.addEventListener("click", evt => {
+        document.querySelectorAll(".current").forEach(curr => {
+            curr.classList.remove("current")
+        })
+        document.querySelectorAll(".fixture-container > li").forEach(li => {
+            li.style.opacity = 1
+            li.nextElementSibling.style.opacity = 1
+        })
+        evt.currentTarget.classList.add("current")
+        fetch("/form/fixture").then(res => {
+            return res.text()
+        }).then(text => {
+            document.getElementById("mainframe").innerHTML = text
+      })
     })
 })
 
