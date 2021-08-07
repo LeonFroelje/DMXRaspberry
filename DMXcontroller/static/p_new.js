@@ -26,36 +26,23 @@ document.addEventListener("DOMContentLoaded", evt => {
 })
 document.getElementById("open_navbar").addEventListener("click", (evt) => {
     let button = document.getElementById("open_navbar")
-    document.querySelectorAll(".navdiv").forEach(div => {
-        if(div.classList.contains("show")){
-            div.classList.remove("show")
-            div.style.display = "none"
-            //document.getElementById("open_navbar").style.bottom = "0px"
-            button.style.position = "fixed"
-            button.style.height = "6vh"
-            document.querySelector(".wrapper").lastElementChild.style.gridRow = "1/3"
-        }
-        else{
-            div.classList.add("show")
-            div.style.display = "inline-block"
-            //document.getElementById("open_navbar").style.bottom = "30vh"
-            button.style.position = "relative"
-            document.getElementById("nav-1").style.width = "100%"
-            button.style.width = "100%"
-            button.style.height = "6vh"
-            document.querySelector(".wrapper").lastElementChild.style.gridRow = "1"
-        }
-    })
+    let navbar = document.getElementsByClassName("navbar")[0]
+
     if(document.getElementById("icon-open-navbar").classList.contains("fa-chevron-circle-up")){
         document.getElementsByClassName("fa-chevron-circle-up")[0].classList.replace("fa-chevron-circle-up", "fa-chevron-circle-down")
         document.getElementById("open_navbar").style.border = "3px solid #a54e4e"
+        if(navbar.classList.contains("closed")){
+            navbar.classList.replace("closed", "open")
+        }
+        else{
+            navbar.classList.add("open")
+        }
     }
     else{
         document.getElementsByClassName("fa-chevron-circle-down")[0].classList.replace("fa-chevron-circle-down", "fa-chevron-circle-up")
         document.getElementById("open_navbar").style.border = "3px solid #8db580"
-
+        navbar.classList.replace("open", "closed")
     }
-    document.getElementById("nav-1").style.display = "inline"
 })
 
 document.querySelectorAll(".fixture-container > li").forEach(fixture => {
@@ -196,11 +183,35 @@ document.querySelectorAll(".add-fixture").forEach(add_fixture => {
             li.style.opacity = 1
             li.nextElementSibling.style.opacity = 1
         })
+        let scripts = document.getElementsByTagName("script")
+
+        for(let i = 0, n=scripts.length; i < n; i++){
+            if( !scripts[i].src.includes("p_new.js") && !scripts[i].src.includes("main.js") && !scripts[i].src.includes("fontawesome")){
+                scripts[i].remove();
+                }
+            }
+        i = 0
+        let links = document.getElementsByTagName("link")
+        let l = links.length
+        for(i; i < l; i++){
+            if(!links[i].href.includes("index.css")){
+                links[i].remove();
+                }
+            }
+
         evt.currentTarget.classList.add("current")
         fetch("/form/fixture").then(res => {
             return res.text()
         }).then(text => {
             document.getElementById("mainframe").innerHTML = text
+            document.getElementById('mainframe').childNodes.forEach(node => {
+                if(node.tagName === 'SCRIPT' || node.tagName === 'LINK'){
+                    //if either a script or a link is found this code is executed
+                    document.getElementsByTagName("body")[0].appendChild(nodeScriptClone(node))
+                    node.remove()   
+                    //if it does it is simply removed
+                }
+                })
       })
     })
 })
@@ -252,30 +263,17 @@ document.querySelectorAll('input.Lampen-typ').forEach(radio => {
     }
 })
 
-function close_dropdown(evt){
-    let btns = document.querySelectorAll('.dropbtn')
-    let l = btns.length
-    if (!evt.target.matches('.dropbtn')){
-      document.querySelectorAll(".dropdown-content").forEach(row => {
-        if (row.classList.contains("show")){
-            row.classList.toggle("show")
-          }
-        })    
-      }   
-}
 
-
-document.querySelectorAll('.dropbtn').forEach(dropbtn => {
-  dropbtn.addEventListener('click', (evt) => {
-    document.getElementById(`droptable-${evt.currentTarget.classList[1]}`).classList.toggle("show");
-    window.addEventListener('click', close_dropdown, once=true)
-  })
+document.getElementById("scene-dropbutton").addEventListener("click", evt => {
+    document.getElementById(`droptable-s`).classList.toggle("show")
 })
 
 document.querySelectorAll(".dropdown-data-s").forEach(row => {
     row.onclick = () => {
         document.getElementById('addscene').classList.remove('hide')
+        document.getElementById("droptable-s").classList.remove("show")
         fetch(`/load/scene/${row.id}`).then(res => {
+            document.getElementById("scene-dropbutton").innerHTML = `${row.id} <i class="fas fa-chevron-down"></i>`
             return res.text()
           }).then(text => {console.log(text)})
     }
@@ -286,6 +284,24 @@ document.getElementById('addscene').addEventListener('click', () => {
     fetch(`/add/scene`).then(res => {
         document.getElementById('addscene').classList.add('hide')
         return res.text()
-    }).then(text => {
-        alert(text)})
-  })
+        }).then(text => {
+        alert(text)
+        })
+})
+
+
+document.getElementById("search-scene").addEventListener("input", evt => {
+    let pattern = evt.currentTarget.value
+    let scenes = document.querySelectorAll(".dropdown-data-s")
+    let n = scenes.length
+    for(let i=0; i < n; i++){
+        scenes[i].parentNode.classList.remove("hide")
+    }
+    for(i=0; i < n; i++){
+        scene = scenes[i]
+        let match = scene.id.match(new RegExp(pattern, "i"))
+        if(!match){
+            scene.parentNode.classList.add("hide")
+        }
+    }
+})

@@ -9,7 +9,7 @@ function submit(event){
         if(icons[i].classList.contains("fa-times-circle")){
             event.preventDefault()
             alert(icons[i].nextElementSibling.innerHTML)
-            break
+            return "Penis"
         }
     }
     alert("Szene gespeichert")

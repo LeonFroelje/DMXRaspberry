@@ -29,7 +29,7 @@ function submit(event){
         if(icons[i].classList.contains("fa-times-circle")){
             event.preventDefault()
             alert(icons[i].nextElementSibling.innerHTML)
-            break
+            return "Penis"
         }
     }
     alert("Szene gespeichert")
@@ -269,3 +269,7 @@ document.getElementById("submitprogram").addEventListener("click", evt => {
 document.getElementsByClassName("fa-undo")[0].addEventListener("click", evt => {
     document.getElementsByClassName("fa-trash")[0].lastChild.
 })*/
+
+document.getElementsByClassName("fa-play")[0].addEventListener("click", evt => {
+    evt.currentTarget.classList.add("icon-clicked")
+})

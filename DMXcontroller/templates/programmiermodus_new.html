@@ -13,7 +13,7 @@
                     </div>
                 {% endfor %}
                 <div class="add-fixture-container">
-                    <li class="add-fixture">... <i class="fas fa-plus-circle"></i></li>
+                    <li class="add-fixture lampen-typ">... <i class="fas fa-plus-circle"></i></li>
                 </div>
             </ul>
         </div>
@@ -22,11 +22,17 @@
     {% endblock nav_1 %}
     
     {% block nav_2 %}
-    <div class="dropdown-scene-container desktop">
+    <div class="dropdown-scene-container">
         <div class="dropdown-s">
-            <button type="button" class="dropbtn s">Szenen <i class="fas fa-chevron-down"></i></button>
+            <button type="button" class="dropbtn s" id="scene-dropbutton">Szenen <i class="fas fa-chevron-down"></i></button>
             <div id="droptable-s" class="dropdown-content">
                 <table>
+                    <tr id="search-row">
+                        <td class="dropdown-search" id="search-cell">
+                            <input type="text" name="search-scene" id="search-scene">
+                            <i class="fas fa-search"></i>
+                        </td>
+                    </tr>
                     {% for scene in scenes %}
                     <tr class="dropdown-row">
                         <td class="dropdown-data-s" id={{ scene.s_name }}> {{ scene.s_name }}</td>
@@ -37,23 +43,6 @@
         </div>
         <button type="button" id="addscene" class="hide glow-on-hover">Szene hinzufügen <i class="fas fa-plus-circle"></i></button>
     </div>
-
-    <div class="dropdown-scene-container mobile">
-        <div class="dropdown-s">
-            <button type="button" class="dropbtn sm">Szenen <i class="fas fa-chevron-down"></i></button>
-            <div id="droptable-sm" class="dropdown-content">
-                <table>
-                    {% for scene in scenes %}
-                    <tr class="dropdown-row">
-                        <td class="dropdown-data-s" id={{ scene.s_name }}> {{ scene.s_name }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-        <button type="button" id="addscene" class="hide glow-on-hover">Szene hinzufügen <i class="fas fa-plus-circle"></i></button>
-    </div>
-
     {% endblock nav_2 %}
     
     {% block nav_3 %}

@@ -83,7 +83,7 @@ def load_program_to_edit(p_name):
 @app.route("/load/scene/<s_name>")
 def load_scene_to_edit(s_name):
     scene = Scenes.query.filter_by(s_name=s_name).first()
-    subprocess.run(['ola_streaming_client', '-u 2', '-d ' + scene.s_data])
+    ProgramPlayer.send_data("2", scene.s_data)
     global curr_scene
     curr_scene = scene.s_name
     return str(scene)
@@ -91,7 +91,7 @@ def load_scene_to_edit(s_name):
 
 @app.route("/form/fixture")
 def form_fixture():
-    return render_template("fixture_form.html")
+    return render_template("fixture_form.html", scripts=[url_for("static", filename="fixture_form.js")])
 
 
 @app.route('/add/scene')

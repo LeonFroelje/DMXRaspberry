@@ -93,3 +93,7 @@ class Fixture:
 
     def __str__(self) -> str:
         return ",".join([value for value in self.channels.values()])
+
+
+class Template:
+    pass

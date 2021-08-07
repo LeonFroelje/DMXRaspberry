@@ -179,6 +179,7 @@ function midi_click(evt){
   setTimeout(() => {
     curr_target.classList.remove("clicked")
   }, 400)
+  fetch(`/load/scene/${curr_target.id}`)
 }
 
 

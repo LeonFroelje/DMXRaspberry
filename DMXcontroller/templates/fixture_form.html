@@ -1,4 +1,33 @@
-<form action="/add/fixture" id="new-fixture">
+<form action="/add/fixture" method="POST" id="new-fixture">
+    <div id="template-list-container">
+        <ul class="template-list">
+            <div id="list-header-container">
+                <h4 id="list-header">Lampen Vorlagen:</h4>
+            </div>
+            {% for template in templates %}
+                <li class="templates" id="{{ template.name }}">{{ template.name }}</li>
+            {% endfor %}
+            <li id="add-template">... <i class="fas fa-plus-circle"></i></li>
+        </ul>
+    </div>
+
+    <label for="fixture-name">Name: 
+        <input type="text" name="name" id="fixture-name">
+    </label>
+
+    <label for="start-address">Start-Adresse:
+        <input type="text" name="start_address" id="start-address">
+    </label>
+
+    <input type="submit" value="Fixture hinzufügen" id="submit-fixture">
+</form>
+
+<form action="/add/fixture-template" id="new-template">
+    
+    <label for="template-name">Vorlagen-Name
+        <input type="text" name="name" id="template-name">
+    </label>
+    
     <label for="dmx-modes">DMX-modes
         <input type="text" name="dmx-modes" id="dmx-modes">
     </label>
@@ -7,7 +36,12 @@
         <input type="text" name="default-mode" id="default-mode">
     </label>
 
-    <label for="channels">
+    <div id="channels-container">
+    </div>
 
-    </label>
+    <input type="submit" value="Template hinzufügen" id="submit-template">
 </form>
+
+{% for script in scripts %}
+<script type="text/javascript" src={{ script }}></script>
+{% endfor %}
