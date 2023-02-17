@@ -1,0 +1,24 @@
+/* Mobile css */
+
+body{
+    margin: 0;
+    background-color: #353535;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;  
+}
+
+@media only screen and (max-width: 600px) {
+    .App{
+        width: 100%;
+        box-sizing: border-box;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    div.App > div:first-child{
+        padding: .5rem;
+    }
+}
