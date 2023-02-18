@@ -1,0 +1,19 @@
+.channel{
+    width: 2rem;
+    height: 1rem;
+    border: 1px #FFF solid;
+    justify-self: center;
+    text-align: center;
+}
+
+.universe{
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    row-gap: .5rem;
+    column-gap: 0rem;
+    box-sizing: border-box;
+}
+
+.active{
+
+}

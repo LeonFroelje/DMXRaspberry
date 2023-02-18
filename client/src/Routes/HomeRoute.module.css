@@ -7,5 +7,12 @@
 }
 
 .universe_container{
-    
+    height: 50vh;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.universe_container > h3{
+    color: #FFFFFF;
+    opacity: 70%;
 }
