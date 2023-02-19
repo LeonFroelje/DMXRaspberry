@@ -20,4 +20,8 @@ impl Channel{
     pub fn get_data(&self) -> u8{
         self.data
     }
+
+    pub fn set_data(&self, data: u8){
+        &self.data = data;
+    }
 }

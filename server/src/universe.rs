@@ -36,7 +36,7 @@ impl<'a> Universe{
                 i += 1;
             }
         }
-        println!("{:?}", data);
+        
         match self.port.send_dmx_packet(&data){
             Ok(_) => Ok(data),
             Err(e) => Err(e)
@@ -50,7 +50,7 @@ mod tests{
     use crate::fixture::Fixture;
     use super::Universe;
     #[test]
-    fn testSend(){
+    fn test_send(){
         let mut expected: [u8; 512] = [0x00; 512];
 
         let mut channels: Vec<Channel> =  Vec::new();
@@ -66,7 +66,6 @@ mod tests{
         let fixtures = vec![f, f_2];
         let mut universe = Universe::new("/dev/ttyAMA0", fixtures);
         
-
         assert_eq!(universe.send().unwrap(), expected)
     }
 }
