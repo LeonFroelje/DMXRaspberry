@@ -8,4 +8,5 @@ edition = "2021"
 [dependencies]
 actix-web = "4"
 actix-web-actors = "4.2.0"
+dmx-serial = "*"
 dmx = "*"

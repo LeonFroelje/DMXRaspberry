@@ -12,4 +12,12 @@ impl Channel{
             data: data
         }
     }
+
+    pub fn get_address(&self) -> u16{
+        self.address
+    }
+
+    pub fn get_data(&self) -> u8{
+        self.data
+    }
 }
