@@ -86,6 +86,7 @@ mod tests{
         assert_eq!(universe.send().unwrap(), expected)
     }
 
+    #[test]
     fn test_to_json(){
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
