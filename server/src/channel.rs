@@ -17,14 +17,16 @@ pub struct Channel{
 }
 
 impl Channel{
-    pub fn new(address: u16, data: u8, channel_type: String, default_value: u8, capabilities: HashMap<String, String>) -> Channel{
+    pub fn new(address: u16, data: u8, channel_type: String, default_value: u8,
+         capabilities: HashMap<String, String>) -> Channel{
 
         Channel{
             address: address,
             data: data,
             channel_type: channel_type,
             default_value: default_value,
-            // unwrap is OK in this case, because I expect a mistake in the channel config to be detected during configuration in the GUI
+            // unwrap is OK in this case, because I expect a mistake in the channel
+            // config to be detected during configuration in the GUI
             capabilities: Channel::check_capabilities(capabilities).unwrap()
         }
     }
@@ -66,7 +68,8 @@ mod tests{
 
     #[test]
     pub fn test_set_data(){
-        let mut c = Channel::new(1, 0x00, String::from("test"), 0x00, HashMap::new());
+        let mut c = Channel::new(1, 0x00, String::from("test"),
+         0x00, HashMap::new());
         c.set_data(0x11);
         assert_eq!(c.data(), &0x11);
     }
@@ -74,14 +77,16 @@ mod tests{
     #[test]
     pub fn test_serialize(){
         let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}");
-        let c = Channel::new(1, 0x00, String::from("test"), 0x00, HashMap::new());
+        let c = Channel::new(1, 0x00, String::from("test"),
+         0x00, HashMap::new());
         let j = serde_json::to_string(&c).unwrap();
         assert_eq!(expected, j);
     }
 
     #[test]
     pub fn test_deserialize(){
-        let expected = Channel::new(1, 0x00, String::from("test"), 0x00, HashMap::new());
+        let expected = Channel::new(1, 0x00, String::from("test"),
+         0x00, HashMap::new());
         let c: Channel = serde_json::from_str("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}").unwrap();
 
         assert_eq!(c.address(), expected.address());

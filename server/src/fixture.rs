@@ -12,7 +12,8 @@ pub struct Fixture{
 }
 
 impl Fixture {
-    pub fn new(name: String, channels: Vec<Channel>, manufacturer: String, model: String, kind: String) -> Fixture {
+    pub fn new(name: String, channels: Vec<Channel>, manufacturer: String, model: String,
+         kind: String) -> Fixture {
         Fixture{
             name: name,
             channels: channels,
@@ -52,9 +53,11 @@ mod tests{
     pub fn test_set_channel(){
         let mut channels: Vec<Channel> = Vec::new();
         for i in 1..6{
-            channels.push(Channel::new(i, 0x00, String::from("test"), 0x00, HashMap::new()));
+            channels.push(Channel::new(i, 0x00, String::from("test"),
+             0x00, HashMap::new()));
         }
-        let mut fixture = Fixture::new(String::from("t1"), channels, String::from("test"), String::from("test"), String::from("test"));
+        let mut fixture = Fixture::new(String::from("t1"), channels, String::from("test"),
+         String::from("test"), String::from("test"));
         fixture.set_channel(1, 0x11).unwrap();
         assert_eq!(fixture.channels().get(0).unwrap().data(), &0x11);
     }
@@ -64,9 +67,11 @@ mod tests{
 
         let mut channels: Vec<Channel> = Vec::new();
         for i in 1..6{
-            channels.push(Channel::new(i, 0x00, String::from("test"), 0x00, HashMap::new()));
+            channels.push(Channel::new(i, 0x00, String::from("test"),
+             0x00, HashMap::new()));
         }
-        let fixture = Fixture::new(String::from("t1"), channels, String::from("test"), String::from("test"), String::from("test"));
+        let fixture = Fixture::new(String::from("t1"), channels, String::from("test"),
+         String::from("test"), String::from("test"));
 
         let t = serde_json::to_string(&fixture).unwrap();
         assert_eq!(expected, t);
