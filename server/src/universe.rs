@@ -50,8 +50,8 @@ impl Universe{
         let f = (&self.fixtures).iter()
             .map(|fixture| -> String {serde_json::to_string(fixture).unwrap()})
             .reduce(|fixture, e| -> String {fixture + ",\n" + &e}).unwrap();
-        let start = String::from("{");
-        let stop = String::from("}");
+        let start = String::from("{Universe: [");
+        let stop = String::from("]}");
 
         start + &f + &stop
     }
