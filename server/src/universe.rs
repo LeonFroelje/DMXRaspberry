@@ -47,17 +47,21 @@ impl Universe{
     }
 
     pub fn to_json(&self) -> String{
-        (&self.fixtures).iter()
+        let f = (&self.fixtures).iter()
             .map(|fixture| -> String {serde_json::to_string(fixture).unwrap()})
-            .reduce(|fixture, e| -> String {fixture + ",\n" + &e}).unwrap()    
-                
+            .reduce(|fixture, e| -> String {fixture + ",\n" + &e}).unwrap();
+        let start = String::from("{");
+        let stop = String::from("}");
+
+        start + &f + &stop
     }
 }
 
 #[cfg(test)]
 mod tests{
     use std::collections::HashMap;
-
+    use std::fs::File;
+    use std::io::Write;
     use crate::channel::Channel;
     use super::Fixture;
     use super::Universe;
@@ -95,6 +99,8 @@ mod tests{
         let universe = Universe::new("/dev/ttyAMA0", fixtures);
 
         let s = universe.to_json();
-        println!("{:?}", s);
+        
+        let mut file = File::create("./test.json").unwrap();
+        file.write_all(s.as_bytes());
     }
 }

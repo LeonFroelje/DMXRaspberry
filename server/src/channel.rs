@@ -76,7 +76,6 @@ mod tests{
         let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}");
         let c = Channel::new(1, 0x00, String::from("test"), 0x00, HashMap::new());
         let j = serde_json::to_string(&c).unwrap();
-        println!("{:?}", j);
         assert_eq!(expected, j);
     }
 
