@@ -2,7 +2,7 @@ use crate::channel::Channel;
 use serde::{Deserialize, Serialize};
 
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Hash, PartialEq, Eq)]
 pub struct Fixture{
     name: String,
     channels: Vec<Channel>,
@@ -47,14 +47,14 @@ impl Fixture {
 mod tests{
     use super::Fixture;
     use super::Channel;
-    use std::collections::HashMap;
+    use std::collections::BTreeMap;
 
     #[test]
     pub fn test_set_channel(){
         let mut channels: Vec<Channel> = Vec::new();
         for i in 1..6{
-            channels.push(Channel::new(i, 0x00, String::from("test"),
-             0x00, HashMap::new()));
+            channels.push(Channel::new(i, String::from("test"),
+             0x00, BTreeMap::new()));
         }
         let mut fixture = Fixture::new(String::from("t1"), channels, String::from("test"),
          String::from("test"), String::from("test"));
@@ -67,8 +67,8 @@ mod tests{
 
         let mut channels: Vec<Channel> = Vec::new();
         for i in 1..6{
-            channels.push(Channel::new(i, 0x00, String::from("test"),
-             0x00, HashMap::new()));
+            channels.push(Channel::new(i, String::from("test"),
+             0x00, BTreeMap::new()));
         }
         let fixture = Fixture::new(String::from("t1"), channels, String::from("test"),
          String::from("test"), String::from("test"));

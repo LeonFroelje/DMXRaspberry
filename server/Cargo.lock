@@ -962,6 +962,7 @@ dependencies = [
  "actix-web-actors",
  "dmx",
  "dmx-serial",
+ "log",
  "serde",
  "serde_json",
  "spin_sleep",

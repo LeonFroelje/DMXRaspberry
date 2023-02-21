@@ -1,7 +1,7 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Hash, PartialEq, Eq)]
 /// Represents a single DMX channel
 /// Implements
 pub struct Channel{
@@ -12,17 +12,17 @@ pub struct Channel{
     // useful in order to display additional information in the GUI
     channel_type: String,
     default_value: u8,
-    capabilities: HashMap<String, String>
+    capabilities: BTreeMap<String, String>
 
 }
 
 impl Channel{
-    pub fn new(address: u16, data: u8, channel_type: String, default_value: u8,
-         capabilities: HashMap<String, String>) -> Channel{
+    pub fn new(address: u16, channel_type: String, default_value: u8,
+         capabilities: BTreeMap<String, String>) -> Channel{
 
         Channel{
             address: address,
-            data: data,
+            data: default_value,
             channel_type: channel_type,
             default_value: default_value,
             // unwrap is OK in this case, because I expect a mistake in the channel
@@ -47,7 +47,7 @@ impl Channel{
         &self.default_value
     }
     
-    pub fn capabilities(&self) -> &HashMap<String, String>{
+    pub fn capabilities(&self) -> &BTreeMap<String, String>{
         &self.capabilities
     }
 
@@ -55,21 +55,21 @@ impl Channel{
         self.data = data;
     }
     //TODO: implement check whether all possible data values (0..255) are mapped 
-    fn check_capabilities(capabilities: HashMap<String, String>) -> Result<HashMap<String, String>, String>{
-        Ok(HashMap::new())
+    fn check_capabilities(capabilities: BTreeMap<String, String>) -> Result<BTreeMap<String, String>, String>{
+        Ok(BTreeMap::new())
     }
 }
 
 #[cfg(test)]
 mod tests{
-    use std::collections::HashMap;
+    use std::collections::BTreeMap;
 
     use super::Channel;
 
     #[test]
     pub fn test_set_data(){
-        let mut c = Channel::new(1, 0x00, String::from("test"),
-         0x00, HashMap::new());
+        let mut c = Channel::new(1, String::from("test"),
+         0x00, BTreeMap::new());
         c.set_data(0x11);
         assert_eq!(c.data(), &0x11);
     }
@@ -77,16 +77,16 @@ mod tests{
     #[test]
     pub fn test_serialize(){
         let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}");
-        let c = Channel::new(1, 0x00, String::from("test"),
-         0x00, HashMap::new());
+        let c = Channel::new(1, String::from("test"),
+         0x00, BTreeMap::new());
         let j = serde_json::to_string(&c).unwrap();
         assert_eq!(expected, j);
     }
 
     #[test]
     pub fn test_deserialize(){
-        let expected = Channel::new(1, 0x00, String::from("test"),
-         0x00, HashMap::new());
+        let expected = Channel::new(1, String::from("test"),
+         0x00, BTreeMap::new());
         let c: Channel = serde_json::from_str("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}").unwrap();
 
         assert_eq!(c.address(), expected.address());

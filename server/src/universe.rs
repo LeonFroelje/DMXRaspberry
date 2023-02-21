@@ -1,23 +1,21 @@
 use crate::fixture::Fixture;
-use dmx::DmxTransmitter;
-use dmx_serial::SystemPort;
+use dmx_serial::posix::TTYPort;
+use serde::{Deserialize, Serialize};
 use serde_json;
 
 
-
+#[derive(Serialize, Deserialize, Debug, Hash, PartialEq, Eq)]
 // Represents a DMX universe.
 // A DMX universe consists of 512 channels 
 pub struct Universe{     
-    port: SystemPort,
     name: String,
     fixtures: Vec<Fixture>
 }
 
 impl Universe{
-    pub fn new(port: &str, name: String, fixtures: Vec<Fixture>) -> Universe{
+    pub fn new(name: String, fixtures: Vec<Fixture>) -> Universe{
         
         Universe{
-            port: dmx::open_serial(port).unwrap(),
             name: name,
             fixtures: fixtures
         }
@@ -31,7 +29,7 @@ impl Universe{
         self.fixtures.remove(index)
     }
 
-    pub fn send(&mut self) ->  Result<[u8; 512], dmx_serial::Error>{
+    pub fn data(&self) ->  [u8; 512]{
         let mut data = [0x00; 512];
         for fixture in &self.fixtures{
             let start_address = fixture.address();
@@ -41,44 +39,35 @@ impl Universe{
                 i += 1;
             }
         }
-        
-        match self.port.send_dmx_packet(&data){
-            Ok(_) => Ok(data),
-            Err(e) => Err(e)
-        }
+        data        
     }
+}
 
-    pub fn to_json(&self) -> String{
-        let f = (&self.fixtures).iter()
-            .map(|fixture| -> String {serde_json::to_string(fixture).unwrap()})
-            .reduce(|fixture, e| -> String {fixture + ",\n" + &e}).unwrap();
-        let start = String::from("{\"Universe\": [");
-        let stop = String::from("]}");
 
-        start + &f + &stop
-    }
+pub struct UniverseState<'a>{
+    port: &'a TTYPort,
+    channels: &'a [u8; 512]
 }
 
 #[cfg(test)]
 mod tests{
-    use std::collections::HashMap;
-    use std::fs::File;
+    use std::collections::BTreeMap;
+    use std::fs::{File, read_to_string};
     use std::io::Write;
     use crate::channel::Channel;
     use super::Fixture;
     use super::Universe;
     #[test]
-    #[ignore]
-    fn test_send(){
+    fn test_data(){
         let mut expected: [u8; 512] = [0x00; 512];
 
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
         for i in 1..6{
-            channels.push(Channel::new(i, i.try_into().unwrap(),
-             String::from("test1"), 0x00, HashMap::new()));
-            channels_2.push(Channel::new(i + 6, (i + 6).try_into().unwrap(),
-             String::from("test2"), 0x00, HashMap::new()));
+            channels.push(Channel::new(i, String::from("test1"),
+             0x00, BTreeMap::new()));
+            channels_2.push(Channel::new(i + 6, String::from("test2"),
+             0x00, BTreeMap::new()));
             expected[i as usize] = i.try_into().unwrap();
             expected[(i + 6) as usize] = (i+6).try_into().unwrap();
         }
@@ -87,31 +76,53 @@ mod tests{
         let f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
          String::from("test"), String::from("test"));
         let fixtures = vec![f, f_2];
-        let mut universe = Universe::new("/dev/ttyAMA0", String::from("kek"), fixtures);
+        let mut universe = Universe::new(String::from("kek"), fixtures);
         
-        assert_eq!(universe.send().unwrap(), expected)
+        assert_eq!(universe.data(), expected)
     }
 
     #[test]
-    fn test_to_json(){
+    fn test_serialize(){
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
         for i in 1..7{
-            channels.push(Channel::new(i, i.try_into().unwrap(), String::from("test1"),
-             0x00, HashMap::new()));
-            channels_2.push(Channel::new(i + 6, (i + 6).try_into().unwrap(),
-             String::from("test2"), 0x00, HashMap::new()));
+            channels.push(Channel::new(i, String::from("test1"),
+             0x00, BTreeMap::new()));
+            channels_2.push(Channel::new(i + 6, String::from("test2"),
+             0x00, BTreeMap::new()));
         }
         let f = Fixture::new(String::from("t1"), channels, String::from("test"),
          String::from("test"), String::from("test"));
         let f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
          String::from("test"), String::from("test"));
         let fixtures = vec![f, f_2];
-        let universe = Universe::new("/dev/ttyAMA0", String::from("kek"), fixtures);
+        let universe = Universe::new(String::from("kek"), fixtures);
 
-        let s = universe.to_json();
+        let s = serde_json::to_string_pretty(&universe).unwrap();
         
         let mut file = File::create("./test.json").unwrap();
-        file.write_all(s.as_bytes());
+        file.write_all(s.as_bytes()).unwrap();
+    }
+
+    fn test_deserialize(){
+        let mut channels: Vec<Channel> =  Vec::new();
+        let mut channels_2: Vec<Channel> = Vec::new();
+        for i in 1..7{
+            channels.push(Channel::new(i, String::from("test1"),
+             0x00, BTreeMap::new()));
+            channels_2.push(Channel::new(i + 6, String::from("test2"),
+             0x00, BTreeMap::new()));
+        }
+        let f = Fixture::new(String::from("t1"), channels, String::from("test"),
+         String::from("test"), String::from("test"));
+        let f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
+         String::from("test"), String::from("test"));
+        let fixtures = vec![f, f_2];
+        let expected = Universe::new(String::from("kek"), fixtures);
+
+        let s = read_to_string("./test.json").unwrap();
+        let universe: Universe = serde_json::from_str(&s).unwrap();
+
+        assert_eq!(universe, expected);
     }
 }
