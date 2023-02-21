@@ -21,6 +21,22 @@ impl Universe{
         }
     }
 
+    pub fn name(&self) -> &String{
+        &self.name
+    }
+
+    pub fn set_name(&mut self, new_name: String) -> (){
+        self.name = new_name;
+    }
+
+    pub fn fixtures(&self) -> &Vec<Fixture>{
+        &self.fixtures
+    }
+
+    pub fn fixtures_mut(&mut self) -> &mut Vec<Fixture>{
+        &mut self.fixtures
+    }
+
     pub fn add_fixture(&mut self, fixture: Fixture) -> (){
         self.fixtures.push(fixture);
     }
@@ -35,7 +51,7 @@ impl Universe{
             let start_address = fixture.address();
             let mut i = 0;
             for channel in fixture.channels(){
-                data[(start_address + i) as usize] = *channel.data();
+                data[(start_address + i - 1) as usize] = *channel.data();
                 i += 1;
             }
         }
@@ -43,11 +59,6 @@ impl Universe{
     }
 }
 
-
-pub struct UniverseState<'a>{
-    port: &'a TTYPort,
-    channels: &'a [u8; 512]
-}
 
 #[cfg(test)]
 mod tests{
@@ -63,20 +74,26 @@ mod tests{
 
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
-        for i in 1..6{
+        for i in 1..7{
             channels.push(Channel::new(i, String::from("test1"),
              0x00, BTreeMap::new()));
             channels_2.push(Channel::new(i + 6, String::from("test2"),
              0x00, BTreeMap::new()));
             expected[i as usize] = i.try_into().unwrap();
-            expected[(i + 6) as usize] = (i+6).try_into().unwrap();
+            expected[(i + 5) as usize] = (i+5).try_into().unwrap();
         }
-        let f = Fixture::new(String::from("t1"), channels, String::from("test"),
+        let mut f = Fixture::new(String::from("t1"), channels, String::from("test"),
          String::from("test"), String::from("test"));
-        let f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
+        let mut f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
          String::from("test"), String::from("test"));
+        
+        for i in 0..6{
+            f.set_channel(i as usize, i as u8).unwrap();
+            f_2.set_channel(i as usize, (i+6) as u8);
+        }
+
         let fixtures = vec![f, f_2];
-        let mut universe = Universe::new(String::from("kek"), fixtures);
+        let universe = Universe::new(String::from("kek"), fixtures);
         
         assert_eq!(universe.data(), expected)
     }

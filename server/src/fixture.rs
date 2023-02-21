@@ -33,7 +33,7 @@ impl Fixture {
     }
 
     pub fn set_channel(&mut self, channel_nr: usize, data: u8) -> Result<(), &str>{
-        match self.channels.get_mut(channel_nr - 1){
+        match self.channels.get_mut(channel_nr){
             Some(channel) => {
                 channel.set_data(data);
                 Ok(())
@@ -58,7 +58,7 @@ mod tests{
         }
         let mut fixture = Fixture::new(String::from("t1"), channels, String::from("test"),
          String::from("test"), String::from("test"));
-        fixture.set_channel(1, 0x11).unwrap();
+        fixture.set_channel(0, 0x11).unwrap();
         assert_eq!(fixture.channels().get(0).unwrap().data(), &0x11);
     }
     #[test]

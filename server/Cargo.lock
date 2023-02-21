@@ -3,6 +3,20 @@
 version = 3
 
 [[package]]
+name = "DMXServer"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "actix-web-actors",
+ "dmx",
+ "dmx-serial",
+ "log",
+ "serde",
+ "serde_json",
+ "spin_sleep",
+]
+
+[[package]]
 name = "actix"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -952,20 +966,6 @@ dependencies = [
  "itoa",
  "ryu",
  "serde",
-]
-
-[[package]]
-name = "server"
-version = "0.1.0"
-dependencies = [
- "actix-web",
- "actix-web-actors",
- "dmx",
- "dmx-serial",
- "log",
- "serde",
- "serde_json",
- "spin_sleep",
 ]
 
 [[package]]
