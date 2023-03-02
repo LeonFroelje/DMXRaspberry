@@ -14,7 +14,9 @@ pub struct Universe{
 
 impl Universe{
     pub fn new(name: String, fixtures: Vec<Fixture>) -> Universe{
-        
+        // Maybe add a lookup table for the channels which maps the channel number to 
+        // the corresponding fixture channel reference
+        // If done that way it's going to be more efficient.
         Universe{
             name: name,
             fixtures: fixtures
@@ -68,10 +70,8 @@ mod tests{
     use crate::channel::Channel;
     use super::Fixture;
     use super::Universe;
-    #[test]
-    fn test_data(){
-        let mut expected: [u8; 512] = [0x00; 512];
 
+    fn init() -> Universe{
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
         for i in 1..7{
@@ -79,22 +79,39 @@ mod tests{
              0x00, BTreeMap::new()));
             channels_2.push(Channel::new(i + 6, String::from("test2"),
              0x00, BTreeMap::new()));
+        }
+        let f = Fixture::new(String::from("t1"), channels, String::from("test"),
+         String::from("test"), String::from("test"));
+        let f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
+         String::from("test"), String::from("test"));
+        let fixtures = vec![f, f_2];
+        Universe::new(String::from("kek"), fixtures)
+    }
+
+    #[test]
+    fn test_data(){
+        let mut expected: [u8; 512] = [0x00; 512];
+
+        for i in 1..7{
             expected[i as usize] = i.try_into().unwrap();
             expected[(i + 5) as usize] = (i+5).try_into().unwrap();
         }
-        let mut f = Fixture::new(String::from("t1"), channels, String::from("test"),
-         String::from("test"), String::from("test"));
-        let mut f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
-         String::from("test"), String::from("test"));
-        
+
+        let mut universe = init();
+        {
+        let mut f_1 = universe.fixtures_mut().get_mut(0).unwrap();
+
         for i in 0..6{
-            f.set_channel(i as usize, i as u8).unwrap();
-            f_2.set_channel(i as usize, (i+6) as u8);
+            f_1.set_channel(i as usize, i as u8).unwrap();
+        }
         }
 
-        let fixtures = vec![f, f_2];
-        let universe = Universe::new(String::from("kek"), fixtures);
-        
+        let mut f_2 = universe.fixtures_mut().get_mut(1).unwrap();
+
+        for i in 0..6{
+            f_2.set_channel(i as usize, (i+6) as u8).unwrap();
+        }
+
         assert_eq!(universe.data(), expected)
     }
 
@@ -121,6 +138,7 @@ mod tests{
         file.write_all(s.as_bytes()).unwrap();
     }
 
+    #[test]
     fn test_deserialize(){
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
