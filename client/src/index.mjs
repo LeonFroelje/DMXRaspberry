@@ -7,7 +7,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import HomeRoute from './Routes/HomeRoute.mjs';
+import HomeRoute from './Routes/HomeRoute.js';
 import Settings from "./Routes/Settings.mjs";
 import Play from "./Routes/Play.mjs";
 import Program from "./Routes/Program.mjs";

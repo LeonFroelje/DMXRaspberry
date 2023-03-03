@@ -8,11 +8,59 @@
 
 .universe_container{
     height: 50vh;
+    width: 100%;
     overflow: auto;
     box-sizing: border-box;
 }
 
-.universe_container > h3{
+.home > div > h3{
     color: #FFFFFF;
     opacity: 70%;
+}
+
+.fixture_container{
+    display: flex;
+    flex-direction: column;
+}
+
+#header{
+    margin-bottom: 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    opacity: 80%;
+    background-color: #353535;
+    box-sizing: border-box;
+    padding: .5rem;
+}
+
+#header > *{
+    opacity: 120%;
+}
+
+#header_control{
+    display: flex;
+    gap: 1rem;
+}
+
+#header_toggle_all{
+    align-self: center;
+}
+
+#header_settings{
+    align-self: center;
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    padding: .3rem;
+    border-radius: 100%;
+    background-color: #5a5a5a;
+}
+
+#main{
+    padding: .5rem .5rem .5rem .5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
 }

@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 import './css/App.css';
 import Footer from "./components/footer/footer.mjs";
-import { AiFillHome } from "react-icons/ai";
+import { AiOutlineHome, AiOutlinePlayCircle, AiOutlineFieldTime, AiOutlineSetting } from "react-icons/ai";
+import { BsCodeSlash } from "react-icons/bs";
 
 
 function App() {
@@ -20,27 +21,27 @@ function App() {
           {
             path: "/",
             name: "Home",
-            icon: <AiFillHome/>
+            icon: <AiOutlineHome/>
           },
           {
             path: "/program",
             name: "Program",
-            icon: <AiFillHome/>
+            icon: <BsCodeSlash/>
           },
           {
             path: "/play",
             name: "Play",
-            icon: <AiFillHome/>
+            icon: <AiOutlinePlayCircle/>
           },
           {
             path: "/timecode",
             name: "Timecode",
-            icon: <AiFillHome/>
+            icon: <AiOutlineFieldTime/>
           },
           {
             path: "/settings",
             name: "Settings",
-            icon: <AiFillHome/>
+            icon: <AiOutlineSetting/>
           }
         ]
       }/>

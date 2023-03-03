@@ -3,6 +3,6 @@
 export default function Timecode(props){
     return (
     <div>
-        asdsa
+        Bald
     </div>)
 }

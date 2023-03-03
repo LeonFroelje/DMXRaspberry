@@ -1,16 +1,18 @@
 .channel{
-    width: 2rem;
-    height: 1rem;
+    width: 100%;
     border: 1px #FFF solid;
     justify-self: center;
     text-align: center;
+    box-sizing: border-box;
+    padding: .7rem .5rem .7rem .5rem;
 }
 
 .universe{
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    row-gap: .5rem;
+    grid-template-columns: repeat(8, 12.5%);
+    row-gap: 0rem;
     column-gap: 0rem;
+    width: 100%;
     box-sizing: border-box;
 }
 
