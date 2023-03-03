@@ -7,9 +7,9 @@ use dmx_serial::posix::TTYPort;
 
 use std::fs::read_to_string;
 use std::sync::mpsc::{ self, TryRecvError, Receiver };
-use std::{thread, env, fs};
+use std::{thread, env, fs, time};
 
-use spin_sleep::{ SpinSleeper, SpinStrategy };
+use spin_sleep::{ SpinSleeper, SpinStrategy, sleep };
 use std::time::{ Duration, Instant };
 
 use actix::{ AsyncContext, Handler, Actor, Addr, Running, StreamHandler, WrapFuture, ActorFuture, ContextFutureSpawner, fut, ActorContext };
@@ -52,7 +52,11 @@ async fn main() -> std::io::Result<()> {
     let data = universe.data();
 
     spawn_dmx_thread(rx, data, dmx_port);
-
+    for d in 0..255{
+        let data = [d as u8; 512];
+        tx.send(data).unwrap();
+        sleep(Duration::from_secs(1));
+    }
     HttpServer::new(|| {
         App::new()
             //.service(factory)
@@ -89,7 +93,7 @@ fn spawn_dmx_thread(rx: Receiver<[u8; 512]>, mut data: [u8; 512], mut port: TTYP
                 }
             };
             // Send the current data to the dmx port
-            //dmx_port.send_dmx_packet(&data).unwrap();
+            // dmx_port.send_dmx_packet(&data).unwrap();
             // Sleep to limit loop to frequency of 44Hz
             spin_sleeper.sleep(duration);
         }
