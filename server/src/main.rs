@@ -1,33 +1,27 @@
-use crate::universe::Universe;
 use crate::config::ServerConfig;
-use crate::lobby::Lobby;
+use crate::dmx_api::{ channel::Channel, fixture::Fixture, universe::Universe };
 
-use dmx::{ self, DmxTransmitter };
+use dmx;
 use dmx_serial::posix::TTYPort;
 
 use std::fs::read_to_string;
 use std::sync::mpsc::{ self, TryRecvError, Receiver };
-use std::{thread, env, fs, time};
+use std::{thread, fs };
 
-use spin_sleep::{ SpinSleeper, SpinStrategy, sleep };
-use std::time::{ Duration, Instant };
+use spin_sleep::{ SpinSleeper, SpinStrategy };
+use std::time::{ Duration };
 
-use actix::{ AsyncContext, Handler, Actor, Addr, Running, StreamHandler, WrapFuture, ActorFuture, ContextFutureSpawner, fut, ActorContext };
-use actix_web::http::StatusCode;
 use actix_web::{ HttpServer, App, web, Responder, HttpResponse };
-use actix_web_actors::ws;
-use actix_web_actors::ws::Message::Text;
-use uuid::Uuid;
 
-mod universe;
-mod fixture;
-mod channel;
+use actix_files::Files;
+
+use routes::websocket;
+
 mod config;
-mod lobby;
 mod websockets;
+mod dmx_api;
+mod routes;
 
-// 44Hz in nanoseconds
-const BASE: u64 = 10;
 const SLEEP_DURATION: u64 = 50_000_000;
 const NATIVE_ACCURACY_NS: u32 = 100_000;
 const HOST: &str = "0.0.0.0";
@@ -36,7 +30,7 @@ const PORT: u16 = 8000;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let mut cnf = read_config();
+    let cnf = read_config();
     let bind = format!("{HOST}:{PORT}");
     // Open the port used to send the DMX signals
     println!("{}", cnf.port());
@@ -58,19 +52,27 @@ async fn main() -> std::io::Result<()> {
         let data = [d as u8; 512];
         tx.send(data).unwrap();
     }
-    HttpServer::new(|| {
+    HttpServer::new(move || {
         App::new()
-            //.service(factory)
+            .service(
+                web::scope("/api")
+                .service(web::resource("/ws").route(web::get().to(websocket::echo_ws)))
+                .service(web::resource("/lel").route(web::get().to(lel)))
+            )
+            .service(Files::new("/", cnf.react_build_path()).index_file("index.html"))            
         })
     .bind(&bind)?
     .run()
     .await
 }
 
+async fn lel() -> impl Responder{
+    HttpResponse::Ok().body("lel")
+}
 
 fn read_config() -> ServerConfig{
     // unwrap because config file should always be there by default
-    serde_json::from_str(&read_to_string("./config.json").unwrap()).unwrap()
+    serde_json::from_str(&read_to_string("./dev_config.json").unwrap()).unwrap()
 }
 
 
@@ -84,6 +86,7 @@ fn spawn_dmx_thread(rx: Receiver<[u8; 512]>, mut data: [u8; 512], mut port: TTYP
         // DMX has a maximum frequency of 44Hz
         let duration = Duration::from_nanos(SLEEP_DURATION);
         loop{
+            // Check for new data and update if required
             data = match rx.try_recv(){
                 Ok(new_data) => new_data,
                 Err(err) => match err {
@@ -93,9 +96,8 @@ fn spawn_dmx_thread(rx: Receiver<[u8; 512]>, mut data: [u8; 512], mut port: TTYP
                     }
                 }
             };
-            println!("{:?}", data);
             // Send the current data to the dmx port
-            port.send_dmx_packet(&data).unwrap();
+            // port.send_dmx_packet(&data).unwrap();
             // Sleep to limit loop to frequency of 44Hz
             spin_sleeper.sleep(duration);
         }

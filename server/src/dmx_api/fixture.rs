@@ -1,4 +1,4 @@
-use crate::channel::Channel;
+use crate::dmx_api::channel::Channel;
 use serde::{Deserialize, Serialize};
 
 

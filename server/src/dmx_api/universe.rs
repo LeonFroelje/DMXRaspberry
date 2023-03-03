@@ -1,7 +1,6 @@
-use crate::fixture::Fixture;
-use dmx_serial::posix::TTYPort;
+use crate::dmx_api::fixture::Fixture;
 use serde::{Deserialize, Serialize};
-use serde_json;
+
 
 
 #[derive(Serialize, Deserialize, Debug, Hash, PartialEq, Eq)]
@@ -67,7 +66,7 @@ mod tests{
     use std::collections::BTreeMap;
     use std::fs::{File, read_to_string};
     use std::io::Write;
-    use crate::channel::Channel;
+    use crate::dmx_api::channel::Channel;
     use super::Fixture;
     use super::Universe;
 

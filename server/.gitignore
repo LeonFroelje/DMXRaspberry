@@ -14,3 +14,4 @@ Cargo.lock
 *.pdb
 
 test.json
+dev_config.json

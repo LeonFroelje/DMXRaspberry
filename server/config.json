@@ -1,4 +1,5 @@
 {
-    "defaultUniverse": "Default",
-    "defaultPort": "ttyAMA0"
+    "default_universe": "Default",
+    "default_port": "tty0",
+    "react_build_path": "~/DMXRaspberry/client/build"
 }
