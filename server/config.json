@@ -1,4 +1,4 @@
 {
-    "default-universe": "Default",
-    "port": "tty0"
+    "defaultUniverse": "Default",
+    "defaultPort": "ttyAMA0"
 }

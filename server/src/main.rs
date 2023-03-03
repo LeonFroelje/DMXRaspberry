@@ -28,7 +28,7 @@ mod websockets;
 
 // 44Hz in nanoseconds
 const BASE: u64 = 10;
-const SLEEP_DURATION: u64 = 1 / 44 * BASE.pow(9);
+const SLEEP_DURATION: u64 = 50_000_000;
 const NATIVE_ACCURACY_NS: u32 = 100_000;
 const HOST: &str = "0.0.0.0";
 const PORT: u16 = 8000;
@@ -39,7 +39,8 @@ async fn main() -> std::io::Result<()> {
     let mut cnf = read_config();
     let bind = format!("{HOST}:{PORT}");
     // Open the port used to send the DMX signals
-    let dmx_port = dmx::open_serial(cnf.port()).unwrap();
+    println!("{}", cnf.port());
+    let dmx_port = open_dmx_port(cnf.port());
 
     // Transmitter and receiver for the actual DMX data that's going to be
     // passed between threads. The single receiver sits in a seperate thread
@@ -52,10 +53,10 @@ async fn main() -> std::io::Result<()> {
     let data = universe.data();
 
     spawn_dmx_thread(rx, data, dmx_port);
-    for d in 0..255{
+    println!("hier");
+    for d in 0..256{
         let data = [d as u8; 512];
         tx.send(data).unwrap();
-        sleep(Duration::from_secs(1));
     }
     HttpServer::new(|| {
         App::new()
@@ -92,8 +93,9 @@ fn spawn_dmx_thread(rx: Receiver<[u8; 512]>, mut data: [u8; 512], mut port: TTYP
                     }
                 }
             };
+            println!("{:?}", data);
             // Send the current data to the dmx port
-            // dmx_port.send_dmx_packet(&data).unwrap();
+            port.send_dmx_packet(&data).unwrap();
             // Sleep to limit loop to frequency of 44Hz
             spin_sleeper.sleep(duration);
         }
@@ -105,4 +107,9 @@ fn create_universe(universe_name: &String) -> Universe{
     println!("{path}");
     let s = fs::read_to_string(path).unwrap();
     serde_json::from_str(&s).unwrap() 
+}
+
+fn open_dmx_port(port_name: &String) -> TTYPort{
+    let path = format!("/dev/{port_name}");
+    dmx::open_serial(&path).unwrap()
 }
