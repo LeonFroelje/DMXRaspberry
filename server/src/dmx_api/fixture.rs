@@ -47,13 +47,14 @@ impl Fixture {
 mod tests{
     use super::Fixture;
     use super::Channel;
+    use crate::dmx_api::channel::ChannelType;
     use std::collections::BTreeMap;
 
     #[test]
     pub fn test_set_channel(){
         let mut channels: Vec<Channel> = Vec::new();
         for i in 1..6{
-            channels.push(Channel::new(i, String::from("test"),
+            channels.push(Channel::new(i, ChannelType::Intensity(),
              0x00, BTreeMap::new()));
         }
         let mut fixture = Fixture::new(String::from("t1"), channels, String::from("test"),
@@ -67,7 +68,7 @@ mod tests{
 
         let mut channels: Vec<Channel> = Vec::new();
         for i in 1..6{
-            channels.push(Channel::new(i, String::from("test"),
+            channels.push(Channel::new(i, ChannelType::Intensity(),
              0x00, BTreeMap::new()));
         }
         let fixture = Fixture::new(String::from("t1"), channels, String::from("test"),

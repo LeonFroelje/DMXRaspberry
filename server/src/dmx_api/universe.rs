@@ -66,7 +66,7 @@ mod tests{
     use std::collections::BTreeMap;
     use std::fs::{File, read_to_string};
     use std::io::Write;
-    use crate::dmx_api::channel::Channel;
+    use crate::dmx_api::channel::{ Channel, ChannelType };
     use super::Fixture;
     use super::Universe;
 
@@ -74,9 +74,9 @@ mod tests{
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
         for i in 1..7{
-            channels.push(Channel::new(i, String::from("test1"),
+            channels.push(Channel::new(i, ChannelType::Intensity(),
              0x00, BTreeMap::new()));
-            channels_2.push(Channel::new(i + 6, String::from("test2"),
+            channels_2.push(Channel::new(i + 6, ChannelType::Intensity(),
              0x00, BTreeMap::new()));
         }
         let f = Fixture::new(String::from("t1"), channels, String::from("test"),
@@ -119,9 +119,9 @@ mod tests{
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
         for i in 1..7{
-            channels.push(Channel::new(i, String::from("test1"),
+            channels.push(Channel::new(i, ChannelType::Intensity(),
              0x00, BTreeMap::new()));
-            channels_2.push(Channel::new(i + 6, String::from("test2"),
+            channels_2.push(Channel::new(i + 6, ChannelType::Intensity(),
              0x00, BTreeMap::new()));
         }
         let f = Fixture::new(String::from("t1"), channels, String::from("test"),
@@ -142,9 +142,9 @@ mod tests{
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
         for i in 1..7{
-            channels.push(Channel::new(i, String::from("test1"),
+            channels.push(Channel::new(i, ChannelType::Intensity(),
              0x00, BTreeMap::new()));
-            channels_2.push(Channel::new(i + 6, String::from("test2"),
+            channels_2.push(Channel::new(i + 6, ChannelType::Intensity(),
              0x00, BTreeMap::new()));
         }
         let f = Fixture::new(String::from("t1"), channels, String::from("test"),

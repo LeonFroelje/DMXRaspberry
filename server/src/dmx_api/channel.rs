@@ -10,14 +10,14 @@ pub struct Channel{
     data: u8,
     // The channel type, default value and capabilities wouldn't be strictly necessary, but they are 
     // useful in order to display additional information in the GUI
-    channel_type: String,
+    channel_type: ChannelType,
     default_value: u8,
     capabilities: BTreeMap<String, String>
 
 }
 
 impl Channel{
-    pub fn new(address: u16, channel_type: String, default_value: u8,
+    pub fn new(address: u16, channel_type: ChannelType, default_value: u8,
          capabilities: BTreeMap<String, String>) -> Channel{
 
         Channel{
@@ -39,7 +39,7 @@ impl Channel{
         &self.data
     }
 
-    pub fn channel_type(&self) -> &String{
+    pub fn channel_type(&self) -> &ChannelType{
         &self.channel_type
     }
     
@@ -60,15 +60,23 @@ impl Channel{
     }
 }
 
+#[derive(Debug, Deserialize, Serialize, Hash, PartialEq, Eq)]
+pub enum ChannelType{
+    Intensity(),
+    IntensityRed(),
+    IntensityGreen(),
+    IntensityBlue()
+}
+
 #[cfg(test)]
 mod tests{
     use std::collections::BTreeMap;
-
+    use super::ChannelType;
     use super::Channel;
 
     #[test]
     pub fn test_set_data(){
-        let mut c = Channel::new(1, String::from("test"),
+        let mut c = Channel::new(1, ChannelType::Intensity(),
          0x00, BTreeMap::new());
         c.set_data(0x11);
         assert_eq!(c.data(), &0x11);
@@ -77,7 +85,7 @@ mod tests{
     #[test]
     pub fn test_serialize(){
         let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}");
-        let c = Channel::new(1, String::from("test"),
+        let c = Channel::new(1, ChannelType::Intensity(),
          0x00, BTreeMap::new());
         let j = serde_json::to_string(&c).unwrap();
         assert_eq!(expected, j);
@@ -85,7 +93,7 @@ mod tests{
 
     #[test]
     pub fn test_deserialize(){
-        let expected = Channel::new(1, String::from("test"),
+        let expected = Channel::new(1, ChannelType::Intensity(),
          0x00, BTreeMap::new());
         let c: Channel = serde_json::from_str("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}").unwrap();
 
