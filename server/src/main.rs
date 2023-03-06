@@ -1,5 +1,6 @@
 use crate::config::ServerConfig;
 use crate::dmx_api::{ channel::Channel, fixture::Fixture, universe::Universe };
+use crate::state::AppState;
 
 use dmx;
 use dmx_serial::posix::TTYPort;
@@ -17,6 +18,7 @@ use actix_files::Files;
 
 use routes::websocket;
 
+mod state;
 mod config;
 mod websockets;
 mod dmx_api;
@@ -45,6 +47,8 @@ async fn main() -> std::io::Result<()> {
     // Construct the DMX-universe from a file
     let mut universe = create_universe(cnf.default_universe());
     let data = universe.data();
+
+    let app_state = AppState::new(universe, tx);
 
     spawn_dmx_thread(rx, data, dmx_port);
     println!("hier");

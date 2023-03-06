@@ -1,4 +1,6 @@
-
-
-pub trait Program{
+#[derive(Debug)]
+pub enum Program{
+    Cyclical(),
+    Timecode(),
+    Random(),
 }

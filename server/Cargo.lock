@@ -14,6 +14,7 @@ dependencies = [
  "dmx",
  "dmx-serial",
  "log",
+ "rand",
  "serde",
  "serde-big-array",
  "serde_json",

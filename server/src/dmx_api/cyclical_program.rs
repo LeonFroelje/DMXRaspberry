@@ -8,7 +8,3 @@ pub struct CyclicalProgram{
     universe: String,
     scenes: Vec<Scene>
 }
-
-impl Program for CyclicalProgram{
-
-}
