@@ -1,9 +1,11 @@
-use crate::websockets::messages;
+use crate::{websockets::messages, routes, dmx_api::fixture::Fixture};
 use std::time::{ Instant, Duration };
 use actix::{ Actor, StreamHandler, ActorContext, Addr, AsyncContext };
 use actix_web_actors::ws;
 use actix::prelude::*;
+use uuid::Uuid;
 use crate::websockets::server;
+use serde_json::Error;
 
 const HEARTBEAT: Duration = Duration::from_secs(5);
 const CLIENT_TIMEOUT: Duration = Duration::from_secs(10);
@@ -11,10 +13,9 @@ const NATIVE_ACCURACY_NS: u32 = 100_000;
 
 #[derive(Debug)]
 pub struct DataSocket{
-    pub id: usize,
+    pub id: Uuid,
     // Real time server
     pub server: Addr<server::RtServer>,
-    //room: Uuid,
     // Heartbeat
     hb: Instant
 }
@@ -65,14 +66,18 @@ impl DataSocket{
             ctx.ping(b"");
         });
     }
+
+    pub fn new(srv: Addr<server::RtServer>) -> Self{
+        Self { id: Uuid::new_v4(), server: srv, hb: Instant::now() }
+    }
 }
 
 // Forward messages from the Real time server to the client
-impl Handler<messages::WsMessage> for DataSocket {
+impl Handler<messages::ServerMessage> for DataSocket {
     type Result = ();
 
-    fn handle(&mut self, msg: messages::WsMessage, ctx: &mut Self::Context) {
-        ctx.text(msg.message);
+    fn handle(&mut self, msg: messages::ServerMessage, ctx: &mut Self::Context) {
+        ctx.text(msg.0);
     }
 }
 
@@ -98,6 +103,56 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for DataSocket{
 
             ws::Message::Text(text) =>  {
                 let m = text.trim();
+                let v: Vec<&str> = m.splitn(2, ' ').collect();
+                // match for routes
+                match v.get(0) {
+                    Some(url) => {
+                        match *url {
+                            "/fixture/update" => {
+                                match v.len(){
+                                    1 => {
+                                        ctx.text("Fixture required!")
+                                    }
+                                    2 => {
+                                        let fixture: Result<Fixture, Error> = serde_json::from_str(v[1]);
+                                        match fixture {
+                                            Ok(fixture) => {
+                                                self.server.do_send(messages::FixtureUpdateMessage::new(self.id, fixture))
+                                            }
+                                            Err(_) => {
+                                                ctx.text("Fixture not found")
+                                            }
+                                        }
+                                    }
+                                    _ => {}
+                                }
+                            },
+                            "/fixture/add" => {
+
+                            }
+                            "/fixture/remove" => {
+
+                            }
+                            _ => {ctx.text("Unknown command")}
+                        }
+                    }
+                    None => {ctx.text("Empty message")}
+                }
+        }
+
+            ws::Message::Binary(_) => println!("Unexpected Binary"),
+
+            ws::Message::Close(reason) => {
+                ctx.close(reason);
+                ctx.stop();
+            }
+
+            ws::Message::Continuation(_) => {
+                ctx.stop()
+            }
+
+            ws::Message::Nop => {
+                ()
             }
         }
 

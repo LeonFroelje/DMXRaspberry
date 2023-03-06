@@ -46,6 +46,29 @@ impl Universe{
         self.fixtures.remove(index)
     }
 
+    fn search_fixture_mut(&mut self, fixture: &Fixture) -> Option<&mut Fixture>{
+        for f in self.fixtures.iter_mut(){
+            if f == fixture{
+                return Some(f);
+            }
+        }
+        None
+    }
+
+    pub fn update_fixture(&mut self, fixture: Fixture) -> Result<(), FixtureNotFoundError>{
+        let f = match self.search_fixture_mut(&fixture){
+            Some(f) => f,
+            None => {
+                return Err(FixtureNotFoundError(String::from(format!("Fixture {:?} not found", fixture))));
+            }
+        };
+        let c = fixture.channels().to_vec();
+        f.update_channels(c);
+        Ok(())
+        
+    }
+
+
     pub fn data(&self) ->  [u8; 512]{
         let mut data = [0x00; 512];
         for fixture in &self.fixtures{
@@ -59,6 +82,8 @@ impl Universe{
         data        
     }
 }
+
+pub struct FixtureNotFoundError(pub String);
 
 
 #[cfg(test)]

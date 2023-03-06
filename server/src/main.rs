@@ -1,11 +1,13 @@
 use crate::config::ServerConfig;
 use crate::dmx_api::{ channel::Channel, fixture::Fixture, universe::Universe };
 use crate::state::AppState;
+use crate::websockets::server::RtServer;
 
 use dmx;
 use dmx_serial::posix::TTYPort;
 
 use std::fs::read_to_string;
+use std::sync::Mutex;
 use std::sync::mpsc::{ self, TryRecvError, Receiver };
 use std::{thread, fs };
 
@@ -48,16 +50,14 @@ async fn main() -> std::io::Result<()> {
     let mut universe = create_universe(cnf.default_universe());
     let data = universe.data();
 
-    let app_state = AppState::new(universe, tx);
-
+    let app_state = Mutex::new(AppState::new(universe, tx));
+    let rt_server = RtServer::new(app_state);
     spawn_dmx_thread(rx, data, dmx_port);
-    println!("hier");
-    for d in 0..256{
-        let data = [d as u8; 512];
-        tx.send(data).unwrap();
-    }
+
     HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::from(app_state)).clone()
+            .app_data(web::Data::new(server.clone()))
             .service(
                 web::scope("/api")
                 .service(web::resource("/ws").route(web::get().to(websocket::echo_ws)))

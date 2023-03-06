@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug, Hash, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Hash, PartialEq, Eq, Clone)]
 /// Represents a single DMX channel
 /// Implements
 pub struct Channel{
@@ -60,7 +60,7 @@ impl Channel{
     }
 }
 
-#[derive(Debug, Deserialize, Serialize, Hash, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Serialize, Hash, PartialEq, Eq, Clone)]
 pub enum ChannelType{
     Intensity(),
     IntensityRed(),

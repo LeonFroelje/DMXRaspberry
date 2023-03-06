@@ -1,10 +1,12 @@
 use crate::dmx_api::channel::Channel;
+use uuid::Uuid;
 use serde::{Deserialize, Serialize};
 
 
-#[derive(Serialize, Deserialize, Debug, Hash, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, Hash, Eq)]
 pub struct Fixture{
     name: String,
+    id: Uuid,
     channels: Vec<Channel>,
     manufacturer: String,
     model: String,
@@ -16,6 +18,7 @@ impl Fixture {
          kind: String) -> Fixture {
         Fixture{
             name: name,
+            id: Uuid::new_v4(),
             channels: channels,
             manufacturer: manufacturer,
             model: model,
@@ -40,6 +43,20 @@ impl Fixture {
             },
             None => Err("Channel number out of bounds")
         }
+    }
+
+    pub fn update_channels(&mut self, channels: Vec<Channel>){
+        self.channels = channels;
+    }
+    
+    pub fn id(&self) -> Uuid{
+        self.id
+    }
+}
+
+impl PartialEq for Fixture{
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
     }
 }
 
