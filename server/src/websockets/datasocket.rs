@@ -1,4 +1,4 @@
-use crate::{websockets::messages, routes, dmx_api::fixture::Fixture};
+use crate::{websockets::messages, dmx_api::fixture::Fixture};
 use std::time::{ Instant, Duration };
 use actix::{ Actor, StreamHandler, ActorContext, Addr, AsyncContext };
 use actix_web_actors::ws;
@@ -9,7 +9,6 @@ use serde_json::Error;
 
 const HEARTBEAT: Duration = Duration::from_secs(5);
 const CLIENT_TIMEOUT: Duration = Duration::from_secs(10);
-const NATIVE_ACCURACY_NS: u32 = 100_000;
 
 #[derive(Debug)]
 pub struct DataSocket{
@@ -39,7 +38,7 @@ impl Actor for DataSocket{
         .wait(ctx);
     }
 
-    fn stopping(&mut self, ctx: &mut Self::Context) -> actix::Running {
+    fn stopping(&mut self, _ctx: &mut Self::Context) -> actix::Running {
         self.server.do_send(messages::Disconnect { id: self.id });
         Running::Stop
     }
@@ -103,24 +102,24 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for DataSocket{
 
             ws::Message::Text(text) =>  {
                 let m = text.trim();
-                let v: Vec<&str> = m.splitn(2, ' ').collect();
+                let message_vector: Vec<&str> = m.splitn(2, ' ').collect();
                 // match for routes
-                match v.get(0) {
+                match message_vector.get(0) {
                     Some(url) => {
                         match *url {
                             "/fixture/update" => {
-                                match v.len(){
+                                match message_vector.len(){
                                     1 => {
                                         ctx.text("Fixture required!")
                                     }
                                     2 => {
-                                        let fixture: Result<Fixture, Error> = serde_json::from_str(v[1]);
+                                        let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
                                         match fixture {
                                             Ok(fixture) => {
                                                 self.server.do_send(messages::FixtureUpdateMessage::new(self.id, fixture))
                                             }
                                             Err(_) => {
-                                                ctx.text("Fixture not found")
+                                                ctx.text("Syntax error in Fixture definition")
                                             }
                                         }
                                     }
@@ -128,10 +127,38 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for DataSocket{
                                 }
                             },
                             "/fixture/add" => {
-
+                                match message_vector.len() {
+                                    1 => ctx.text("Fixture required!"),
+                                    2 => {
+                                        let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
+                                        match fixture {
+                                            Ok(fixture) => {
+                                                self.server.do_send(messages::FixtureAddMessage::new(self.id, fixture))
+                                            }
+                                            Err(_) => {
+                                                ctx.text("Syntax error in Fixture definition")
+                                            }
+                                        }
+                                    }
+                                    _ => {}
+                                }
                             }
                             "/fixture/remove" => {
-
+                                match message_vector.len() {
+                                    1 => ctx.text("Fixture required!"),
+                                    2 => {
+                                        let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
+                                        match fixture {
+                                            Ok(fixture) => {
+                                                self.server.do_send(messages::FixtureRemoveMessage::new(self.id, fixture))
+                                            }
+                                            Err(_) => {
+                                                ctx.text("Syntax error in Fixture definition")
+                                            }
+                                        }
+                                    }
+                                    _ => {}
+                                }
                             }
                             _ => {ctx.text("Unknown command")}
                         }
@@ -167,15 +194,34 @@ impl PartialEq for DataSocket{
         return self.id != other.id
     }
 }
-/*#[cfg(test)]
+#[cfg(test)]
 mod test{
+    use std::fs;
+    use std::sync::Arc;
+    use std::sync::mpsc;
+    use actix::prelude::*;
+    use crate::dmx_api::universe::Universe;
+    use crate::state::AppState;
+    use crate::websockets::server::RtServer;
+
     use super::DataSocket;
-    use super::Instant;
 
     fn init() -> DataSocket{
-        DataSocket::new()
-    }
+        let (tx, _rx) = mpsc::channel();
 
+        // Construct the DMX-universe from a file
+        let path = format!("./Universes/Default.json");
+        let universe: Universe = match fs::read_to_string(path){
+            Ok(string) => serde_json::from_str(&string).unwrap(),
+            Err(_) => {panic!("asd")}
+    
+        };
+    
+        let app_state = AppState::new(Some(universe), tx);
+        let rt_server = RtServer::new(Arc::new(app_state));
+        DataSocket::new(rt_server.start())
+    }
+/*
     #[test]
     pub fn test_eq(){
         let d1 = init();
@@ -191,4 +237,5 @@ mod test{
 
         assert_ne!(d1, d2)
     }
-}*/
+    */
+}

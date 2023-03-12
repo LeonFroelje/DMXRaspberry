@@ -41,13 +41,28 @@ impl FixtureUpdateMessage{
     }
 }
 
+#[derive(Message)]
+#[rtype(result = "()")]
 pub struct FixtureAddMessage{
     pub id: Uuid,
     pub fixture: Fixture,
 }
 
+impl FixtureAddMessage{
+    pub fn new(id: Uuid, fixture: Fixture) -> Self{
+        Self { id: id, fixture: fixture }
+    }
+}
+
+#[derive(Message)]
+#[rtype(result = "()")]
 pub struct FixtureRemoveMessage{
     pub id: Uuid,
     pub fixture: Fixture
 }
 
+impl FixtureRemoveMessage{
+    pub fn new(id: Uuid, fixture: Fixture) -> Self{
+        Self { id: id, fixture: fixture }
+    }
+}

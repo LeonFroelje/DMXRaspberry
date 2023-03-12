@@ -68,6 +68,11 @@ impl Universe{
         
     }
 
+    pub fn index_of(&self, fixture: &Fixture) -> Option<usize>{
+        self.fixtures.iter()
+        .position(|f| f == fixture)
+    }
+
 
     pub fn data(&self) ->  [u8; 512]{
         let mut data = [0x00; 512];
@@ -183,5 +188,9 @@ mod tests{
         let universe: Universe = serde_json::from_str(&s).unwrap();
 
         assert_eq!(universe, expected);
+    }
+
+    fn test_index_of(){
+        
     }
 }

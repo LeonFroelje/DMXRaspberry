@@ -11,10 +11,16 @@ import './css/App.css';
 import Footer from "./components/footer/footer.mjs";
 import { AiOutlineHome, AiOutlinePlayCircle, AiOutlineFieldTime, AiOutlineSetting } from "react-icons/ai";
 import { BsCodeSlash } from "react-icons/bs";
-
+import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { useState } from "react";
 
 function App() {
-  return (
+  const ws_url = "127.0.0.1:8000";
+
+  const [socketUrl, setSocketUrl] = useState('ws://127.0.0.1:8000/api/ws');
+  const [messageHistory, setMessageHistory] = useState([]);
+
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);  return (
     <div className="App">
       <Outlet/>
       <Footer links={[

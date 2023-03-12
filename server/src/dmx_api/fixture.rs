@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::dmx_api::channel::Channel;
 use uuid::Uuid;
 use serde::{Deserialize, Serialize};
@@ -10,7 +12,7 @@ pub struct Fixture{
     channels: Vec<Channel>,
     manufacturer: String,
     model: String,
-    kind: String
+    kind: String,
 }
 
 impl Fixture {

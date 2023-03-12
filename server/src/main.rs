@@ -1,13 +1,14 @@
 use crate::config::ServerConfig;
-use crate::dmx_api::{ channel::Channel, fixture::Fixture, universe::Universe };
+use crate::dmx_api::{ universe::Universe };
 use crate::state::AppState;
 use crate::websockets::server::RtServer;
 
 use dmx;
+use dmx::DmxTransmitter;
 use dmx_serial::posix::TTYPort;
 
 use std::fs::read_to_string;
-use std::sync::Mutex;
+use std::sync::Arc;
 use std::sync::mpsc::{ self, TryRecvError, Receiver };
 use std::{thread, fs };
 
@@ -37,7 +38,6 @@ async fn main() -> std::io::Result<()> {
     let cnf = read_config();
     let bind = format!("{HOST}:{PORT}");
     // Open the port used to send the DMX signals
-    println!("{}", cnf.port());
     let dmx_port = open_dmx_port(cnf.port());
 
     // Transmitter and receiver for the actual DMX data that's going to be
@@ -47,20 +47,22 @@ async fn main() -> std::io::Result<()> {
     let (tx, rx) = mpsc::channel();
 
     // Construct the DMX-universe from a file
-    let mut universe = create_universe(cnf.default_universe());
-    let data = universe.data();
+    let universe = create_universe(cnf.default_universe());
+    let data = match &universe{
+        Some(universe) => universe.data(),
+        None => [0; 512],
+    };
 
-    let app_state = Mutex::new(AppState::new(universe, tx));
-    let rt_server = RtServer::new(app_state);
+    let app_state = AppState::new(universe, tx);
+    let rt_server = web::Data::new(RtServer::new(Arc::new(app_state)));
     spawn_dmx_thread(rx, data, dmx_port);
 
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::from(app_state)).clone()
-            .app_data(web::Data::new(server.clone()))
+            .app_data(web::Data::new(rt_server.clone()))
             .service(
                 web::scope("/api")
-                .service(web::resource("/ws").route(web::get().to(websocket::echo_ws)))
+                .service(web::resource("/ws").route(web::get().to(websocket::create_socket)))
                 .service(web::resource("/lel").route(web::get().to(lel)))
             )
             .service(Files::new("/", cnf.react_build_path()).index_file("index.html"))            
@@ -101,19 +103,21 @@ fn spawn_dmx_thread(rx: Receiver<[u8; 512]>, mut data: [u8; 512], mut port: TTYP
                 }
             };
             // Send the current data to the dmx port
-            // port.send_dmx_packet(&data).unwrap();
+            //port.send_dmx_packet(&data).unwrap();
             // Sleep to limit loop to frequency of 44Hz
             spin_sleeper.sleep(duration);
         }
     });
 }
 
-fn create_universe(universe_name: &String) -> Universe{
+fn create_universe(universe_name: &String) -> Option<Universe>{
     let path = format!("./Universes/{universe_name}.json");
-    println!("{path}");
-    let s = fs::read_to_string(path).unwrap();
-    serde_json::from_str(&s).unwrap() 
-}
+    match fs::read_to_string(path){
+        Ok(string) => Some(serde_json::from_str(&string).unwrap()),
+        Err(_) => None
+
+    }
+ }
 
 fn open_dmx_port(port_name: &String) -> TTYPort{
     let path = format!("/dev/{port_name}");

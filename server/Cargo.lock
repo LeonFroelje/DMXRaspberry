@@ -3,26 +3,6 @@
 version = 3
 
 [[package]]
-name = "DMXServer"
-version = "0.1.0"
-dependencies = [
- "actix",
- "actix-files",
- "actix-web",
- "actix-web-actors",
- "actix-ws",
- "dmx",
- "dmx-serial",
- "log",
- "rand",
- "serde",
- "serde-big-array",
- "serde_json",
- "spin_sleep",
- "uuid",
-]
-
-[[package]]
 name = "actix"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -533,6 +513,26 @@ checksum = "cf7955e3be47a2a8db9b14f977d4e41adcb0dfb029dba4a7e6d5a4a92de0cac5"
 dependencies = [
  "ioctl-rs",
  "libc",
+]
+
+[[package]]
+name = "dmxserver"
+version = "0.1.0"
+dependencies = [
+ "actix",
+ "actix-files",
+ "actix-web",
+ "actix-web-actors",
+ "actix-ws",
+ "dmx",
+ "dmx-serial",
+ "log",
+ "rand",
+ "serde",
+ "serde-big-array",
+ "serde_json",
+ "spin_sleep",
+ "uuid",
 ]
 
 [[package]]

@@ -8,9 +8,9 @@ use crate::websockets::server::RtServer;
 
 use crate::websockets::datasocket::DataSocket;
 
-pub async fn echo_ws(req: HttpRequest, stream: Payload, srv: Data<Addr<RtServer>>) -> Result<HttpResponse, Error> {
+pub async fn create_socket(req: HttpRequest, stream: Payload, srv: Data<Addr<RtServer>>) -> Result<HttpResponse, Error> {
     println!("Request received");
-    ws::start(DataSocket::new(srv.get_ref().to_owned()), &req, stream)
+    ws::start(DataSocket::new(srv.get_ref().clone()), &req, stream)
 }
 /*
 pub fn handle_ws_text<T>(v: Vec<&str>) -> Result<T, WsHandlingError>
