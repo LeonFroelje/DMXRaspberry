@@ -5,7 +5,7 @@ use super::program::Program;
 
 
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
 // Represents a DMX universe.
 // A DMX universe consists of 512 channels 
 pub struct Universe{     
@@ -104,7 +104,7 @@ pub enum Mode{
     Play(Program),
 }
 
-
+#[derive(Debug)]
 pub struct FixtureNotFoundError(pub String);
 
 

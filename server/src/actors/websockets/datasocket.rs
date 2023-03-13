@@ -3,6 +3,7 @@ use std::time::{ Instant, Duration };
 use actix::{ Actor, StreamHandler, ActorContext, Addr, AsyncContext };
 use actix_web_actors::ws;
 use actix::prelude::*;
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use crate::websockets::server;
 use serde_json::Error;
@@ -73,21 +74,10 @@ impl DataSocket{
         Self { id: Uuid::new_v4(), server: srv, hb: Instant::now() }
     }
 
-    fn handle_text_message(&self, message_vector: Vec<&str>, ctx: &mut <DataSocket as Actor>::Context){
-        match message_vector.len(){
-            0 => {
-                ctx.text("Empty message received")
-            }
-            1 => {
-                ctx.text("Payload required")
-            }
-            _ => {}
-        }
-        // url exists, because the length of the vector is greater than 1
-        let url = message_vector[0];
-        match url {
-            "/fixture/update" => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
+    fn handle_text_message(&self, message: TextMessage, ctx: &mut <DataSocket as Actor>::Context){
+        match message.kind{
+            "update fixture" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureUpdateMessage::new(self.id, fixture))
@@ -97,8 +87,8 @@ impl DataSocket{
                     }
                 }
             },
-            "/fixture/add" => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
+            "add fixture" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureAddMessage::new(self.id, fixture))
@@ -108,8 +98,8 @@ impl DataSocket{
                     }
                 }
             }
-            "/fixture/remove" => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
+            "remove fixture" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureRemoveMessage::new(self.id, fixture))
@@ -129,7 +119,7 @@ impl Handler<messages::ServerMessage> for DataSocket {
     type Result = ();
 
     fn handle(&mut self, msg: messages::ServerMessage, ctx: &mut Self::Context) {
-        ctx.text(msg.0);
+        ctx.text(serde_json::to_string(&msg).unwrap());
     }
 }
 
@@ -155,9 +145,9 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for DataSocket{
 
             ws::Message::Text(text) =>  {
                 let m = text.trim();
-                let message_vector: Vec<&str> = m.splitn(2, ' ').collect();
+                let message: TextMessage = serde_json::from_str(&text).unwrap();
                 // match for routes
-                self.handle_text_message(message_vector, ctx);
+                self.handle_text_message(message, ctx);
         }
 
             ws::Message::Binary(_) => println!("Unexpected Binary"),
@@ -187,6 +177,14 @@ impl PartialEq for DataSocket{
         return self.id != other.id
     }
 }
+
+
+#[derive(Deserialize, Serialize)]
+struct TextMessage<'a>{
+    pub kind: &'a str,
+    pub text: &'a str
+}
+
 /*
 #[cfg(test)]
 mod test{

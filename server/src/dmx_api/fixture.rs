@@ -5,7 +5,7 @@ use uuid::Uuid;
 use serde::{Deserialize, Serialize};
 
 
-#[derive(Serialize, Deserialize, Debug, Hash, Eq)]
+#[derive(Serialize, Deserialize, Debug, Hash, Eq, Clone)]
 pub struct Fixture{
     name: String,
     id: Uuid,

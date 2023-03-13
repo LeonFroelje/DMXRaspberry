@@ -62,8 +62,7 @@ async fn main() -> std::io::Result<()> {
         None => [0; 512],
     };
 
-    let app_state = AppState::new(universe, tx);
-    let rt_server = RtServer::new(Arc::new(app_state), None).start();
+    let rt_server = RtServer::new().start();
     let default_dmx_actor = DmxActor::new(default_port, default_universe, rt_server.clone()).unwrap();
     let execution = async {
         default_dmx_actor.start();

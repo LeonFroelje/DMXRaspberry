@@ -1,12 +1,35 @@
 use actix::{Message, Addr};
 use actix::prelude::Recipient;
-use actix_web::rt;
+use serde::Serialize;
 use crate::{dmx_api::fixture::{Fixture}, actors::dmx::dmxactor::DmxActor};
 use uuid::Uuid;
+use crate::dmx_api::universe::Universe;
 
-#[derive(Message)]
+#[derive(Serialize, Clone)]
+pub enum ServerMessageKind{
+    Error,
+    Universe,
+    FixtureUpdate,
+    FixtureAdd,
+    FixtureRemove,
+}
+
+#[derive(Message, Serialize, Clone)]
 #[rtype(result = "()")]
-pub struct ServerMessage(pub String);
+pub struct ServerMessage{
+    pub kind: ServerMessageKind,
+    pub msg: String
+}
+
+impl ServerMessage{
+    pub fn new(kind: ServerMessageKind, msg: &str) -> Self{
+        Self{
+            kind,
+            msg: String::from(msg)
+        }
+    }
+}
+
 
 #[derive(Message)]
 #[rtype(Uuid)]
@@ -71,3 +94,14 @@ impl FixtureRemoveMessage{
 #[derive(Message)]
 #[rtype(result = "()")]
 pub struct SetDefaultActorMessage(pub Addr<DmxActor>);
+
+
+#[derive(Message)]
+#[rtype(Uuid)]
+pub struct NewDmxActor{
+    pub addr: Addr<DmxActor>
+}
+
+#[derive(Message)]
+#[rtype(Universe)]
+pub struct GetUniverse();
