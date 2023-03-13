@@ -1,8 +1,7 @@
-use std::{collections::{HashMap}, sync::{Arc}};
+use std::collections::HashMap;
 use actix::prelude::*;
 use uuid::Uuid;
-use crate::{websockets::messages, actors::dmx::dmxactor::DmxActor, dmx_api::universe::Universe};
-use crate::state::AppState;
+use crate::{websockets::messages, actors::dmx::dmxactor::DmxActor};
 
 use super::messages::{Connect, ServerMessage, NewDmxActor};
 
@@ -62,21 +61,7 @@ impl Handler<messages::Connect> for RtServer{
         match &self.default_dmx_actor{
             Some(dmx_actor) => {
                 // fetch the current universe state from that actor
-                async{
-                    let app_state_msg = dmx_actor.send(messages::GetUniverse()).await;
-                    match app_state_msg{
-                        // if the fetch was successful, forward the universe state to the client connection  
-                        Ok(universe) => {
-                            let msg_kind = messages::ServerMessageKind::Universe;
-                            let msg_content = serde_json::to_string(&universe).unwrap();
-                            let msg = messages::ServerMessage::new(msg_kind, &msg_content);
-                            addr.do_send(msg);
-                        }
-                        Err(MailboxError) => {
-                            log::error!("Mailbox error default dmxactor");
-                        }
-                    }
-                };
+                dmx_actor.do_send(messages::GetUniverse(Some(id.clone())));
             }
             // if there is no default dmx actor
             None => {
@@ -201,14 +186,36 @@ impl Handler<messages::FixtureRemoveMessage> for RtServer{
 impl Handler<messages::NewDmxActor> for RtServer{
     type Result = MessageResult<NewDmxActor>;
 
-    fn handle(&mut self, msg: messages::NewDmxActor, ctx: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, msg: messages::NewDmxActor, _ctx: &mut Self::Context) -> Self::Result {
         let id = Uuid::new_v4();
         let addr = msg.addr;
 
         self.default_dmx_actor = Some(addr);
         MessageResult(id)   
     }
-}/*
+}
+
+impl Handler<messages::SendUniverse> for RtServer{
+    type Result = ();
+
+    fn handle(&mut self, msg: messages::SendUniverse, _ctx: &mut Self::Context) -> Self::Result {
+        let kind = messages::ServerMessageKind::Universe;
+        let content = serde_json::to_string(&msg.universe).unwrap();
+        log::info!("{content}");
+        let message = ServerMessage::new(kind, &content);
+        match msg.id{
+            Some(id) => {
+                let client = self.sessions.get(&id).unwrap();
+                client.do_send(message);
+            }
+            None => {
+                self.broadcast(message, None);
+            }
+        }
+    }
+}
+
+/*
 
 impl Handler<messages::SetDefaultActorMessage> for RtServer{
     type Result = ();

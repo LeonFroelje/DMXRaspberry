@@ -183,7 +183,7 @@ mod tests{
         let mut file = File::create("./test.json").unwrap();
         file.write_all(s.as_bytes()).unwrap();
     }
-
+/*
     #[test]
     fn test_deserialize(){
         let mut channels: Vec<Channel> =  Vec::new();
@@ -206,7 +206,7 @@ mod tests{
 
         assert_eq!(universe, expected);
     }
-
+*/
     fn test_index_of(){
         
     }

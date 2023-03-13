@@ -84,7 +84,7 @@ mod tests{
 
     #[test]
     pub fn test_serialize(){
-        let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}");
+        let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":{\"Intensity\":[]},\"default_value\":0,\"capabilities\":{}}");
         let c = Channel::new(1, ChannelType::Intensity(),
          0x00, BTreeMap::new());
         let j = serde_json::to_string(&c).unwrap();
@@ -95,7 +95,7 @@ mod tests{
     pub fn test_deserialize(){
         let expected = Channel::new(1, ChannelType::Intensity(),
          0x00, BTreeMap::new());
-        let c: Channel = serde_json::from_str("{\"address\":1,\"data\":0,\"channel_type\":\"test\",\"default_value\":0,\"capabilities\":{}}").unwrap();
+        let c: Channel = serde_json::from_str("{\"address\":1,\"data\":0,\"channel_type\":{\"Intensity\":[]},\"default_value\":0,\"capabilities\":{}}").unwrap();
 
         assert_eq!(c.address(), expected.address());
         assert_eq!(c.capabilities(), expected.capabilities());

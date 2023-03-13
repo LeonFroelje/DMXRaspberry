@@ -32,7 +32,7 @@ impl ServerMessage{
 
 
 #[derive(Message)]
-#[rtype(Uuid)]
+#[rtype(result = "Uuid")]
 pub struct Connect{
     pub addr: Recipient<ServerMessage>,
 }
@@ -103,5 +103,19 @@ pub struct NewDmxActor{
 }
 
 #[derive(Message)]
-#[rtype(Universe)]
-pub struct GetUniverse();
+#[rtype(result = "()")]
+pub struct GetUniverse(pub Option<Uuid>);
+
+
+#[derive(Message)]
+#[rtype(result = "()")]
+pub struct SendUniverse{
+    pub id: Option<Uuid>,
+    pub universe: Universe
+}
+
+impl SendUniverse{
+    pub fn new(id: Option<Uuid>, universe: Universe) -> Self{
+        Self { id, universe }
+    }
+}

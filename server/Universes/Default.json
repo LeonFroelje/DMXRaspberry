@@ -1,4 +1,134 @@
 {
-    "name": "Default",
-    "fixtures": []
-  }
+  "name": "kek",
+  "mode": {
+    "Programming": null
+  },
+  "fixtures": [
+    {
+      "name": "t1",
+      "id": "2e12840f-209e-4b9d-839c-3bfbe5112bb7",
+      "channels": [
+        {
+          "address": 1,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 2,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 3,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 4,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 5,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 6,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        }
+      ],
+      "manufacturer": "test",
+      "model": "test",
+      "kind": "test"
+    },
+    {
+      "name": "t2",
+      "id": "5afa36ac-b0c6-4dc7-810a-59ab841a188a",
+      "channels": [
+        {
+          "address": 7,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 8,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 9,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 10,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 11,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 12,
+          "data": 0,
+          "channel_type": {
+            "Intensity": []
+          },
+          "default_value": 0,
+          "capabilities": {}
+        }
+      ],
+      "manufacturer": "test",
+      "model": "test",
+      "kind": "test"
+    }
+  ]
+}

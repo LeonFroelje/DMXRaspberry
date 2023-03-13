@@ -144,7 +144,6 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for DataSocket{
             }
 
             ws::Message::Text(text) =>  {
-                let m = text.trim();
                 let message: TextMessage = serde_json::from_str(&text).unwrap();
                 // match for routes
                 self.handle_text_message(message, ctx);

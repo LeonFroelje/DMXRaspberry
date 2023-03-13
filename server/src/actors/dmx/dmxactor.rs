@@ -1,6 +1,7 @@
 use dmx;
 use dmx::DmxTransmitter;
 use dmx_serial::posix::TTYPort;
+use uuid::Uuid;
 //use std::fmt::Error;
 use std::{time::Duration, fs};
 use actix::prelude::*;
@@ -8,7 +9,7 @@ use actix::prelude::*;
 use dmx_serial::Error;
 use crate::{dmx_api::universe::{Universe}, actors::websockets::{server::RtServer, messages}};
 
-const DMX_INTERVAL: u64 = 50_000_000;
+const DMX_INTERVAL: u64 = 50;
 
 pub struct DmxActor{
     port: TTYPort,
@@ -19,7 +20,8 @@ pub struct DmxActor{
 
 impl DmxActor{
     pub fn new(port_path: String, universe: String, server: Addr<RtServer>) -> Result<Self, Error>{
-        let port = dmx::open_serial(&port_path)?;
+        let p = format!("/dev/{port_path}");
+        let port = dmx::open_serial(&p)?;
         let universe = serde_json::from_str(&fs::read_to_string(format!("./Universes/{universe}.json"))?).unwrap();
         Ok(Self {
             port,
@@ -33,25 +35,20 @@ impl Actor for DmxActor {
     type Context = Context<Self>;
 
     fn started(&mut self, ctx: &mut Self::Context) {
-        ctx.run_interval(Duration::from_nanos(DMX_INTERVAL), |act, _ctx| {
+        ctx.run_interval(Duration::from_millis(DMX_INTERVAL), |act, _ctx| {
             act.port.send_dmx_packet(&act.universe.data()).unwrap()
         });
         self.server.do_send(messages::NewDmxActor{
             addr: ctx.address()
         })
-        /*
-        match &self.server {
-            Some(srv) => srv.do_send(messages::SetDefaultActorMessage(ctx.address())),
-            None => {}
-        };*/
     }
 }
 
 impl Handler<messages::GetUniverse> for DmxActor{
-    type Result = MessageResult<messages::GetUniverse>;
+    type Result = ();
 
     fn handle(&mut self, msg: messages::GetUniverse, ctx: &mut Self::Context) -> Self::Result {
-        MessageResult(self.universe.clone())
+        self.server.do_send(messages::SendUniverse::new(msg.0, self.universe.clone()));
     }
 }
 
