@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import {
   createBrowserRouter,
@@ -20,7 +20,15 @@ function App() {
   const [socketUrl, setSocketUrl] = useState('ws://127.0.0.1:8000/api/ws');
   const [messageHistory, setMessageHistory] = useState([]);
 
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);  return (
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  
+  useEffect(() => {
+    if(lastMessage != null){
+      
+    }
+  })
+
+  return (
     <div className="App">
       <Outlet/>
       <Footer links={[

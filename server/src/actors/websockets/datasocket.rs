@@ -30,7 +30,10 @@ impl Actor for DataSocket{
         }).into_actor(self)
         .then(|res, act, ctx| {
             match res{
-                Ok(res) => act.id = res,
+                Ok(res) => {
+                    act.id = res;
+                    ctx.text(format!("{}", act.id));
+                },
                 _ => ctx.stop()  
             }
             fut::ready(())
@@ -69,6 +72,56 @@ impl DataSocket{
     pub fn new(srv: Addr<server::RtServer>) -> Self{
         Self { id: Uuid::new_v4(), server: srv, hb: Instant::now() }
     }
+
+    fn handle_text_message(&self, message_vector: Vec<&str>, ctx: &mut <DataSocket as Actor>::Context){
+        match message_vector.len(){
+            0 => {
+                ctx.text("Empty message received")
+            }
+            1 => {
+                ctx.text("Payload required")
+            }
+            _ => {}
+        }
+        // url exists, because the length of the vector is greater than 1
+        let url = message_vector[0];
+        match url {
+            "/fixture/update" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
+                match fixture {
+                    Ok(fixture) => {
+                        self.server.do_send(messages::FixtureUpdateMessage::new(self.id, fixture))
+                    }
+                    Err(_) => {
+                        ctx.text("Syntax error in Fixture definition")
+                    }
+                }
+            },
+            "/fixture/add" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
+                match fixture {
+                    Ok(fixture) => {
+                        self.server.do_send(messages::FixtureAddMessage::new(self.id, fixture))
+                    }
+                    Err(_) => {
+                        ctx.text("Syntax error in Fixture definition")
+                    }
+                }
+            }
+            "/fixture/remove" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
+                match fixture {
+                    Ok(fixture) => {
+                        self.server.do_send(messages::FixtureRemoveMessage::new(self.id, fixture))
+                    }
+                    Err(_) => {
+                        ctx.text("Syntax error in Fixture definition")
+                    }
+                }
+            }
+            _ => {ctx.text("Unknown url")}
+        }
+    }
 }
 
 // Forward messages from the Real time server to the client
@@ -104,67 +157,7 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for DataSocket{
                 let m = text.trim();
                 let message_vector: Vec<&str> = m.splitn(2, ' ').collect();
                 // match for routes
-                match message_vector.get(0) {
-                    Some(url) => {
-                        match *url {
-                            "/fixture/update" => {
-                                match message_vector.len(){
-                                    1 => {
-                                        ctx.text("Fixture required!")
-                                    }
-                                    2 => {
-                                        let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
-                                        match fixture {
-                                            Ok(fixture) => {
-                                                self.server.do_send(messages::FixtureUpdateMessage::new(self.id, fixture))
-                                            }
-                                            Err(_) => {
-                                                ctx.text("Syntax error in Fixture definition")
-                                            }
-                                        }
-                                    }
-                                    _ => {}
-                                }
-                            },
-                            "/fixture/add" => {
-                                match message_vector.len() {
-                                    1 => ctx.text("Fixture required!"),
-                                    2 => {
-                                        let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
-                                        match fixture {
-                                            Ok(fixture) => {
-                                                self.server.do_send(messages::FixtureAddMessage::new(self.id, fixture))
-                                            }
-                                            Err(_) => {
-                                                ctx.text("Syntax error in Fixture definition")
-                                            }
-                                        }
-                                    }
-                                    _ => {}
-                                }
-                            }
-                            "/fixture/remove" => {
-                                match message_vector.len() {
-                                    1 => ctx.text("Fixture required!"),
-                                    2 => {
-                                        let fixture: Result<Fixture, Error> = serde_json::from_str(message_vector[1]);
-                                        match fixture {
-                                            Ok(fixture) => {
-                                                self.server.do_send(messages::FixtureRemoveMessage::new(self.id, fixture))
-                                            }
-                                            Err(_) => {
-                                                ctx.text("Syntax error in Fixture definition")
-                                            }
-                                        }
-                                    }
-                                    _ => {}
-                                }
-                            }
-                            _ => {ctx.text("Unknown command")}
-                        }
-                    }
-                    None => {ctx.text("Empty message")}
-                }
+                self.handle_text_message(message_vector, ctx);
         }
 
             ws::Message::Binary(_) => println!("Unexpected Binary"),
@@ -194,6 +187,7 @@ impl PartialEq for DataSocket{
         return self.id != other.id
     }
 }
+/*
 #[cfg(test)]
 mod test{
     use std::fs;
@@ -221,7 +215,7 @@ mod test{
         let rt_server = RtServer::new(Arc::new(app_state));
         DataSocket::new(rt_server.start())
     }
-/*
+
     #[test]
     pub fn test_eq(){
         let d1 = init();
@@ -237,5 +231,6 @@ mod test{
 
         assert_ne!(d1, d2)
     }
-    */
+ 
 }
+   */

@@ -1,6 +1,7 @@
-use actix::Message;
+use actix::{Message, Addr};
 use actix::prelude::Recipient;
-use crate::dmx_api::fixture::{Fixture};
+use actix_web::rt;
+use crate::{dmx_api::fixture::{Fixture}, actors::dmx::dmxactor::DmxActor};
 use uuid::Uuid;
 
 #[derive(Message)]
@@ -66,3 +67,7 @@ impl FixtureRemoveMessage{
         Self { id: id, fixture: fixture }
     }
 }
+
+#[derive(Message)]
+#[rtype(result = "()")]
+pub struct SetDefaultActorMessage(pub Addr<DmxActor>);

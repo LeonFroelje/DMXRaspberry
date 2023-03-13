@@ -1,9 +1,9 @@
 use std::{
-    collections::{HashMap}, sync::{Arc}
+    collections::{HashMap}, sync::{Arc}, fs::{self, read_to_string}
 };
 use actix::prelude::*;
 use uuid::Uuid;
-use crate::websockets::messages;
+use crate::{websockets::messages, actors::dmx::dmxactor::DmxActor, dmx_api::universe::Universe};
 use crate::state::AppState;
 
 use super::messages::{Connect, ServerMessage};
@@ -11,13 +11,18 @@ use super::messages::{Connect, ServerMessage};
 #[derive(Debug, Clone)]
 pub struct RtServer{
     sessions: HashMap<Uuid, Recipient<messages::ServerMessage>>,
+    // every session is mapped to a DmxActor which contains the Universe state 
+    default_dmx_actor: Option<Addr<DmxActor>>,
+    session_dmxactor_mapping: HashMap<Uuid, Option<Addr<DmxActor>>>, 
     app_state: Arc<AppState>
 }
 
 impl RtServer{
-    pub fn new(app_state: Arc<AppState>) -> RtServer {
+    pub fn new(app_state: Arc<AppState>, default_dmx_actor: Option<Addr<DmxActor>>) -> RtServer {
         RtServer {
             sessions: HashMap::new(),
+            default_dmx_actor,
+            session_dmxactor_mapping: HashMap::new(),
             app_state,
         }
     }
@@ -42,6 +47,12 @@ impl RtServer{
 
 impl Actor for RtServer{
     type Context = Context<Self>;
+    fn started(&mut self, ctx: &mut Self::Context) {
+        
+    }
+    fn stopped(&mut self, ctx: &mut Self::Context) {
+        
+    }
 }
 
 impl Handler<messages::Connect> for RtServer{
@@ -58,7 +69,12 @@ impl Handler<messages::Connect> for RtServer{
         addr.do_send(messages::ServerMessage(serde_json::to_string(app_state_msg).unwrap()));
 
         self.sessions.insert(id, addr);
-
+        // map websocket to a dmx port and universe
+        match &self.default_dmx_actor {
+            Some(dmx_actor) => {self.session_dmxactor_mapping.insert(id, Some(dmx_actor.clone()));}
+            None => ()
+        }
+        
         // Get the app state and send it back to the client
         // send back id
         MessageResult(id)
@@ -162,5 +178,13 @@ impl Handler<messages::FixtureRemoveMessage> for RtServer{
                 self.sessions.get(&msg.id).unwrap().do_send(ServerMessage(String::from("No Universe selected!")));
             }
         }
+    }
+}
+
+impl Handler<messages::SetDefaultActorMessage> for RtServer{
+    type Result = ();
+
+    fn handle(&mut self, msg: messages::SetDefaultActorMessage, _ctx: &mut Self::Context) -> Self::Result {
+        self.default_dmx_actor = Some(msg.0);
     }
 }

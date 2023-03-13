@@ -15,15 +15,21 @@ use std::{thread, fs };
 use spin_sleep::{ SpinSleeper, SpinStrategy };
 use std::time::{ Duration };
 
-use actix_web::{ HttpServer, App, web, Responder, HttpResponse };
+use actix::prelude::*;
 
+use actix_web::{ HttpServer, App, web, Responder, HttpResponse };
+use actix_web::middleware::Logger;
+use env_logger::Env;
 use actix_files::Files;
+
+use actors::websockets;
+use actors::dmx::dmxactor::DmxActor;
 
 use routes::websocket;
 
 mod state;
 mod config;
-mod websockets;
+mod actors;
 mod dmx_api;
 mod routes;
 
@@ -35,11 +41,14 @@ const PORT: u16 = 8000;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::init_from_env(Env::default().default_filter_or("info"));
     let cnf = read_config();
     let bind = format!("{HOST}:{PORT}");
+    let default_port = cnf.port().clone();
+    let default_universe = cnf.default_universe().clone();
     // Open the port used to send the DMX signals
-    let dmx_port = open_dmx_port(cnf.port());
 
+    let dmx_port = open_dmx_port(cnf.port());
     // Transmitter and receiver for the actual DMX data that's going to be
     // passed between threads. The single receiver sits in a seperate thread
     // in which it periodically queries whether there's any new data to be written
@@ -54,7 +63,20 @@ async fn main() -> std::io::Result<()> {
     };
 
     let app_state = AppState::new(universe, tx);
-    let rt_server = web::Data::new(RtServer::new(Arc::new(app_state)));
+    let rt_server = RtServer::new(Arc::new(app_state), None).start();
+    let default_dmx_actor = DmxActor::new(default_port, default_universe, rt_server.clone()).unwrap();
+    let execution = async {
+        default_dmx_actor.start();
+    };
+    let dmx_runtime = Arbiter::new();
+    dmx_runtime.spawn(execution);
+
+    // TODO: Replace DMX Thread with an actix actor that is responsible for sending the data over the port
+    // Maybe benchmark which implementation is faster
+    // Or even better yet, spin up a new Arbiter to for the DMX runtime and refactor the Universe & all
+    // to Actors that execute on it. There wouldn't really be the need for any global app state other than the 
+    // websocket server then, because the server could simply store the addresses to the
+    // Unvierse actors in a HashMap and send the data this way.
     spawn_dmx_thread(rx, data, dmx_port);
 
     HttpServer::new(move || {
@@ -64,8 +86,10 @@ async fn main() -> std::io::Result<()> {
                 web::scope("/api")
                 .service(web::resource("/ws").route(web::get().to(websocket::create_socket)))
                 .service(web::resource("/lel").route(web::get().to(lel)))
+                .wrap(Logger::default())
+                .wrap(Logger::new("%a %{User-Agent}i"))
             )
-            .service(Files::new("/", cnf.react_build_path()).index_file("index.html"))            
+            .service(Files::new("/", cnf.react_build_path()).index_file("index.html"))
         })
     .bind(&bind)?
     .run()

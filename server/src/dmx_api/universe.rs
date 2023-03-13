@@ -1,13 +1,16 @@
 use crate::dmx_api::fixture::Fixture;
 use serde::{Deserialize, Serialize};
 
+use super::program::Program;
 
 
-#[derive(Serialize, Deserialize, Debug, Hash, PartialEq, Eq)]
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
 // Represents a DMX universe.
 // A DMX universe consists of 512 channels 
 pub struct Universe{     
     name: String,
+    mode: Mode,
     fixtures: Vec<Fixture>
 }
 
@@ -18,6 +21,7 @@ impl Universe{
         // If done that way it's going to be more efficient.
         Universe{
             name: name,
+            mode: Mode::Programming(None),
             fixtures: fixtures
         }
     }
@@ -87,6 +91,19 @@ impl Universe{
         data        
     }
 }
+
+/// The app can either be in programming mode or in play mode. In each of those
+/// modes the app uses or manipulates some programmable data structure such as
+/// a cyclical program or some timecode program. The distinction of the two modes
+/// is necessary in order to prevent different users from attempting to create
+/// a new program while another one is running and thus producing unwanted output
+/// to the fixtures.
+#[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
+pub enum Mode{
+    Programming(Option<Program>),
+    Play(Program),
+}
+
 
 pub struct FixtureNotFoundError(pub String);
 
