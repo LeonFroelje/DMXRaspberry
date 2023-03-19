@@ -9,7 +9,7 @@ use actix::prelude::*;
 use dmx_serial::Error;
 use crate::{dmx_api::universe::{Universe}, actors::websockets::{server::RtServer, messages}};
 
-const DMX_INTERVAL: u64 = 50;
+const DMX_INTERVAL: u64 = 50_000_000;
 
 pub struct DmxActor{
     port: TTYPort,
@@ -35,7 +35,7 @@ impl Actor for DmxActor {
     type Context = Context<Self>;
 
     fn started(&mut self, ctx: &mut Self::Context) {
-        ctx.run_interval(Duration::from_millis(DMX_INTERVAL), |act, _ctx| {
+        ctx.run_interval(Duration::from_nanos(DMX_INTERVAL), |act, _ctx| {
             act.port.send_dmx_packet(&act.universe.data()).unwrap()
         });
         self.server.do_send(messages::NewDmxActor{

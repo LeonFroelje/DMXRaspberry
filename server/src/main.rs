@@ -72,5 +72,8 @@ async fn lel() -> impl Responder{
 
 fn read_config() -> ServerConfig{
     // unwrap because config file should always be there by default
-    serde_json::from_str(&read_to_string("./dev_config.json").unwrap()).unwrap()
+    let cnf_file = match read_to_string("./config.json"){
+        
+    };
+    serde_json::from_str(&cnf_file).unwrap()
 }
