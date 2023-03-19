@@ -10,7 +10,7 @@
       "channels": [
         {
           "address": 1,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -19,7 +19,7 @@
         },
         {
           "address": 2,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -28,7 +28,7 @@
         },
         {
           "address": 3,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -37,7 +37,7 @@
         },
         {
           "address": 4,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -46,7 +46,7 @@
         },
         {
           "address": 5,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -55,7 +55,7 @@
         },
         {
           "address": 6,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -73,7 +73,7 @@
       "channels": [
         {
           "address": 7,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -82,7 +82,7 @@
         },
         {
           "address": 8,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -91,7 +91,7 @@
         },
         {
           "address": 9,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -100,7 +100,7 @@
         },
         {
           "address": 10,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -109,7 +109,7 @@
         },
         {
           "address": 11,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
@@ -118,7 +118,7 @@
         },
         {
           "address": 12,
-          "data": 0,
+          "data": 255,
           "channel_type": {
             "Intensity": []
           },
