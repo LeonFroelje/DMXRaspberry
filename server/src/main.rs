@@ -13,6 +13,7 @@ use actix_files::Files;
 use actors::websockets;
 use actors::dmx::dmxactor::DmxActor;
 
+use log::info;
 use routes::websocket;
 
 mod config;
@@ -29,7 +30,13 @@ async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(Env::default().default_filter_or("info"));
     let bind = format!("{HOST}:{PORT}");
     // Read config
-    let cnf = read_config();
+    let cnf = match read_config(){
+        None => {
+            info!("Config file couldn't be read");
+            return Err(std::io::Error::new(std::io::ErrorKind::Other, ""));
+        }
+        Some(c) => c
+    };
     let default_port = cnf.port().clone();
     let default_universe = cnf.default_universe().clone();
     // Server used for websocket communication and providing an interface between the routes
@@ -38,8 +45,13 @@ async fn main() -> std::io::Result<()> {
 
     // Default actor for the Dmx runtime. Actor sends the actual data to the desired Serial port
     // and thus the fixtures
-    println!("{default_port}");
-    let default_dmx_actor = DmxActor::new(default_port, default_universe, rt_server.clone()).unwrap();
+    let default_dmx_actor = match DmxActor::new(default_port, default_universe, rt_server.clone()){
+        Ok(actor) => actor,
+        Err(e) => {
+            info!("{e}");
+            return Err(std::io::Error::new(std::io::ErrorKind::Other, "Error initializing the default DMX actor"));
+        }
+    };
     // Async execution for starting the default dmx actor
     let execution = async {
         default_dmx_actor.start();
@@ -70,10 +82,14 @@ async fn lel() -> impl Responder{
     HttpResponse::Ok().body("lel")
 }
 
-fn read_config() -> ServerConfig{
+fn read_config() -> Option<ServerConfig>{
     // unwrap because config file should always be there by default
-    let cnf_file = match read_to_string("./config.json"){
-        
+    let cnf_file = match read_to_string("./dev_config.json"){
+        Ok(str) => str,
+        Err(e) => {
+            info!("{e}");
+            return None;
+        }
     };
-    serde_json::from_str(&cnf_file).unwrap()
+    Some(serde_json::from_str(&cnf_file).unwrap())
 }

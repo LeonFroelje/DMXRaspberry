@@ -215,13 +215,3 @@ impl Handler<messages::SendUniverse> for RtServer{
     }
 }
 
-/*
-
-impl Handler<messages::SetDefaultActorMessage> for RtServer{
-    type Result = ();
-
-    fn handle(&mut self, msg: messages::SetDefaultActorMessage, _ctx: &mut Self::Context) -> Self::Result {
-        self.default_dmx_actor = Some(msg.0);
-    }
-}
-*/

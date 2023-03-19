@@ -1,8 +1,6 @@
 use dmx;
 use dmx::DmxTransmitter;
 use dmx_serial::posix::TTYPort;
-use uuid::Uuid;
-//use std::fmt::Error;
 use std::{time::Duration, fs};
 use actix::prelude::*;
 
