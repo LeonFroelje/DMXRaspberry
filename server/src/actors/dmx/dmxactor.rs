@@ -34,7 +34,10 @@ impl Actor for DmxActor {
 
     fn started(&mut self, ctx: &mut Self::Context) {
         ctx.run_interval(Duration::from_nanos(DMX_INTERVAL), |act, _ctx| {
-            act.port.send_dmx_packet(&act.universe.data()).unwrap()
+            match act.port.send_dmx_packet(&act.universe.data()){
+                Ok(_) => {},
+                Err(e) => panic!("{e}"),
+            };
         });
         self.server.do_send(messages::NewDmxActor{
             addr: ctx.address()
