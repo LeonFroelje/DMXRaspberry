@@ -7,7 +7,7 @@ import { BsThreeDots } from "react-icons/bs";
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
-import { Icon, Paper, Typography } from "@mui/material";
+import { Card, Icon, Paper, Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
@@ -19,12 +19,14 @@ import ListItemText from '@mui/material/ListItemText';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import Toolbar from '@mui/material/Toolbar';
 import Switch from '@mui/material/Switch';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { alpha, styled } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
+import useUniverseState from "../store";
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
 
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -40,20 +42,14 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
   }));
   
 export default function HomeRoute(){
-    const [checked, setChecked] = useState(true);
-    const [open, setOpen] = useState(false);
-
-    const channels = [];
-    for(let i = 1; i <= 512; i++){
-        channels.push({
-            id: i,
-            fixtureName: ""
-        })
-    }
-    const fixtures = [];
+    const universe = useUniverseState();
+    const [universeOutput, setUniverseOutput] = useState(true);
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    
 
     const handleChange = (e) => {
-        setChecked(e.target.checked)
+        setUniverseOutput(e.target.checked)
+        // TODO: Send request to server that switches entire universe off
     }
 
     const handleClick = () => {
@@ -61,17 +57,30 @@ export default function HomeRoute(){
     };
 
     const handleClickOpen = () => {
-        setOpen(true);
+        setSettingsOpen(true);
     };
     
     const handleClose = (value) => {
-        setOpen(false);
+        setSettingsOpen(false);
+    }
+
+
+    const handleFixtureToggle = (e) => {
+        universe.toggleFixtureState(!e.target.checked, e.target.id.split("-")[1]);
+        // send request to server to toggle the fixture state
+        // at fixture index i of universe
+
     }
 
     return (
         <Stack sx={{width: "100%"}} rowGap="1rem">
-            <AppBar component="nav" sx={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "0rem 0.5rem",
-            opacity: "90%"}} position="sticky">
+            <AppBar component="nav" sx={{
+                flexDirection: "row",
+                justifyContent: "space-between", 
+                alignItems: "center", 
+                padding: "0rem 0.5rem",
+                opacity: "90%"
+            }} position="sticky">
                 <Typography variant="h5" component="div">
                     Werkstatt
                 </Typography>
@@ -85,14 +94,28 @@ export default function HomeRoute(){
                         <MoreVertOutlinedIcon />
                     </IconButton>
                     <UniverseDialog
-                        open={open}
+                        open={settingsOpen}
                         onClose={handleClose}
                     />
-                    <GreenSwitch checked={checked} onChange={handleChange}/>
+                    <GreenSwitch checked={universeOutput} onChange={handleChange}/>
                 </Toolbar>
             </AppBar>
             <Stack>
                 <Typography variant="h6" component="div">Lampen</Typography>
+                {
+                    universe.fixtures != null ? universe.fixtures.map((fixture) => {
+                        return <Card key={fixture.id} id={`fixture-${fixture.id}-card`} sx={{display: "flex", flexDirection: "column"}}>
+                            <Box sx={{display: "flex"}}>
+                                <LightbulbIcon/>
+                                <Typography component="h3">
+                                    {fixture.name}
+                                </Typography>
+                                <Switch checked={fixture.on} id={`fixture-${fixture.id}-switch`} onChange={handleFixtureToggle}></Switch>
+                            </Box>
+                        </Card>
+                    })
+                    : "Keine Lampen"
+                }
             </Stack>
         </Stack>/*
         <div className={styles.home}>

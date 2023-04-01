@@ -17,10 +17,39 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import { Divider, Paper } from "@mui/material";
+import useUniverseState from "./store";
 
 function App() {
   const ws_url = "127.0.0.1:8000";
 
+  const fixtures = [
+    {
+        name: "Scheinwerfer-1",
+        id: 1,
+        channels: [],
+        manufacturer: "lel",
+        model: "lol",
+        kind: "lul"
+    },
+    {
+        name: "Scheinwerfer-2",
+        id: 2,
+        channels: [],
+        manufacturer: "lel",
+        model: "lol",
+        kind: "lul"
+    },
+    {
+        name: "Scheinwerfer-2",
+        id: 3,
+        channels: [],
+        manufacturer: "lel",
+        model: "lol",
+        kind: "lul"
+    },
+    ]
+  const setFixtures = useUniverseState((state) => state.setFixtures)
+  setFixtures(fixtures);
   const [socketUrl, setSocketUrl] = useState('ws://127.0.0.1:8000/api/ws');
   const [messageHistory, setMessageHistory] = useState([]);
 
