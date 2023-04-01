@@ -67,7 +67,7 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("/api")
                 .service(web::resource("/ws").route(web::get().to(websocket::create_socket)))
-                .service(web::resource("/lel").route(web::get().to(lel)))
+                .service(web::resource("/index").route(web::get().to(api::index)))
                 .wrap(Logger::default())
                 .wrap(Logger::new("%a %{User-Agent}i"))
             )

@@ -36,6 +36,10 @@ impl RtServer{
             }
         }        
     }
+    
+    pub fn default_dmx_actor(&self) -> &Option<Addr<DmxActor>>{
+        &self.default_dmx_actor
+    }
 }
 
 impl Actor for RtServer{
