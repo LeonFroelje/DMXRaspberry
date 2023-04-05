@@ -1,5 +1,5 @@
 {
     "default_universe": "Default",
-    "default_port": "ttyAMA0",
-    "react_build_path": "C:\\Users\\User\\dmxproject\\client\\out\\"
+    "default_port": "/pts/4",
+    "react_build_path": "/home/leon/DMXRaspberry/client/out"
 }
