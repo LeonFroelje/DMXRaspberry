@@ -2,7 +2,6 @@ import type { AppProps } from 'next/app'
 import '@/styles/globals.css'
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction' ;
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
 import HomeOutlined from "@mui/icons-material/HomeOutlined";
 import PlayCircleFilledWhiteOutlined from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
@@ -12,34 +11,51 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { NextLinkComposed } from '@/src/Link';
 import { Divider, Paper } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import useSWR, { Fetcher } from 'swr'
 import useUniverseState from '@/store';
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data);
+// type IndexResponse
+
+const fetcher = (path: string) => axios.get(`/${path}`).then(res => res.data);
 
 export default function App({ Component, pageProps }: AppProps) {
   const [value, setValue] = useState(0);
-  const { data, error } = useSWR('/api/index', fetcher)
+  const { data, error } = useSWR('api/index', fetcher)
   const universeState = useUniverseState();
-
   if(error){
     return <div>Error beim laden der Daten</div>
   }
-  universeState.setFixtures(data.fixtures);
-  universeState.setMode(data.mode);
-  universeState.setName(data.name);
-
+  if(!data){
+    return <div>Lädt...</div>
+  }
+  console.log(typeof(data));
+  console.log(typeof(data.fixtures));
+  console.log(data);
+  if(universeState.fixtures !== data.fixtures){
+    universeState.setFixtures(data.fixtures);
+  }
+  if(universeState.mode !== data.mode){
+    universeState.setMode(data.mode);
+  }
+  if (universeState.name !== data.name){
+    universeState.setName(data.name);
+  }
+  
   return (
     <Paper sx={{width: "100%", height: "100%"}}>
       <Stack sx={{justifyContent: "space-between", height: "100%"}}>
-        <Component {...pageProps} />
+        <Box paddingBottom={'60px'}>
+          <Component {...pageProps}/>
+        </Box>
         <Box>
           <Divider/>
           <BottomNavigation
             sx={{
-              maxWidth: "100%"
+              width: "100%",
+              position: "fixed",
+              bottom: 0,
             }}
             
             value={value}

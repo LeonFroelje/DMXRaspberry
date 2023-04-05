@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from 'react'
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
-import { Card, Typography } from "@mui/material";
+import { Card, Slider, Typography } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -20,7 +20,8 @@ import { green } from '@mui/material/colors';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import Fixture from '@/src/types/fixture';
+import FixtureCard from '@/src/components/fixturecard';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -50,12 +51,6 @@ export default function Home() {
   }
 
 
-  const handleFixtureToggle = (e: ChangeEvent<HTMLInputElement>) => {
-    // universeState.toggleFixtureState(!e.target.checked, e.target.id.split("-")[1]);
-    // send request to server to toggle the fixture state
-    // at fixture index i of universe
-
-  }
   return (
     <Stack sx={{ width: "100%" }} rowGap="1rem">
       <AppBar component="nav" sx={{
@@ -84,22 +79,22 @@ export default function Home() {
           <GreenSwitch checked={universeOutput} onChange={handleChange} />
         </Toolbar>
       </AppBar>
-      <Stack>
-        <Typography variant="h6" component="div">Lampen</Typography>
-        {
-          universeState.fixtures != null ? universeState.fixtures.map(fixture => {
-            return <Card key={fixture.id} id={`fixture-${fixture.id}-card`} sx={{ display: "flex", flexDirection: "column" }}>
-              <Box sx={{ display: "flex" }}>
-                <LightbulbIcon />
-                <Typography component="h3">
-                  {fixture.name}
-                </Typography>
-                <Switch checked={fixture.channels.filter(c => {c.data > 0}).length > 0} id={`fixture-${fixture.id}-switch`} onChange={handleFixtureToggle}></Switch>
-              </Box>
-            </Card>
-          })
-            : "Keine Lampen"
-        }
+      <Stack flexDirection={"column"} padding={"1rem"}>
+        <Box>
+          <Typography variant="h6" component="div">Lampen</Typography>
+          <Stack gap={".5rem"}>
+            {
+              universeState.fixtures !== undefined ? universeState.fixtures.map((fixture, index) => {
+                return <FixtureCard fixture={fixture} index={index} key={fixture.id}/>
+              })
+                : "Keine Lampen"
+            }
+          </Stack>
+        </Box>
+        <Box>
+          <Typography variant='h6' component={"div"}>Gruppen</Typography>
+          <Typography variant='h6' component={"div"}>jksadjalsjdska</Typography>
+        </Box>
       </Stack>
     </Stack>
   )
