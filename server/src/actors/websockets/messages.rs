@@ -1,4 +1,4 @@
-use std::fmt::Error;
+use dmx_serial::Error;
 
 use actix::{Message, Addr};
 use actix::prelude::Recipient;

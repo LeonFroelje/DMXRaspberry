@@ -1,6 +1,6 @@
 use dmx::DmxTransmitter;
 use dmx_serial::posix::TTYPort;
-use std::{time::Duration, fs, fmt::Error};
+use std::{time::Duration, fs };
 use actix::prelude::*;
 
 use dmx_serial::Error;
@@ -32,7 +32,7 @@ impl Actor for DmxActor {
     type Context = Context<Self>;
 
     fn started(&mut self, ctx: &mut Self::Context) {
-        ctx.run_interval(Duration::from_nanos(DMX_INTERVAL), |_act, _ctx| {
+        ctx.run_interval(Duration::from_nanos(DMX_INTERVAL), |act, _ctx| {
             match act.port.send_dmx_packet(&act.universe.data()){
                 Ok(_) => {},
                 Err(e) => panic!("{e}"),
