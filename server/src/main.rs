@@ -47,13 +47,13 @@ async fn main() -> std::io::Result<()> {
 
     // Default actor for the Dmx runtime. Actor sends the actual data to the desired Serial port
     // and thus the fixtures
-    let default_dmx_actor =  DmxActor::new(default_port, default_universe, rt_server.clone());
-    //     Ok(actor) => actor,
-    //     Err(e) => {
-    //         info!("{e}");
-    //         return Err(std::io::Error::new(std::io::ErrorKind::Other, "Error initializing the default DMX actor"));
-    //     }
-    // };
+    let default_dmx_actor = match DmxActor::new(default_port, default_universe, rt_server.clone()){
+        Ok(actor) => actor,
+        Err(e) => {
+            info!("{e}");
+            return Err(std::io::Error::new(std::io::ErrorKind::Other, "Error initializing the default DMX actor"));
+        }
+    };
     // Async execution for starting the default dmx actor
     let execution = async {
         default_dmx_actor.start();

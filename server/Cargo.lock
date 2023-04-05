@@ -500,6 +500,37 @@ dependencies = [
 ]
 
 [[package]]
+name = "dmx"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f1114062d78497d39167f405e8999a2b5d7d460eefe13372d66f7bda5c88deb1"
+dependencies = [
+ "dmx-serial",
+ "lazy_static",
+]
+
+[[package]]
+name = "dmx-serial"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "98db3458b83bc824ef9dbf0cceddcb48b61e6be83fad7d27b03552d7a9ff3053"
+dependencies = [
+ "dmx-termios",
+ "ioctl-rs",
+ "libc",
+]
+
+[[package]]
+name = "dmx-termios"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cf7955e3be47a2a8db9b14f977d4e41adcb0dfb029dba4a7e6d5a4a92de0cac5"
+dependencies = [
+ "ioctl-rs",
+ "libc",
+]
+
+[[package]]
 name = "dmxserver"
 version = "0.1.0"
 dependencies = [
@@ -509,6 +540,8 @@ dependencies = [
  "actix-web",
  "actix-web-actors",
  "actix-ws",
+ "dmx",
+ "dmx-serial",
  "env_logger",
  "futures",
  "log",
@@ -804,6 +837,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "ioctl-rs"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f7970510895cee30b3e9128319f2cefd4bde883a39f38baa279567ba3a7eb97d"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "is-terminal"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -835,6 +877,12 @@ name = "language-tags"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4345964bb142484797b161f473a503a434de77149dd8c7427788c6e13379388"
+
+[[package]]
+name = "lazy_static"
+version = "0.2.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "76f033c7ad61445c5b347c7382dd1237847eb1bce590fe50365dcb33d546be73"
 
 [[package]]
 name = "libc"
