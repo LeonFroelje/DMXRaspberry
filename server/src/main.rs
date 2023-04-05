@@ -9,12 +9,14 @@ use actix_web::{ HttpServer, App, web, Responder, HttpResponse };
 use actix_web::middleware::Logger;
 use env_logger::Env;
 use actix_files::Files;
+use actix_cors::Cors;
 
 use actors::websockets;
 use actors::dmx::dmxactor::DmxActor;
 
 use log::info;
 use routes::websocket;
+use routes::api;
 
 mod config;
 mod actors;
@@ -22,7 +24,7 @@ mod dmx_api;
 mod routes;
 
 const HOST: &str = "0.0.0.0";
-const PORT: u16 = 8000;
+const PORT: u16 = 4000;
 
 
 #[actix_web::main]
@@ -45,13 +47,13 @@ async fn main() -> std::io::Result<()> {
 
     // Default actor for the Dmx runtime. Actor sends the actual data to the desired Serial port
     // and thus the fixtures
-    let default_dmx_actor = match DmxActor::new(default_port, default_universe, rt_server.clone()){
-        Ok(actor) => actor,
-        Err(e) => {
-            info!("{e}");
-            return Err(std::io::Error::new(std::io::ErrorKind::Other, "Error initializing the default DMX actor"));
-        }
-    };
+    let default_dmx_actor =  DmxActor::new(default_port, default_universe, rt_server.clone());
+    //     Ok(actor) => actor,
+    //     Err(e) => {
+    //         info!("{e}");
+    //         return Err(std::io::Error::new(std::io::ErrorKind::Other, "Error initializing the default DMX actor"));
+    //     }
+    // };
     // Async execution for starting the default dmx actor
     let execution = async {
         default_dmx_actor.start();
@@ -62,7 +64,9 @@ async fn main() -> std::io::Result<()> {
 
     // Http api
     HttpServer::new(move || {
+        let cors = Cors::default().allow_any_origin().send_wildcard();
         App::new()
+            .wrap(cors)
             .app_data(web::Data::new(rt_server.clone()))
             .service(
                 web::scope("/api")
@@ -84,7 +88,7 @@ async fn lel() -> impl Responder{
 
 fn read_config() -> Option<ServerConfig>{
     // unwrap because config file should always be there by default
-    let cnf_file = match read_to_string("./dev_config.json"){
+    let cnf_file = match read_to_string("./config.json"){
         Ok(str) => str,
         Err(e) => {
             info!("{e}");

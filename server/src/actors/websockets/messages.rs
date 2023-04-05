@@ -1,5 +1,8 @@
+use std::fmt::Error;
+
 use actix::{Message, Addr};
 use actix::prelude::Recipient;
+use actix_web::error::HttpError;
 use serde::Serialize;
 use crate::{dmx_api::fixture::{Fixture}, actors::dmx::dmxactor::DmxActor};
 use uuid::Uuid;
@@ -102,20 +105,39 @@ pub struct NewDmxActor{
     pub addr: Addr<DmxActor>
 }
 
+pub struct GetUniverse();
+
+impl Message for GetUniverse{
+    type Result = Result<Universe, Error>;
+}
+
 #[derive(Message)]
 #[rtype(result = "()")]
-pub struct GetUniverse(pub Option<Uuid>);
+pub struct ActorSendUniverse(pub Uuid);
 
 
 #[derive(Message)]
 #[rtype(result = "()")]
 pub struct SendUniverse{
-    pub id: Option<Uuid>,
+    pub id: Uuid,
     pub universe: Universe
 }
 
 impl SendUniverse{
-    pub fn new(id: Option<Uuid>, universe: Universe) -> Self{
+    pub fn new(id: Uuid, universe: Universe) -> Self{
         Self { id, universe }
     }
+}
+
+pub struct DefaultActor{
+}
+
+impl DefaultActor{
+    pub fn new() -> Self{
+        Self {  }
+    }
+}
+
+impl Message for DefaultActor{
+    type Result = Result<actix::Addr<DmxActor>, ()>;
 }

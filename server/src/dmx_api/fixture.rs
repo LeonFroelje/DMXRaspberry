@@ -73,7 +73,7 @@ mod tests{
     pub fn test_set_channel(){
         let mut channels: Vec<Channel> = Vec::new();
         for i in 1..6{
-            channels.push(Channel::new(i, ChannelType::Intensity(),
+            channels.push(Channel::new(i, ChannelType::Intensity,
              0x00, BTreeMap::new()));
         }
         let mut fixture = Fixture::new(String::from("t1"), channels, String::from("test"),

@@ -65,7 +65,7 @@ impl Handler<messages::Connect> for RtServer{
         match &self.default_dmx_actor{
             Some(dmx_actor) => {
                 // fetch the current universe state from that actor
-                dmx_actor.do_send(messages::GetUniverse(Some(id.clone())));
+                dmx_actor.do_send(messages::ActorSendUniverse(id.clone()));
             }
             // if there is no default dmx actor
             None => {
@@ -207,15 +207,27 @@ impl Handler<messages::SendUniverse> for RtServer{
         let content = serde_json::to_string(&msg.universe).unwrap();
         log::info!("{content}");
         let message = ServerMessage::new(kind, &content);
-        match msg.id{
-            Some(id) => {
-                let client = self.sessions.get(&id).unwrap();
-                client.do_send(message);
-            }
-            None => {
+        // match msg.id{
+        //     Some(id) => {
+                let client = self.sessions.get(&msg.id).unwrap();
+                client.do_send(message.clone());
+            // }
+            // None => {
                 self.broadcast(message, None);
-            }
-        }
+            // }
+        // }
     }
 }
 
+
+impl Handler<messages::DefaultActor> for RtServer{
+    type Result = Result<Addr<DmxActor>, ()>;
+
+    fn handle(&mut self, msg: messages::DefaultActor, ctx: &mut Self::Context) -> Self::Result {
+        match &self.default_dmx_actor {
+            Some(actor) => Ok(actor.clone()),
+            None => Err(())
+        }
+        // Ok(self.default_dmx_actor)
+    }
+}

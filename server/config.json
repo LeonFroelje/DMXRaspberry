@@ -1,5 +1,5 @@
 {
     "default_universe": "Default",
     "default_port": "ttyAMA0",
-    "react_build_path": "~/v2/client/build"
+    "react_build_path": "C:\\Users\\User\\dmxproject\\client\\out\\"
 }

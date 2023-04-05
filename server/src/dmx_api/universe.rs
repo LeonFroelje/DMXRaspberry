@@ -121,9 +121,9 @@ mod tests{
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
         for i in 1..7{
-            channels.push(Channel::new(i, ChannelType::Intensity(),
+            channels.push(Channel::new(i, ChannelType::Intensity,
              0x00, BTreeMap::new()));
-            channels_2.push(Channel::new(i + 6, ChannelType::Intensity(),
+            channels_2.push(Channel::new(i + 6, ChannelType::Intensity,
              0x00, BTreeMap::new()));
         }
         let f = Fixture::new(String::from("t1"), channels, String::from("test"),
@@ -166,9 +166,9 @@ mod tests{
         let mut channels: Vec<Channel> =  Vec::new();
         let mut channels_2: Vec<Channel> = Vec::new();
         for i in 1..7{
-            channels.push(Channel::new(i, ChannelType::Intensity(),
+            channels.push(Channel::new(i, ChannelType::Intensity,
              0x00, BTreeMap::new()));
-            channels_2.push(Channel::new(i + 6, ChannelType::Intensity(),
+            channels_2.push(Channel::new(i + 6, ChannelType::Intensity,
              0x00, BTreeMap::new()));
         }
         let f = Fixture::new(String::from("t1"), channels, String::from("test"),

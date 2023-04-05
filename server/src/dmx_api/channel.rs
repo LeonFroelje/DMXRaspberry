@@ -62,10 +62,10 @@ impl Channel{
 
 #[derive(Debug, Deserialize, Serialize, Hash, PartialEq, Eq, Clone)]
 pub enum ChannelType{
-    Intensity(),
-    IntensityRed(),
-    IntensityGreen(),
-    IntensityBlue()
+    Intensity,
+    IntensityRed,
+    IntensityGreen,
+    IntensityBlue
 }
 
 #[cfg(test)]
@@ -76,7 +76,7 @@ mod tests{
 
     #[test]
     pub fn test_set_data(){
-        let mut c = Channel::new(1, ChannelType::Intensity(),
+        let mut c = Channel::new(1, ChannelType::Intensity,
          0x00, BTreeMap::new());
         c.set_data(0x11);
         assert_eq!(c.data(), &0x11);
@@ -85,7 +85,7 @@ mod tests{
     #[test]
     pub fn test_serialize(){
         let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":{\"Intensity\":[]},\"default_value\":0,\"capabilities\":{}}");
-        let c = Channel::new(1, ChannelType::Intensity(),
+        let c = Channel::new(1, ChannelType::Intensity,
          0x00, BTreeMap::new());
         let j = serde_json::to_string(&c).unwrap();
         assert_eq!(expected, j);
@@ -93,7 +93,7 @@ mod tests{
 
     #[test]
     pub fn test_deserialize(){
-        let expected = Channel::new(1, ChannelType::Intensity(),
+        let expected = Channel::new(1, ChannelType::Intensity,
          0x00, BTreeMap::new());
         let c: Channel = serde_json::from_str("{\"address\":1,\"data\":0,\"channel_type\":{\"Intensity\":[]},\"default_value\":0,\"capabilities\":{}}").unwrap();
 
