@@ -36,10 +36,6 @@ impl RtServer{
             }
         }        
     }
-    
-    pub fn default_dmx_actor(&self) -> &Option<Addr<DmxActor>>{
-        &self.default_dmx_actor
-    }
 }
 
 impl Actor for RtServer{
@@ -110,12 +106,15 @@ impl Handler<messages::FixtureUpdateMessage> for RtServer{
             // if there is a default dmx actor
             Some(dmx_actor) => {
                 // update the fixture in the dmx actor   
-                let skip_id = msg.id;
                 let fixture = &msg.fixture;
                 // broadcast the update message to the other clients
                 let kind = messages::ServerMessageKind::FixtureUpdate;
                 let broadcast_message = ServerMessage::new(kind, &serde_json::to_string(fixture).unwrap());
-                self.broadcast(broadcast_message, Some(skip_id));
+                match msg.id{
+                    Some(skip_id) => self.broadcast(broadcast_message, Some(skip_id)),
+                    None => self.broadcast(broadcast_message, None)
+                }
+                
                 dmx_actor.do_send(msg);
 
 
@@ -125,7 +124,7 @@ impl Handler<messages::FixtureUpdateMessage> for RtServer{
                 // Panicing is the wanted behaviour here, because if the id provided by the message 
                 // doesn't equal any stored id then we have lost the ability to send messages to this
                 // client
-                let client = self.sessions.get(&msg.id).unwrap();
+                let client = self.sessions.get(&(msg.id.unwrap())).unwrap();
                 let kind = messages::ServerMessageKind::Error;
                 let error_message = "No default dmx actor selected";
                 client.do_send(ServerMessage::new(kind, error_message));
@@ -223,7 +222,7 @@ impl Handler<messages::SendUniverse> for RtServer{
 impl Handler<messages::DefaultActor> for RtServer{
     type Result = Result<Addr<DmxActor>, ()>;
 
-    fn handle(&mut self, msg: messages::DefaultActor, ctx: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, _msg: messages::DefaultActor, _ctx: &mut Self::Context) -> Self::Result {
         match &self.default_dmx_actor {
             Some(actor) => Ok(actor.clone()),
             None => Err(())

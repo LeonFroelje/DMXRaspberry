@@ -11,206 +11,179 @@
         {
           "address": 1,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 2,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 3,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 4,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 5,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 6,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
-        }
-      ],
-      "manufacturer": "test",
-      "model": "test",
-      "kind": "test"
-    },
-    {
-      "name": "Leiste rechts",
-      "id": "5afa36ac-b0c6-4dc7-810a-59ab841f188a",
-      "channels": [
+        },
         {
           "address": 7,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 8,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 9,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 10,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 11,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 12,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
-        }
-      ],
-      "manufacturer": "test",
-      "model": "test",
-      "kind": "test"
-    },
-    {
-      "name": "Scheinwerfer links",
-      "id": "5afb36ac-b0c6-4dc7-810a-59ab841e188a",
-      "channels": [
+        },
         {
           "address": 13,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 14,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 15,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 16,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 17,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 18,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
-        }
-      ],
-      "manufacturer": "test",
-      "model": "test",
-      "kind": "test"
-    },
-    {
-      "name": "Scheinwerfer mitte",
-      "id": "5afa36ac-b0c6-4dc7-810a-59ab841d188a",
-      "channels": [
+        },
         {
           "address": 19,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 20,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 21,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 22,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 23,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 24,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         }
       ],
-      "manufacturer": "test",
+      "manufacturer": "Stairville",
       "model": "test",
       "kind": "test"
     },
     {
-      "name": "Scheinwerfer rechts",
-      "id": "5afa36ac-b0c6-4dc7-810a-59ab841b188a",
+      "name": "Schwarzlicht",
+      "id": "5afa36ac-b0c6-4dc7-810a-59ab841c188a",
       "channels": [
         {
           "address": 25,
@@ -222,91 +195,349 @@
         {
           "address": 26,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "Strobe",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 27,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "StrobeFrequency",
           "default_value": 0,
           "capabilities": {}
-        },
+        }
+      ],
+      "manufacturer": "Stairville",
+      "model": "test",
+      "kind": "test"
+    },
+    {
+      "name": "Leiste rechts",
+      "id": "5afa36ac-b0c6-4dc7-810a-59ab841f188a",
+      "channels": [
         {
           "address": 28,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 29,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 30,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
-        }
-      ],
-      "manufacturer": "test",
-      "model": "test",
-      "kind": "test"
-    },
-    {
-      "name": "Schwarzlicht",
-      "id": "5afa36ac-b0c6-4dc7-810a-59ab841c188a",
-      "channels": [
+        },
         {
           "address": 31,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 32,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 33,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 34,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 35,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 36,
           "data": 255,
-          "channel_type": "Intensity",
+          "channel_type": "IntensityBlue",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 37,
+          "data": 255,
+          "channel_type": "IntensityRed",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 38,
+          "data": 255,
+          "channel_type": "IntensityGreen",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 39,
+          "data": 255,
+          "channel_type": "IntensityBlue",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 40,
+          "data": 255,
+          "channel_type": "IntensityRed",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 41,
+          "data": 255,
+          "channel_type": "IntensityGreen",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 42,
+          "data": 255,
+          "channel_type": "IntensityBlue",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 43,
+          "data": 255,
+          "channel_type": "IntensityRed",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 44,
+          "data": 255,
+          "channel_type": "IntensityGreen",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 45,
+          "data": 255,
+          "channel_type": "IntensityBlue",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 46,
+          "data": 255,
+          "channel_type": "IntensityRed",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 47,
+          "data": 255,
+          "channel_type": "IntensityGreen",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 48,
+          "data": 255,
+          "channel_type": "IntensityBlue",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 49,
+          "data": 255,
+          "channel_type": "IntensityRed",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 50,
+          "data": 255,
+          "channel_type": "IntensityGreen",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 51,
+          "data": 255,
+          "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         }
       ],
-      "manufacturer": "test",
+      "manufacturer": "Stairville",
+      "model": "test",
+      "kind": "test"
+    },
+    {
+      "name": "Scheinwerfer links",
+      "id": "5afb36ac-b0c6-4dc7-810a-59ab841e188a",
+      "channels": [
+        {
+          "address": 52,
+          "data": 255,
+          "channel_type": "IntensityRed",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 53,
+          "data": 255,
+          "channel_type": "IntensityGreen",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 54,
+          "data": 255,
+          "channel_type": "IntensityBlue",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 55,
+          "data": 255,
+          "channel_type": "IntensityWhite",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 56,
+          "data": 255,
+          "channel_type": "Intensity",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 57,
+          "data": 255,
+          "channel_type": "Strobe",
+          "default_value": 0,
+          "capabilities": {}
+        }
+      ],
+      "manufacturer": "Stairville",
+      "model": "test",
+      "kind": "test"
+    },
+    {
+      "name": "Scheinwerfer mitte",
+      "id": "5afa36ac-b0c6-4dc7-810a-59ab841d188a",
+      "channels": [
+        {
+          "address": 58,
+          "data": 255,
+          "channel_type": "IntensityRed",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 59,
+          "data": 255,
+          "channel_type": "IntensityGreen",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 60,
+          "data": 255,
+          "channel_type": "IntensityBlue",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 61,
+          "data": 255,
+          "channel_type": "IntensityWhite",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 62,
+          "data": 255,
+          "channel_type": "Intensity",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 63,
+          "data": 255,
+          "channel_type": "Strobe",
+          "default_value": 0,
+          "capabilities": {}
+        }
+      ],
+      "manufacturer": "Stairville",
+      "model": "test",
+      "kind": "test"
+    },
+    {
+      "name": "Scheinwerfer rechts",
+      "id": "5afa36ac-b0c6-4dc7-810a-59ab841b188a",
+      "channels": [
+        {
+          "address": 64,
+          "data": 255,
+          "channel_type": "IntensityRed",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 65,
+          "data": 255,
+          "channel_type": "IntensityGreen",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 66,
+          "data": 255,
+          "channel_type": "IntensityBlue",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 67,
+          "data": 255,
+          "channel_type": "IntensityWhite",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 68,
+          "data": 255,
+          "channel_type": "Intensity",
+          "default_value": 0,
+          "capabilities": {}
+        },
+        {
+          "address": 69,
+          "data": 255,
+          "channel_type": "Strobe",
+          "default_value": 0,
+          "capabilities": {}
+        }
+      ],
+      "manufacturer": "Stairville",
       "model": "test",
       "kind": "test"
     }

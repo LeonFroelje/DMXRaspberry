@@ -30,9 +30,6 @@ export default function App({ Component, pageProps }: AppProps) {
   if(!data){
     return <div>Lädt...</div>
   }
-  console.log(typeof(data));
-  console.log(typeof(data.fixtures));
-  console.log(data);
   if(universeState.fixtures !== data.fixtures){
     universeState.setFixtures(data.fixtures);
   }
@@ -42,24 +39,25 @@ export default function App({ Component, pageProps }: AppProps) {
   if (universeState.name !== data.name){
     universeState.setName(data.name);
   }
-  
+
   return (
-    <Paper sx={{width: "100%", height: "100%"}}>
-      <Stack sx={{justifyContent: "space-between", height: "100%"}}>
-        <Box paddingBottom={'60px'}>
+    <Paper sx={{width: "100%", minHeight: "100%"}}>
+      <Stack sx={{justifyContent: "space-between", minHeight: "100%"}}>
+        <Box paddingBottom={'60px'} minHeight={"100%"}>
           <Component {...pageProps}/>
         </Box>
+        <Divider orientation='horizontal'/>
         <Box>
-          <Divider/>
           <BottomNavigation
             sx={{
               width: "100%",
               position: "fixed",
               bottom: 0,
+              borderTop: "1px solid rgba(0, 0, 0, 0.12)"
             }}
             
             value={value}
-            onChange={(event, newValue) => {
+            onChange={(_event, newValue) => {
               setValue(newValue);
             }}
           >

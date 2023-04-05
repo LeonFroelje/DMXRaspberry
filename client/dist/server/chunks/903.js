@@ -17,9 +17,10 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([zust
 
 
 const useUniverseState = (0,zustand__WEBPACK_IMPORTED_MODULE_0__.create)()((0,zustand_middleware__WEBPACK_IMPORTED_MODULE_1__.devtools)((0,zustand_middleware__WEBPACK_IMPORTED_MODULE_1__.persist)((set)=>({
-        name: undefined,
-        mode: undefined,
-        fixtures: undefined,
+        name: "",
+        mode: "",
+        fixtures: [],
+        fetchErrors: [],
         setFixtures: (fixtures)=>set({
                 fixtures: fixtures
             }),
@@ -50,6 +51,19 @@ const useUniverseState = (0,zustand__WEBPACK_IMPORTED_MODULE_0__.create)()((0,zu
                         return f.id !== fixture.id;
                     }) : state.fixtures
                 }));
+        },
+        addError: (err)=>{
+            set((state)=>({
+                    fetchErrors: [
+                        ...state.fetchErrors,
+                        err
+                    ]
+                }));
+        },
+        popError: ()=>{
+        // set(state => ({
+        //     fetchErrors
+        // }))
         }
     }), {
     name: "universe-storage"

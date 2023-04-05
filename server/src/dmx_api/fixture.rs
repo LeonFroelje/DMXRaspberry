@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use crate::dmx_api::channel::Channel;
 use uuid::Uuid;
 use serde::{Deserialize, Serialize};

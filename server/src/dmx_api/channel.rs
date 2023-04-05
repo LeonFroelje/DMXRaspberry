@@ -65,7 +65,10 @@ pub enum ChannelType{
     Intensity,
     IntensityRed,
     IntensityGreen,
-    IntensityBlue
+    IntensityBlue,
+    IntensityWhite,
+    Strobe,
+    StrobeFrequency,
 }
 
 #[cfg(test)]

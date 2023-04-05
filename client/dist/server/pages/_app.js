@@ -35,7 +35,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_Stack__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_mui_material_Stack__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _mui_material_Box__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(19);
 /* harmony import */ var _mui_material_Box__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_mui_material_Box__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _src_Link__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(4127);
+/* harmony import */ var _src_Link__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(3460);
 /* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(5692);
 /* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_12__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(6689);
@@ -78,9 +78,6 @@ function App({ Component , pageProps  }) {
             children: "L\xe4dt..."
         });
     }
-    console.log(typeof data);
-    console.log(typeof data.fixtures);
-    console.log(data);
     if (universeState.fixtures !== data.fixtures) {
         universeState.setFixtures(data.fixtures);
     }
@@ -93,82 +90,84 @@ function App({ Component , pageProps  }) {
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_12__.Paper, {
         sx: {
             width: "100%",
-            height: "100%"
+            minHeight: "100%"
         },
         children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((_mui_material_Stack__WEBPACK_IMPORTED_MODULE_9___default()), {
             sx: {
                 justifyContent: "space-between",
-                height: "100%"
+                minHeight: "100%"
             },
             children: [
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_Box__WEBPACK_IMPORTED_MODULE_10___default()), {
                     paddingBottom: "60px",
+                    minHeight: "100%",
                     children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(Component, {
                         ...pageProps
                     })
                 }),
-                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((_mui_material_Box__WEBPACK_IMPORTED_MODULE_10___default()), {
-                    children: [
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_12__.Divider, {}),
-                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((_mui_material_BottomNavigation__WEBPACK_IMPORTED_MODULE_2___default()), {
-                            sx: {
-                                width: "100%",
-                                position: "fixed",
-                                bottom: 0
-                            },
-                            value: value,
-                            onChange: (event, newValue)=>{
-                                setValue(newValue);
-                            },
-                            children: [
-                                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
-                                    component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
-                                    to: "/",
-                                    sx: {
-                                        minWidth: "auto"
-                                    },
-                                    label: "Home",
-                                    icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_HomeOutlined__WEBPACK_IMPORTED_MODULE_5___default()), {})
-                                }),
-                                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
-                                    component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
-                                    to: "/program",
-                                    sx: {
-                                        minWidth: "auto"
-                                    },
-                                    label: "Program",
-                                    icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_CodeOutlined__WEBPACK_IMPORTED_MODULE_4___default()), {})
-                                }),
-                                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
-                                    component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
-                                    to: "/play",
-                                    sx: {
-                                        minWidth: "auto"
-                                    },
-                                    label: "Play",
-                                    icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_PlayCircleFilledWhiteOutlined__WEBPACK_IMPORTED_MODULE_6___default()), {})
-                                }),
-                                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
-                                    component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
-                                    to: "/timecode",
-                                    sx: {
-                                        minWidth: "auto"
-                                    },
-                                    label: "Timecode",
-                                    icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_HourglassEmptyOutlined__WEBPACK_IMPORTED_MODULE_8___default()), {})
-                                }),
-                                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
-                                    component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
-                                    to: "/settings",
-                                    sx: {
-                                        minWidth: "auto"
-                                    },
-                                    label: "Settings",
-                                    icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_SettingsOutlined__WEBPACK_IMPORTED_MODULE_7___default()), {})
-                                })
-                            ]
-                        })
-                    ]
+                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_12__.Divider, {
+                    orientation: "horizontal"
+                }),
+                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_Box__WEBPACK_IMPORTED_MODULE_10___default()), {
+                    children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((_mui_material_BottomNavigation__WEBPACK_IMPORTED_MODULE_2___default()), {
+                        sx: {
+                            width: "100%",
+                            position: "fixed",
+                            bottom: 0,
+                            borderTop: "1px solid rgba(0, 0, 0, 0.12)"
+                        },
+                        value: value,
+                        onChange: (_event, newValue)=>{
+                            setValue(newValue);
+                        },
+                        children: [
+                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
+                                component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
+                                to: "/",
+                                sx: {
+                                    minWidth: "auto"
+                                },
+                                label: "Home",
+                                icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_HomeOutlined__WEBPACK_IMPORTED_MODULE_5___default()), {})
+                            }),
+                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
+                                component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
+                                to: "/program",
+                                sx: {
+                                    minWidth: "auto"
+                                },
+                                label: "Program",
+                                icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_CodeOutlined__WEBPACK_IMPORTED_MODULE_4___default()), {})
+                            }),
+                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
+                                component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
+                                to: "/play",
+                                sx: {
+                                    minWidth: "auto"
+                                },
+                                label: "Play",
+                                icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_PlayCircleFilledWhiteOutlined__WEBPACK_IMPORTED_MODULE_6___default()), {})
+                            }),
+                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
+                                component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
+                                to: "/timecode",
+                                sx: {
+                                    minWidth: "auto"
+                                },
+                                label: "Timecode",
+                                icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_HourglassEmptyOutlined__WEBPACK_IMPORTED_MODULE_8___default()), {})
+                            }),
+                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
+                                component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
+                                to: "/settings",
+                                sx: {
+                                    minWidth: "auto"
+                                },
+                                label: "Settings",
+                                icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_SettingsOutlined__WEBPACK_IMPORTED_MODULE_7___default()), {})
+                            })
+                        ]
+                    })
                 })
             ]
         })
@@ -180,7 +179,7 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 4127:
+/***/ 3460:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -198,8 +197,8 @@ var jsx_runtime_ = __webpack_require__(997);
 var external_react_ = __webpack_require__(6689);
 ;// CONCATENATED MODULE: external "clsx"
 const external_clsx_namespaceObject = require("clsx");
-;// CONCATENATED MODULE: external "next/router"
-const router_namespaceObject = require("next/router");
+// EXTERNAL MODULE: external "next/router"
+var router_ = __webpack_require__(1853);
 // EXTERNAL MODULE: ./node_modules/next/link.js
 var next_link = __webpack_require__(1664);
 var link_default = /*#__PURE__*/__webpack_require__.n(next_link);
@@ -457,6 +456,14 @@ module.exports = require("next/dist/shared/lib/router/utils/resolve-href.js");
 
 "use strict";
 module.exports = require("next/dist/shared/lib/utils.js");
+
+/***/ }),
+
+/***/ 1853:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("next/router");
 
 /***/ }),
 

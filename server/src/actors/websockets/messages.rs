@@ -2,7 +2,6 @@ use std::fmt::Error;
 
 use actix::{Message, Addr};
 use actix::prelude::Recipient;
-use actix_web::error::HttpError;
 use serde::Serialize;
 use crate::{dmx_api::fixture::{Fixture}, actors::dmx::dmxactor::DmxActor};
 use uuid::Uuid;
@@ -58,12 +57,12 @@ pub struct ClientMessage {
 #[derive(Message)]
 #[rtype(result = "()")]
 pub struct FixtureUpdateMessage{
-    pub id: Uuid,
+    pub id: Option<Uuid>,
     pub fixture: Fixture
 }
 
 impl FixtureUpdateMessage{
-    pub fn new(id: Uuid, fixture: Fixture) -> Self{
+    pub fn new(id: Option<Uuid>, fixture: Fixture) -> Self{
         Self { id: id, fixture: fixture }
     }
 }

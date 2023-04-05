@@ -5,7 +5,7 @@ use std::fs::read_to_string;
 
 use actix::prelude::*;
 
-use actix_web::{ HttpServer, App, web, Responder, HttpResponse };
+use actix_web::{ HttpServer, App, web };
 use actix_web::middleware::Logger;
 use env_logger::Env;
 use actix_files::Files;
@@ -72,6 +72,7 @@ async fn main() -> std::io::Result<()> {
                 web::scope("/api")
                 .service(web::resource("/ws").route(web::get().to(websocket::create_socket)))
                 .service(web::resource("/index").route(web::get().to(api::index)))
+                .service(web::resource("/fixtures/update").route(web::post().to(api::fixture_update)))
                 .wrap(Logger::default())
                 .wrap(Logger::new("%a %{User-Agent}i"))
             )
@@ -80,10 +81,6 @@ async fn main() -> std::io::Result<()> {
     .bind(&bind)?
     .run()
     .await
-}
-
-async fn lel() -> impl Responder{
-    HttpResponse::Ok().body("lel")
 }
 
 fn read_config() -> Option<ServerConfig>{

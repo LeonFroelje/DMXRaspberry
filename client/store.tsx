@@ -1,28 +1,32 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware'
 import Fixture from './src/types/fixture';
-
+import useSWR, { Fetcher } from 'swr'
 
 interface UniverseState {
-    name?: string,
-    mode?: string,
-    fixtures?: Array<Fixture>
+    name: string,
+    mode: string,
+    fixtures: Array<Fixture>
+    fetchErrors: Array<string>,
     setName: (name: string) => void,
     setMode: (mode: string) => void,
     setFixtures: (fixtures:Array<Fixture>) => void,
     updateFixture: (fixture: Fixture) => void,
     // toggleFixtureState: (on: boolean, fixture: Fixture) => void,
     addFixture: (fixture: Fixture) => void,
-    removeFixture: (fixture: Fixture) => void
+    removeFixture: (fixture: Fixture) => void,
+    addError: (err : string) => void,
+    popError: () => void,
 }
 
 const useUniverseState = create<UniverseState>()(
     devtools(
         persist(
             (set) => ({
-                name: undefined,
-                mode: undefined,
-                fixtures: undefined,
+                name: "",
+                mode: "",
+                fixtures: [],
+                fetchErrors: [],
                 setFixtures: (fixtures: Fixture[]) => set({fixtures: fixtures}),
                 setName: (name: string) => set({name: name}),
                 setMode: (mode: string) => set({mode: mode}),
@@ -49,6 +53,16 @@ const useUniverseState = create<UniverseState>()(
                         })
                         : state.fixtures
                     }))
+                },
+                addError: (err: string) => {
+                    set(state => ({
+                        fetchErrors: [...state.fetchErrors, err]
+                    }))
+                },
+                popError: () => {
+                    // set(state => ({
+                    //     fetchErrors
+                    // }))
                 }
             }),
             {

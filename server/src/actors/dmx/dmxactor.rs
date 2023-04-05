@@ -32,7 +32,7 @@ impl Actor for DmxActor {
     type Context = Context<Self>;
 
     fn started(&mut self, ctx: &mut Self::Context) {
-        ctx.run_interval(Duration::from_nanos(DMX_INTERVAL), |act, _ctx| {
+        ctx.run_interval(Duration::from_nanos(DMX_INTERVAL), |_act, _ctx| {
             // match act.port.send_dmx_packet(&act.universe.data()){
             //     Ok(_) => {},
             //     Err(e) => panic!("{e}"),
@@ -48,7 +48,7 @@ impl Handler<messages::GetUniverse> for DmxActor{
     // TODO: Change Result to Universe
     type Result = Result<Universe, Error>;
 
-    fn handle(&mut self, msg: messages::GetUniverse, ctx: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, _msg: messages::GetUniverse, _ctx: &mut Self::Context) -> Self::Result {
         // self.server.do_send(messages::SendUniverse::new(msg.0, self.universe.clone()));
         Ok(self.universe.clone())
     }
@@ -57,7 +57,7 @@ impl Handler<messages::GetUniverse> for DmxActor{
 impl Handler<messages::ActorSendUniverse> for DmxActor{
     type Result = ();
 
-    fn handle(&mut self, msg: messages::ActorSendUniverse, ctx: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, msg: messages::ActorSendUniverse, _ctx: &mut Self::Context) -> Self::Result {
         self.server.do_send(messages::SendUniverse::new(msg.0, self.universe.clone()));
     }
 }
@@ -69,7 +69,7 @@ impl Handler<messages::ActorSendUniverse> for DmxActor{
 impl Handler<messages::FixtureAddMessage> for DmxActor{
     type Result = ();
 
-    fn handle(&mut self, msg: messages::FixtureAddMessage, ctx: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, msg: messages::FixtureAddMessage, _ctx: &mut Self::Context) -> Self::Result {
         let f = msg.fixture;
         self.universe.add_fixture(f);
     }
@@ -79,7 +79,7 @@ impl Handler<messages::FixtureAddMessage> for DmxActor{
 impl Handler<messages::FixtureUpdateMessage> for DmxActor{
     type Result = ();
 
-    fn handle(&mut self, msg: messages::FixtureUpdateMessage, ctx: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, msg: messages::FixtureUpdateMessage, _ctx: &mut Self::Context) -> Self::Result {
         let f = msg.fixture;
         self.universe.update_fixture(f).unwrap();
     }
@@ -88,7 +88,7 @@ impl Handler<messages::FixtureUpdateMessage> for DmxActor{
 impl Handler<messages::FixtureRemoveMessage> for DmxActor{
     type Result = ();
 
-    fn handle(&mut self, msg: messages::FixtureRemoveMessage, ctx: &mut Self::Context) -> Self::Result {
+    fn handle(&mut self, msg: messages::FixtureRemoveMessage, _ctx: &mut Self::Context) -> Self::Result {
         let f = msg.fixture;
         let i = self.universe.index_of(&f).unwrap();
         self.universe.remove_fixture(i as usize);
