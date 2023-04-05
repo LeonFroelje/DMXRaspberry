@@ -1,11 +1,11 @@
 # Start with a Node.js image for building the frontend
-FROM node:latest AS frontend
+FROM node:latest AS client
 
 # Set the working directory to /app
 WORKDIR /DMXProject
 
 # Copy the package.json and yarn.lock files
-COPY client/package.json client/yarn.lock ./
+COPY client/package.json ./
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
@@ -17,7 +17,7 @@ COPY client .
 RUN yarn build
 
 # Use a Rust image for building the backend
-FROM rust:latest AS backend
+FROM rust:latest AS server
 
 # Set the working directory to /app
 WORKDIR /DMXProject
