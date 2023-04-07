@@ -1,7 +1,8 @@
 use dmx::DmxTransmitter;
 use dmx_serial::posix::TTYPort;
 use dmx_serial::Error;
-use std::{time::Duration, fs, fmt::Error };
+// use std::fmt::Error;
+use std::{time::Duration, fs };
 use actix::prelude::*;
 
 use crate::{dmx_api::universe::{Universe}, actors::websockets::{server::RtServer, messages}};
