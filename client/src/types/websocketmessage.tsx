@@ -1,5 +1,5 @@
 type WebsocketMessage = {
     url: string,
-    text: string, 
+    text: any, 
 }
 export default WebsocketMessage
