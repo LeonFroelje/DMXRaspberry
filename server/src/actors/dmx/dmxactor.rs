@@ -1,15 +1,15 @@
-// use dmx::DmxTransmitter;
-// use dmx_serial::posix::TTYPort;
+use dmx::DmxTransmitter;
+use dmx_serial::posix::TTYPort;
+use dmx_serial::Error;
 use std::{time::Duration, fs, fmt::Error };
 use actix::prelude::*;
 
-// use dmx_serial::Error;
 use crate::{dmx_api::universe::{Universe}, actors::websockets::{server::RtServer, messages}};
 
 const DMX_INTERVAL: u64 = 50_000_000;
 
 pub struct DmxActor{
-    // port: TTYPort,
+    port: TTYPort,
     universe: Universe,
     server: Addr<RtServer>
 }
@@ -18,10 +18,10 @@ pub struct DmxActor{
 impl DmxActor{
     pub fn new(port_path: String, universe: String, server: Addr<RtServer>) -> Result<Self, Error>{
         let p = format!("/dev/{port_path}");
-        // let port = dmx::open_serial(&p)?;
+        let port = dmx::open_serial(&p)?;
         let universe = serde_json::from_str(&fs::read_to_string(format!("./Universes/{universe}.json")).unwrap()).unwrap();
         Ok(Self {
-            // port,
+            port,
             universe,
             server
         })
@@ -33,10 +33,10 @@ impl Actor for DmxActor {
 
     fn started(&mut self, ctx: &mut Self::Context) {
         ctx.run_interval(Duration::from_nanos(DMX_INTERVAL), |act, _ctx| {
-            // match act.port.send_dmx_packet(&act.universe.data()){
-            //     Ok(_) => {},
-            //     Err(e) => panic!("{e}"),
-            // };
+            match act.port.send_dmx_packet(&act.universe.data()){
+                Ok(_) => {},
+                Err(e) => panic!("{e}"),
+            };
         });
         self.server.do_send(messages::NewDmxActor{
             addr: ctx.address()
