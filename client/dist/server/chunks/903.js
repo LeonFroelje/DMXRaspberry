@@ -16,6 +16,7 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([zust
 ([zustand__WEBPACK_IMPORTED_MODULE_0__, zustand_middleware__WEBPACK_IMPORTED_MODULE_1__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
 
 
+const socketUrl = "api/ws";
 const useUniverseState = (0,zustand__WEBPACK_IMPORTED_MODULE_0__.create)()((0,zustand_middleware__WEBPACK_IMPORTED_MODULE_1__.devtools)((0,zustand_middleware__WEBPACK_IMPORTED_MODULE_1__.persist)((set)=>({
         name: "",
         mode: "",

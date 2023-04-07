@@ -1,5 +1,6 @@
-use dmx_serial::Error;
+// use dmx_serial::Error;
 
+use std::fmt::Error;
 use actix::{Message, Addr};
 use actix::prelude::Recipient;
 use serde::Serialize;

@@ -43,8 +43,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(9648);
 /* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(5941);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(903);
+/* harmony import */ var react_use_websocket_dist_lib_use_websocket__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(9314);
+/* harmony import */ var react_use_websocket_dist_lib_use_websocket__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(react_use_websocket_dist_lib_use_websocket__WEBPACK_IMPORTED_MODULE_17__);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([axios__WEBPACK_IMPORTED_MODULE_14__, swr__WEBPACK_IMPORTED_MODULE_15__, _store__WEBPACK_IMPORTED_MODULE_16__]);
 ([axios__WEBPACK_IMPORTED_MODULE_14__, swr__WEBPACK_IMPORTED_MODULE_15__, _store__WEBPACK_IMPORTED_MODULE_16__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
+
 
 
 
@@ -68,6 +71,11 @@ function App({ Component , pageProps  }) {
     const [value, setValue] = (0,react__WEBPACK_IMPORTED_MODULE_13__.useState)(0);
     const { data , error  } = (0,swr__WEBPACK_IMPORTED_MODULE_15__["default"])("api/index", fetcher);
     const universeState = (0,_store__WEBPACK_IMPORTED_MODULE_16__/* ["default"] */ .Z)();
+    // const [messageHistory, setMessageHistory] = useState([]);
+    const websocket = (0,react_use_websocket_dist_lib_use_websocket__WEBPACK_IMPORTED_MODULE_17__.useWebSocket)("ws://localhost:4000/api/ws", {
+        share: true
+    });
+    console.log(websocket);
     if (error) {
         return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
             children: "Error beim laden der Daten"
@@ -89,8 +97,8 @@ function App({ Component , pageProps  }) {
     }
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_12__.Paper, {
         sx: {
-            width: "100%",
-            minHeight: "100%"
+            idh: "100%",
+            minHeight: "100vh"
         },
         children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((_mui_material_Stack__WEBPACK_IMPORTED_MODULE_9___default()), {
             sx: {
@@ -100,7 +108,7 @@ function App({ Component , pageProps  }) {
             children: [
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_Box__WEBPACK_IMPORTED_MODULE_10___default()), {
                     paddingBottom: "60px",
-                    minHeight: "100%",
+                    minHeight: "100vh",
                     children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(Component, {
                         ...pageProps
                     })
@@ -111,10 +119,10 @@ function App({ Component , pageProps  }) {
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_Box__WEBPACK_IMPORTED_MODULE_10___default()), {
                     children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((_mui_material_BottomNavigation__WEBPACK_IMPORTED_MODULE_2___default()), {
                         sx: {
-                            width: "100%",
+                            idh: "100%",
                             position: "fixed",
                             bottom: 0,
-                            borderTop: "1px solid rgba(0, 0, 0, 0.12)"
+                            borderTop: "1px soidrgba(0, 0, 0, 0.12)"
                         },
                         value: value,
                         onChange: (_event, newValue)=>{
@@ -125,7 +133,7 @@ function App({ Component , pageProps  }) {
                                 component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
                                 to: "/",
                                 sx: {
-                                    minWidth: "auto"
+                                    minidh: "auto"
                                 },
                                 label: "Home",
                                 icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_HomeOutlined__WEBPACK_IMPORTED_MODULE_5___default()), {})
@@ -134,7 +142,7 @@ function App({ Component , pageProps  }) {
                                 component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
                                 to: "/program",
                                 sx: {
-                                    minWidth: "auto"
+                                    minidh: "auto"
                                 },
                                 label: "Program",
                                 icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_CodeOutlined__WEBPACK_IMPORTED_MODULE_4___default()), {})
@@ -143,7 +151,7 @@ function App({ Component , pageProps  }) {
                                 component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
                                 to: "/play",
                                 sx: {
-                                    minWidth: "auto"
+                                    minidh: "auto"
                                 },
                                 label: "Play",
                                 icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_PlayCircleFilledWhiteOutlined__WEBPACK_IMPORTED_MODULE_6___default()), {})
@@ -152,7 +160,7 @@ function App({ Component , pageProps  }) {
                                 component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
                                 to: "/timecode",
                                 sx: {
-                                    minWidth: "auto"
+                                    minidh: "auto"
                                 },
                                 label: "Timecode",
                                 icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_HourglassEmptyOutlined__WEBPACK_IMPORTED_MODULE_8___default()), {})
@@ -161,7 +169,7 @@ function App({ Component , pageProps  }) {
                                 component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
                                 to: "/settings",
                                 sx: {
-                                    minWidth: "auto"
+                                    minidh: "auto"
                                 },
                                 label: "Settings",
                                 icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_SettingsOutlined__WEBPACK_IMPORTED_MODULE_7___default()), {})
@@ -472,6 +480,14 @@ module.exports = require("next/router");
 
 "use strict";
 module.exports = require("react");
+
+/***/ }),
+
+/***/ 9314:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("react-use-websocket/dist/lib/use-websocket");
 
 /***/ }),
 

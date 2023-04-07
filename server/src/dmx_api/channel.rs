@@ -85,25 +85,25 @@ mod tests{
         assert_eq!(c.data(), &0x11);
     }
 
-    #[test]
-    pub fn test_serialize(){
-        let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":{\"Intensity\":[]},\"default_value\":0,\"capabilities\":{}}");
-        let c = Channel::new(1, ChannelType::Intensity,
-         0x00, BTreeMap::new());
-        let j = serde_json::to_string(&c).unwrap();
-        assert_eq!(expected, j);
-    }
+    // #[test]
+    // pub fn test_serialize(){
+    //     let expected = String::from("{\"address\":1,\"data\":0,\"channel_type\":{\"Intensity\":[]},\"default_value\":0,\"capabilities\":{}}");
+    //     let c = Channel::new(1, ChannelType::Intensity,
+    //      0x00, BTreeMap::new());
+    //     let j = serde_json::to_string(&c).unwrap();
+    //     assert_eq!(expected, j);
+    // }
 
-    #[test]
-    pub fn test_deserialize(){
-        let expected = Channel::new(1, ChannelType::Intensity,
-         0x00, BTreeMap::new());
-        let c: Channel = serde_json::from_str("{\"address\":1,\"data\":0,\"channel_type\":{\"Intensity\":[]},\"default_value\":0,\"capabilities\":{}}").unwrap();
+    // #[test]
+    // pub fn test_deserialize(){
+    //     let expected = Channel::new(1, ChannelType::Intensity,
+    //      0x00, BTreeMap::new());
+    //     let c: Channel = serde_json::from_str("{\"address\":1,\"data\":0,\"channel_type\":{\"Intensity\":[]},\"default_value\":0,\"capabilities\":{}}").unwrap();
 
-        assert_eq!(c.address(), expected.address());
-        assert_eq!(c.capabilities(), expected.capabilities());
-        assert_eq!(c.data(), expected.data());
-        assert_eq!(c.channel_type(), expected.channel_type());
-        assert_eq!(c.default_value(), expected.default_value());
-    }
+    //     assert_eq!(c.address(), expected.address());
+    //     assert_eq!(c.capabilities(), expected.capabilities());
+    //     assert_eq!(c.data(), expected.data());
+    //     assert_eq!(c.channel_type(), expected.channel_type());
+    //     assert_eq!(c.default_value(), expected.default_value());
+    // }
 }

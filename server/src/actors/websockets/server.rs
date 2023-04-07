@@ -102,6 +102,7 @@ impl Handler<messages::FixtureUpdateMessage> for RtServer{
     type Result = ();
 
     fn handle(&mut self, msg: messages::FixtureUpdateMessage, _ctx: &mut Self::Context) -> Self::Result {
+        log::info!("hier");
         match &self.default_dmx_actor{
             // if there is a default dmx actor
             Some(dmx_actor) => {

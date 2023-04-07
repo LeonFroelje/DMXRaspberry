@@ -4,16 +4,21 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import useUniverseState from "@/store";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import axios from "axios";
+import { SyntheticEvent } from "react";
+import WebsocketMessage from "@/src/types/websocketmessage";
+import useWebSocket from "react-use-websocket";
 
 
 export default function FixturePage(){
     const router = useRouter();
     const { fid } = router.query;
     const universeState = useUniverseState();
-    let fixture = universeState.fixtures?.find((fixture) => {
-        return fixture.id === fid
+    const websocket = useWebSocket("ws://localhost:4000/api/ws", {
+        share: true
     });
-    console.log(fixture);
+    let fixture = universeState.fixtures?.find((fixture) => {
+        return fixture.id == fid
+    });
     return(
         <Stack sx={{ width: "100%", minHeight: "100%" }} rowGap="1rem">
             <AppBar component="nav" sx={{
@@ -53,14 +58,14 @@ export default function FixturePage(){
                     TODO: Szenen für einzelne Lampen bzw. Gruppen von Lampen einrichten
                 </CardContent>
             </Card>
-            <Stack direction={"row"} gap={"2rem"} height={"40vh"} justifyContent={"space-between"} padding={"0rem 1rem 1rem 1rem"}
+            <Stack direction={"row"} gap={"2rem"} height={"50vh"} justifyContent={"space-between"} padding={"0rem 1rem 6re 1rem"}
             overflow={"auto"}>
-                {fixture?.channels.map((channel, index) => {
+                {fixture?.active_mode.map((channel, index) => {
                     return (
                     <>
                         <Stack key={channel.address} direction={"column"} alignItems={"center"}>
                             <Typography variant="caption">{channel.address}</Typography>
-                            <Box height={"80%"} marginBottom={"1rem"}>
+                            <Box height={"75%"} marginBottom={"1rem"} marginTop={"1rem"}>
                                 <Slider
                                     sx={{
                                         '& input[type="range"]': {
@@ -68,15 +73,22 @@ export default function FixturePage(){
                                         },
                                     }}
                                     id={index.toString()}
-                                    orientation="vertical" defaultValue={channel.default_value}
+                                    orientation="vertical" defaultValue={channel.data}
                                     aria-label={channel.channel_type} valueLabelDisplay="auto"
-                                    onChange={(event: Event, newValue: number | number[]) => {
+                                    onChangeCommitted={(event: Event | SyntheticEvent<Element, Event>, value: number | number[]) => {
                                         if(fixture){
-                                            fixture.channels[index].data = newValue as number;
+                                            fixture.active_mode[index].data = value as number;
                                             universeState.updateFixture(fixture);
-                                            axios.post("/api/fixtures/update", fixture)
-                                                .then(res => res.data)
-                                                .catch(err => err)
+                                            let msg: WebsocketMessage = {
+                                                url: "/fixture/update",
+                                                text: JSON.stringify(fixture)
+                                            }
+                                            try{
+                                                websocket.sendJsonMessage(msg);
+                                            }
+                                            catch{
+                                                console.log("Kein Websocket")
+                                            }
                                         }
                                     }}>
                                 </Slider>

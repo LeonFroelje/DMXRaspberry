@@ -3,10 +3,10 @@ import Channel from "./channel";
 type Fixture = {
     name: string,
     id: string,
-    channels: Array<Channel>,
+    active_mode: Array<Channel>,
     manufacturer: string,
     model: string,
-    kind: string,
+    fixture_type: string,
 }
 
 

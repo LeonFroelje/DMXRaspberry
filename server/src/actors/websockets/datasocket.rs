@@ -75,8 +75,9 @@ impl DataSocket{
     }
 
     fn handle_text_message(&self, message: TextMessage, ctx: &mut <DataSocket as Actor>::Context){
-        match message.kind{
-            "update fixture" => {
+        log::info!("Text message angekommen");
+        match message.url{
+            "/fixtures/update" => {
                 let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
@@ -87,7 +88,7 @@ impl DataSocket{
                     }
                 }
             },
-            "add fixture" => {
+            "/fixtures/add" => {
                 let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
@@ -98,7 +99,7 @@ impl DataSocket{
                     }
                 }
             }
-            "remove fixture" => {
+            "/fixtures/remove" => {
                 let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
@@ -180,7 +181,7 @@ impl PartialEq for DataSocket{
 
 #[derive(Deserialize, Serialize)]
 struct TextMessage<'a>{
-    pub kind: &'a str,
+    pub url: &'a str,
     pub text: &'a str
 }
 

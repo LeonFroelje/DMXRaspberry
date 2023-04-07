@@ -8,18 +8,20 @@ use super::program::Program;
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
 // Represents a DMX universe.
 // A DMX universe consists of 512 channels 
-pub struct Universe{     
+pub struct Universe{  
+    id: u64,   
     name: String,
     mode: Mode,
     fixtures: Vec<Fixture>
 }
 
 impl Universe{
-    pub fn new(name: String, fixtures: Vec<Fixture>) -> Universe{
+    pub fn new(id: u64, name: String, fixtures: Vec<Fixture>) -> Universe{
         // Maybe add a lookup table for the channels which maps the channel number to 
         // the corresponding fixture channel reference
         // If done that way it's going to be more efficient.
         Universe{
+            id: id,
             name: name,
             mode: Mode::Programming(None),
             fixtures: fixtures
@@ -101,7 +103,7 @@ impl Universe{
 #[derive(Debug, Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 pub enum Mode{
     Programming(Option<Program>),
-    Play(Program),
+    Playing(Program),
 }
 
 #[derive(Debug)]
@@ -110,7 +112,7 @@ pub struct FixtureNotFoundError(pub String);
 
 #[cfg(test)]
 mod tests{
-    use std::collections::BTreeMap;
+    use std::collections::{BTreeMap, HashMap};
     use std::fs::{File, read_to_string};
     use std::io::Write;
     use crate::dmx_api::channel::{ Channel, ChannelType };
@@ -126,12 +128,12 @@ mod tests{
             channels_2.push(Channel::new(i + 6, ChannelType::Intensity,
              0x00, BTreeMap::new()));
         }
-        let f = Fixture::new(String::from("t1"), channels, String::from("test"),
-         String::from("test"), String::from("test"));
-        let f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
-         String::from("test"), String::from("test"));
-        let fixtures = vec![f, f_2];
-        Universe::new(String::from("kek"), fixtures)
+        let fixture = Fixture::new(String::from("t1"), 1, vec![channels.clone()], None, channels, String::from("test"),
+         String::from("test"), crate::dmx_api::fixture::FixtureType::ColorChanger);
+         let fixture_2 = Fixture::new(String::from("t1"), 2, vec![channels_2.clone()], None, channels_2, String::from("test"),
+         String::from("test"), crate::dmx_api::fixture::FixtureType::ColorChanger);
+        let fixtures = vec![fixture, fixture_2];
+        Universe::new(1, String::from("kek"), fixtures)
     }
 
     #[test]
@@ -145,14 +147,14 @@ mod tests{
 
         let mut universe = init();
         {
-        let mut f_1 = universe.fixtures_mut().get_mut(0).unwrap();
+        let f_1 = universe.fixtures_mut().get_mut(0).unwrap();
 
         for i in 0..6{
             f_1.set_channel(i as usize, i as u8).unwrap();
         }
         }
 
-        let mut f_2 = universe.fixtures_mut().get_mut(1).unwrap();
+        let f_2 = universe.fixtures_mut().get_mut(1).unwrap();
 
         for i in 0..6{
             f_2.set_channel(i as usize, (i+6) as u8).unwrap();
@@ -171,12 +173,16 @@ mod tests{
             channels_2.push(Channel::new(i + 6, ChannelType::Intensity,
              0x00, BTreeMap::new()));
         }
-        let f = Fixture::new(String::from("t1"), channels, String::from("test"),
-         String::from("test"), String::from("test"));
-        let f_2 = Fixture::new(String::from("t2"), channels_2, String::from("test"),
-         String::from("test"), String::from("test"));
-        let fixtures = vec![f, f_2];
-        let universe = Universe::new(String::from("kek"), fixtures);
+        let mut fixture = Fixture::new(String::from("t1"), 2,
+        vec![channels.clone()], None, channels,
+         String::from("test"),
+         String::from("test"), crate::dmx_api::fixture::FixtureType::ColorChanger);
+         let mut fixture_2 = Fixture::new(String::from("t1"), 2,
+         vec![channels_2.clone()], None,
+          channels_2, String::from("test"),
+         String::from("test"), crate::dmx_api::fixture::FixtureType::ColorChanger);
+        let fixtures = vec![fixture, fixture_2];
+        let universe = Universe::new(1, String::from("kek"), fixtures);
 
         let s = serde_json::to_string_pretty(&universe).unwrap();
         
