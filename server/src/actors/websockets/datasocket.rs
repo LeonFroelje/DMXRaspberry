@@ -25,6 +25,7 @@ impl Actor for DataSocket{
 
     fn started(&mut self, ctx: &mut Self::Context) {
         self.hb(ctx);
+        log::info!("Websocket connected")
         let addr = ctx.address();
         self.server.send(messages::Connect{
             addr: addr.recipient()
