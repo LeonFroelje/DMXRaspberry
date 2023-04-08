@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const {data, error } = useSWR('api/index', fetcher)
   const universeState = useUniverseState();
   // const [messageHistory, setMessageHistory] = useState([]);
-  const websocket = useWebSocket("ws://localhost:4000/api/ws",{
+  const websocket = useWebSocket("http://localhost:4000/api/ws",{
     share: true
   });
   console.log(websocket);
