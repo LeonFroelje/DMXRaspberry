@@ -10,5 +10,7 @@ type Fixture = {
 }
 
 
-
+export function fixtureToString(fixture: Fixture): string{
+    return `${fixture}`;
+}
 export default Fixture;

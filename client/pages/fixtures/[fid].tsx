@@ -7,7 +7,7 @@ import axios from "axios";
 import { SyntheticEvent } from "react";
 import WebsocketMessage from "@/src/types/websocketmessage";
 import useWebSocket from "react-use-websocket";
-
+import { fixtureToString } from "@/src/types/fixture";
 
 export default function FixturePage(){
     const router = useRouter();
@@ -81,11 +81,11 @@ export default function FixturePage(){
                                             universeState.updateFixture(fixture);
                                             let msg: WebsocketMessage = {
                                                 url: "/fixture/update",
-                                                text: JSON.stringify(fixture)
+                                                text: fixtureToString(fixture)
                                             }
                                             console.log(msg.text);
                                             try{
-                                                websocket.sendMessage(`{\"url\":\"${msg.url}\",\"text\":\"${msg.text}\"}`);
+                                                websocket.sendJsonMessage(msg);
                                             }
                                             catch{
                                                 console.log("Kein Websocket")
