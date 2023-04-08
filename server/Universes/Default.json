@@ -1004,14 +1004,14 @@
       "active_mode": [
         {
           "address": 64,
-          "data": 255,
+          "data": 25,
           "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 65,
-          "data": 255,
+          "data": 25,
           "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
@@ -1025,7 +1025,7 @@
         },
         {
           "address": 67,
-          "data": 255,
+          "data": 25,
           "channel_type": "IntensityWhite",
           "default_value": 0,
           "capabilities": {}
