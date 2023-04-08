@@ -80,7 +80,7 @@ export default function FixturePage(){
                                             fixture.active_mode[index].data = value as number;
                                             universeState.updateFixture(fixture);
                                             let msg: WebsocketMessage = {
-                                                url: "/fixture/update",
+                                                url: "/fixtures/update",
                                                 text: `${fixture}`
                                             }
                                             try{
