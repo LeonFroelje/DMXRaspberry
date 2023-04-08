@@ -78,8 +78,8 @@ impl DataSocket{
     fn handle_text_message(&self, message: TextMessage, ctx: &mut <DataSocket as Actor>::Context){
         log::info!("Text message angekommen");
         match message.url{
-            {String::from("/fixtures/update")} => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
+            "/fixtures/update" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureUpdateMessage::new(Some(self.id), fixture))
@@ -89,8 +89,8 @@ impl DataSocket{
                     }
                 }
             },
-            {String::from("/fixtures/add")} => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
+            "/fixtures/add" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureAddMessage::new(self.id, fixture))
@@ -100,8 +100,8 @@ impl DataSocket{
                     }
                 }
             }
-            {String::from("/fixtures/remove")} => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
+            "/fixtures/remove" => {
+                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureRemoveMessage::new(self.id, fixture))
@@ -181,9 +181,9 @@ impl PartialEq for DataSocket{
 
 
 #[derive(Deserialize, Serialize)]
-struct TextMessage{
-    pub url: String,
-    pub text: String
+struct TextMessage<'a>{
+    pub url: &'a str,
+    pub text: &'a str
 }
 
 /*
