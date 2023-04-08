@@ -79,12 +79,14 @@ impl DataSocket{
         log::info!("Text message angekommen");
         match message.url{
             "/fixtures/update" => {
+                log::info!("Update message angekommen");
                 let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureUpdateMessage::new(Some(self.id), fixture))
                     }
                     Err(_) => {
+                        log::info!("Syntax error");
                         ctx.text("Syntax error in Fixture definition")
                     }
                 }
