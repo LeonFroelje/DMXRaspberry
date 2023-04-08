@@ -87,8 +87,9 @@ impl DataSocket{
                         log::info!("Fixture update message ok");
                         self.server.do_send(messages::FixtureUpdateMessage::new(Some(self.id), fixture))
                     }
-                    Err(_) => {
+                    Err(e) => {
                         log::info!("Syntax error");
+                        log::info!("{:?}", e);
                         ctx.text("Syntax error in Fixture definition")
                     }
                 }
