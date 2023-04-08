@@ -72,6 +72,7 @@ export default function FixtureCard(props: {
         // universeState.toggleFixtureState(!e.target.checked, e.target.id.split("-")[1]);
         // send request to server to toggle the fixture state
         // at fixture index i of universe
+        
 
     }
     if(intensityChannel < 0){
