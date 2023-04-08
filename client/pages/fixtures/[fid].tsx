@@ -13,7 +13,7 @@ export default function FixturePage(){
     const router = useRouter();
     const { fid } = router.query;
     const universeState = useUniverseState();
-    const websocket = useWebSocket("http://192.168.178.150:4000/api/ws", {
+    const websocket = useWebSocket("ws://192.168.178.150:4000/api/ws", {
         share: true
     });
     let fixture = universeState.fixtures?.find((fixture) => {
