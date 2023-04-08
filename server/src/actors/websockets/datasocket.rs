@@ -81,6 +81,7 @@ impl DataSocket{
         match message.url{
             "/fixtures/update" => {
                 log::info!("Update message angekommen");
+                log::info!("{}", message.text);
                 let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
