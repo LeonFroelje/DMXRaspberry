@@ -75,7 +75,7 @@ export default function FixturePage(){
                                     id={index.toString()}
                                     orientation="vertical" defaultValue={channel.data}
                                     aria-label={channel.channel_type} valueLabelDisplay="auto"
-                                    onChangeCommitted={(event: Event | SyntheticEvent<Element, Event>, value: number | number[]) => {
+                                    onChange={(event: Event | SyntheticEvent<Element, Event>, value: number | number[]) => {
                                         if(fixture){
                                             fixture.active_mode[index].data = value as number;
                                             universeState.updateFixture(fixture);
