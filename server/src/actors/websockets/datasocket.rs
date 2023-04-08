@@ -77,12 +77,14 @@ impl DataSocket{
 
     fn handle_text_message(&self, message: TextMessage, ctx: &mut <DataSocket as Actor>::Context){
         log::info!("Text message angekommen");
+        log::info!("{}", message.url);
         match message.url{
             "/fixtures/update" => {
                 log::info!("Update message angekommen");
                 let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
                 match fixture {
                     Ok(fixture) => {
+                        log::info!("Fixture update message ok");
                         self.server.do_send(messages::FixtureUpdateMessage::new(Some(self.id), fixture))
                     }
                     Err(_) => {
