@@ -906,42 +906,42 @@
     ],
       "active_mode": [
         {
-          "address": 52,
+          "address": 58,
           "data": 255,
           "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 53,
+          "address": 59,
           "data": 255,
           "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 54,
+          "address": 60,
           "data": 255,
           "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 55,
+          "address": 61,
           "data": 255,
           "channel_type": "IntensityWhite",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 56,
+          "address": 62,
           "data": 255,
           "channel_type": "Intensity",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 57,
+          "address": 63,
           "data": 0,
           "channel_type": "Strobe",
           "default_value": 0,
@@ -1003,42 +1003,42 @@
     ],
       "active_mode": [
         {
-          "address": 52,
+          "address": 64,
           "data": 255,
           "channel_type": "IntensityRed",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 53,
+          "address": 65,
           "data": 255,
           "channel_type": "IntensityGreen",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 54,
+          "address": 66,
           "data": 255,
           "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 55,
+          "address": 67,
           "data": 255,
           "channel_type": "IntensityWhite",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 56,
+          "address": 68,
           "data": 255,
           "channel_type": "Intensity",
           "default_value": 0,
           "capabilities": {}
         },
         {
-          "address": 57,
+          "address": 69,
           "data": 0,
           "channel_type": "Strobe",
           "default_value": 0,
