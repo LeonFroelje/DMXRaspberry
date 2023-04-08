@@ -81,8 +81,8 @@ impl DataSocket{
         match message.url{
             "/fixtures/update" => {
                 log::info!("Update message angekommen");
-                log::info!("{}", message.text);
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
+                log::info!("{}", &message.text);
+                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
                 match fixture {
                     Ok(fixture) => {
                         log::info!("Fixture update message ok");
@@ -96,7 +96,7 @@ impl DataSocket{
                 }
             },
             "/fixtures/add" => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
+                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureAddMessage::new(self.id, fixture))
@@ -107,7 +107,7 @@ impl DataSocket{
                 }
             }
             "/fixtures/remove" => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
+                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureRemoveMessage::new(self.id, fixture))
