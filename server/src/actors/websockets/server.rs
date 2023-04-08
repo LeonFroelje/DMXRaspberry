@@ -205,7 +205,6 @@ impl Handler<messages::SendUniverse> for RtServer{
     fn handle(&mut self, msg: messages::SendUniverse, _ctx: &mut Self::Context) -> Self::Result {
         let kind = messages::ServerMessageKind::Universe;
         let content = serde_json::to_string(&msg.universe).unwrap();
-        log::info!("{content}");
         let message = ServerMessage::new(kind, &content);
         // match msg.id{
         //     Some(id) => {

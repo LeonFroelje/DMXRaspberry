@@ -55,7 +55,7 @@ impl DataSocket{
             // check client heartbeats
             if Instant::now().duration_since(act.hb) > CLIENT_TIMEOUT {
                 // heartbeat timed out
-                println!("Websocket Client heartbeat failed, disconnecting!");
+                log::info!("\n Websocket Client heartbeat failed, disconnecting!\n");
 
                 // notify chat server
                 act.server.do_send(messages::Disconnect { id: act.id });
