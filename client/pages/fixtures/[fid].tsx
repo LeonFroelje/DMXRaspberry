@@ -84,7 +84,7 @@ export default function FixturePage(){
                                                 text: fixture
                                             }
                                             try{
-                                                websocket.sendMessage(`{${msg.url}, ${JSON.stringify(msg.text)}}`);
+                                                websocket.sendMessage(`\"url\": {${msg.url},\"text\": ${JSON.stringify(msg.text)}}`);
                                             }
                                             catch{
                                                 console.log("Kein Websocket")
