@@ -81,7 +81,7 @@ export default function FixturePage(){
                                             universeState.updateFixture(fixture);
                                             let msg: WebsocketMessage = {
                                                 url: "/fixtures/update",
-                                                text: `${fixture}`
+                                                text: `${JSON.stringify(fixture)}`
                                             }
                                             try{
                                                 websocket.sendJsonMessage(msg);
