@@ -189,7 +189,7 @@ impl PartialEq for DataSocket{
 #[derive(Deserialize, Serialize)]
 struct TextMessage<'a>{
     pub url: &'a str,
-    pub text: String
+    pub text: &'a str
 }
 
 /*
