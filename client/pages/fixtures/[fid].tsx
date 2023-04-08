@@ -67,6 +67,8 @@ export default function FixturePage(){
                             <Typography variant="caption">{channel.address}</Typography>
                             <Box height={"75%"} marginBottom={"1rem"} marginTop={"1rem"}>
                                 <Slider
+                                    min={0}
+                                    max={255}
                                     sx={{
                                         '& input[type="range"]': {
                                         WebkitAppearance: 'slider-vertical',
@@ -75,7 +77,7 @@ export default function FixturePage(){
                                     id={index.toString()}
                                     orientation="vertical" defaultValue={channel.data}
                                     aria-label={channel.channel_type} valueLabelDisplay="auto"
-                                    onChange={(event: Event | SyntheticEvent<Element, Event>, value: number | number[]) => {
+                                    onChange={(_event: Event | SyntheticEvent<Element, Event>, value: number | number[]) => {
                                         if(fixture){
                                             fixture.active_mode[index].data = value as number;
                                             universeState.updateFixture(fixture);
@@ -83,7 +85,6 @@ export default function FixturePage(){
                                                 url: "/fixtures/update",
                                                 text: JSON.stringify(fixture)
                                             }
-                                            console.log(msg.text);
                                             try{
                                                 websocket.sendJsonMessage(msg);
                                             }

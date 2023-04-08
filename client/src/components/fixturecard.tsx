@@ -72,7 +72,7 @@ export default function FixtureCard(props: {
         // universeState.toggleFixtureState(!e.target.checked, e.target.id.split("-")[1]);
         // send request to server to toggle the fixture state
         // at fixture index i of universe
-        
+
 
     }
     if(intensityChannel < 0){
@@ -94,6 +94,8 @@ export default function FixtureCard(props: {
                 />
                 <CardActions sx={{padding: "0.5rem 1rem 0.5rem"}}>
                     {<Slider
+                        min={0}
+                        max={255}
                         aria-label="Intensity"
                         value={value}
                         onChangeCommitted={() => {
@@ -134,6 +136,8 @@ export default function FixtureCard(props: {
                 />
                 <CardActions sx={{padding: "0.5rem 1rem 0.5rem"}}>
                     {<Slider
+                        min={0}
+                        max={255}
                         aria-label="Intensity"
                         value={value}
                         onChangeCommitted={handleChange} onChange={(event, newValue) => {

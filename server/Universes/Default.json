@@ -779,14 +779,14 @@
         },
         {
           "address": 54,
-          "data": 255,
+          "data": 0,
           "channel_type": "IntensityBlue",
           "default_value": 0,
           "capabilities": {}
         },
         {
           "address": 55,
-          "data": 255,
+          "data": 0,
           "channel_type": "IntensityWhite",
           "default_value": 0,
           "capabilities": {}
