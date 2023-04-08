@@ -11,6 +11,6 @@ type Fixture = {
 
 
 export function fixtureToString(fixture: Fixture): string{
-    return `${fixture}`;
+    return fixture.toString();
 }
 export default Fixture;
