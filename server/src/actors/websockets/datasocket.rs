@@ -77,9 +77,9 @@ impl DataSocket{
 
     fn handle_text_message(&self, message: TextMessage, ctx: &mut <DataSocket as Actor>::Context){
         log::info!("Text message angekommen");
-        match message.url{
+        match &message.url{
             "/fixtures/update" => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
+                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureUpdateMessage::new(Some(self.id), fixture))
@@ -90,7 +90,7 @@ impl DataSocket{
                 }
             },
             "/fixtures/add" => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
+                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureAddMessage::new(self.id, fixture))
@@ -101,7 +101,7 @@ impl DataSocket{
                 }
             }
             "/fixtures/remove" => {
-                let fixture: Result<Fixture, Error> = serde_json::from_str(message.text);
+                let fixture: Result<Fixture, Error> = serde_json::from_str(&message.text);
                 match fixture {
                     Ok(fixture) => {
                         self.server.do_send(messages::FixtureRemoveMessage::new(self.id, fixture))
