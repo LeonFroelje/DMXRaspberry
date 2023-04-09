@@ -32,10 +32,12 @@ const updateIntensity = (fixture: Fixture, value: number) => {
 
 const updateAll = (fixture: Fixture, value: number) => {
     for(let i = 0; i < fixture.active_mode.length; i++){
-        const channel = fixture.active_mode[i];
+        let channel = fixture.active_mode[i];
+        console.log(channel.data);
         fixture.active_mode[i].data = channel.data > 0 
          ? channel.data - 1:
          channel.data;
+        console.log(fixture.active_mode[i].data)
     }
     return fixture
 }
