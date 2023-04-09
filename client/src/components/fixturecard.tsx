@@ -109,7 +109,7 @@ export default function FixtureCard(props: {
                         aria-label="Intensity"
                         value={value}
                          onChange={(event, newValue) => {
-                            let f = updateAll(fixture, value as number);
+                            let f = updateAll(fixture, newValue as number);
                             universeState.updateFixture({
                                 ...f,
                             })
