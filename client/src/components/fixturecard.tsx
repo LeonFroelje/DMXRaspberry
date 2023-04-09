@@ -61,20 +61,22 @@ export default function FixtureCard(props: {
         if(newValue < value){
             for(let i = 0; i < fixture.active_mode.length; i++){
                 let channel = fixture.active_mode[i];
+                const diff = value - newValue;
                 console.log(channel.data);
-                fixture.active_mode[i].data = channel.data > 0 
-                ? channel.data - 1:
-                channel.data;
+                fixture.active_mode[i].data = channel.data - diff > 0 
+                ? channel.data - diff:
+                0;
                 console.log(fixture.active_mode[i].data)
             }
         }
         else{
             for(let i = 0; i < fixture.active_mode.length; i++){
                 let channel = fixture.active_mode[i];
+                const diff = newValue - value;
                 console.log(channel.data);
-                fixture.active_mode[i].data = channel.data > 0 
-                ? channel.data + 1:
-                channel.data;
+                fixture.active_mode[i].data = channel.data + diff <= 255 
+                ? channel.data + diff:
+                255;
                 console.log(fixture.active_mode[i].data)
             }
         }
