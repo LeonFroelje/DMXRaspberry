@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[141],{7454:function(n,u,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/play",function(){return t(2624)}])},2624:function(n,u,t){"use strict";function _(){return"Lel"}t.r(u),t.d(u,{default:function(){return _}})}},function(n){n.O(0,[774,888,179],function(){return n(n.s=7454)}),_N_E=n.O()}]);

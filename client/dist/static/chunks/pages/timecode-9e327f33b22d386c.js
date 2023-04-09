@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[844],{6390:function(n,u,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/timecode",function(){return t(5837)}])},5837:function(n,u,t){"use strict";function e(){return"Lol"}t.r(u),t.d(u,{default:function(){return e}})}},function(n){n.O(0,[774,888,179],function(){return n(n.s=6390)}),_N_E=n.O()}]);

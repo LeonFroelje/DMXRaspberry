@@ -21,8 +21,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_BottomNavigation__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mui_material_BottomNavigation__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7307);
 /* harmony import */ var _mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _mui_icons_material_CodeOutlined__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6131);
-/* harmony import */ var _mui_icons_material_CodeOutlined__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_CodeOutlined__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _mui_icons_material_MovieFilterOutlined__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6337);
+/* harmony import */ var _mui_icons_material_MovieFilterOutlined__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_MovieFilterOutlined__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _mui_icons_material_HomeOutlined__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9989);
 /* harmony import */ var _mui_icons_material_HomeOutlined__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_HomeOutlined__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _mui_icons_material_PlayCircleFilledWhiteOutlined__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(5865);
@@ -72,7 +72,7 @@ function App({ Component , pageProps  }) {
     const { data , error  } = (0,swr__WEBPACK_IMPORTED_MODULE_15__["default"])("api/index", fetcher);
     const universeState = (0,_store__WEBPACK_IMPORTED_MODULE_16__/* ["default"] */ .Z)();
     // const [messageHistory, setMessageHistory] = useState([]);
-    const websocket = (0,react_use_websocket_dist_lib_use_websocket__WEBPACK_IMPORTED_MODULE_17__.useWebSocket)("ws://localhost:4000/api/ws", {
+    const websocket = (0,react_use_websocket_dist_lib_use_websocket__WEBPACK_IMPORTED_MODULE_17__.useWebSocket)("ws://192.168.178.150:4000/api/ws", {
         share: true
     });
     console.log(websocket);
@@ -145,7 +145,7 @@ function App({ Component , pageProps  }) {
                                     minidh: "auto"
                                 },
                                 label: "Program",
-                                icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_CodeOutlined__WEBPACK_IMPORTED_MODULE_4___default()), {})
+                                icon: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_icons_material_MovieFilterOutlined__WEBPACK_IMPORTED_MODULE_4___default()), {})
                             }),
                             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_BottomNavigationAction__WEBPACK_IMPORTED_MODULE_3___default()), {
                                 component: _src_Link__WEBPACK_IMPORTED_MODULE_11__/* .NextLinkComposed */ .Z,
@@ -307,14 +307,6 @@ const Link = /*#__PURE__*/ (/* unused pure expression or super */ null && (React
 
 /***/ }),
 
-/***/ 6131:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("@mui/icons-material/CodeOutlined");
-
-/***/ }),
-
 /***/ 9989:
 /***/ ((module) => {
 
@@ -328,6 +320,14 @@ module.exports = require("@mui/icons-material/HomeOutlined");
 
 "use strict";
 module.exports = require("@mui/icons-material/HourglassEmptyOutlined");
+
+/***/ }),
+
+/***/ 6337:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("@mui/icons-material/MovieFilterOutlined");
 
 /***/ }),
 

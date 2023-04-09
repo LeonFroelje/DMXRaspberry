@@ -2,11 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/fixtures/[fid]": "pages/fixtures/[fid].html",
-  "/": "pages/index.html",
-  "/play": "pages/play.html",
-  "/program": "pages/program.html",
-  "/settings": "pages/settings.html",
-  "/timecode": "pages/timecode.html",
-  "/404": "pages/404.html"
+  "/fixtures/[fid]": "pages/fixtures/[fid].js",
+  "/": "pages/index.js",
+  "/program": "pages/program.js",
+  "/play": "pages/play.js",
+  "/settings": "pages/settings.js",
+  "/timecode": "pages/timecode.js"
 }

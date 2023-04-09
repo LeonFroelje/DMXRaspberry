@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from "react";
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
-export default function Program(){
+export default function Show(){
     const universeState = useUniverseState();
     console.log(universeState.mode);
 

@@ -49,13 +49,13 @@ export default function FixturePage(){
                     fontWeight: "500",
                     fontSize: "1rem",
                     lineHeight: "1"
-                }} title={"Szenen"} action={
+                }} title={"Szenen und Effekte"} action={
                     <IconButton>
                         <AddCircleOutlineIcon/>
                     </IconButton>
                 }/>
                 <CardContent>
-                    TODO: Szenen für einzelne Lampen bzw. Gruppen von Lampen einrichten
+                    TODO: Szenen und Effekte(z.B. Lauflicht) für einzelne Lampen bzw. Gruppen von Lampen einrichten
                 </CardContent>
             </Card>
             <Stack direction={"row"} gap={"2rem"} height={"50vh"} justifyContent={"space-between"} padding={"0rem 1rem 6re 1rem"}

@@ -3,6 +3,7 @@ import '@/styles/globals.css'
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction' ;
 import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
+import MovieFilterOutlinedIcon from '@mui/icons-material/MovieFilterOutlined';
 import HomeOutlined from "@mui/icons-material/HomeOutlined";
 import PlayCircleFilledWhiteOutlined from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
 import SettingsOutlined from "@mui/icons-material/SettingsOutlined";
@@ -68,7 +69,7 @@ export default function App({ Component, pageProps }: AppProps) {
             }}
           >
             <BottomNavigationAction component={NextLinkComposed} to="/" sx={{minidh: "auto"}} label="Home" icon={<HomeOutlined/>} />
-            <BottomNavigationAction component={NextLinkComposed} to="/program" sx={{minidh: "auto"}} label="Program" icon={<CodeOutlinedIcon />} />
+            <BottomNavigationAction component={NextLinkComposed} to="/program" sx={{minidh: "auto"}} label="Program" icon={<MovieFilterOutlinedIcon />} />
             <BottomNavigationAction component={NextLinkComposed} to="/play" sx={{minidh: "auto"}} label="Play" icon={<PlayCircleFilledWhiteOutlined />} />
             <BottomNavigationAction component={NextLinkComposed} to="/timecode" sx={{minidh: "auto"}} label="Timecode" icon={<HourglassEmptyOutlined />} />
             <BottomNavigationAction component={NextLinkComposed} to="/settings" sx={{minidh: "auto"}} label="Settings" icon={<SettingsOutlined />} />

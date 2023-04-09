@@ -28,6 +28,16 @@ const updateIntensity = (fixture: Fixture, value: number) => {
     return fixture
 }
 
+const updateAll = (fixture: Fixture, value: number) => {
+    for(let i = 0; i < fixture.active_mode.length; i++){
+        const channel = fixture.active_mode[i];
+        fixture.active_mode[i].data = channel.data > 0 
+         ? channel.data - 1:
+         channel.data;
+    }
+    return fixture
+}
+
 export default function FixtureCard(props: {
     fixture: Fixture,
     index: number
@@ -98,11 +108,15 @@ export default function FixtureCard(props: {
                         max={255}
                         aria-label="Intensity"
                         value={value}
-                        onChangeCommitted={() => {
-                            // TODO: implement function that reduces the average value
-                        }} onChange={(event, newValue) => {
-                            setValue(newValue as number);
-                        }}
+                         onChange={(event, newValue) => {
+                            let f = updateAll(fixture, value as number);
+                            universeState.updateFixture({
+                                ...f,
+                            })
+                            axios.post("/api/fixtures/update", fixture)
+                            .then(res => res.data)
+                            .catch(err => err)
+                                            }}
                         onClick={event => {
                             event.stopPropagation();
                             event.preventDefault();
