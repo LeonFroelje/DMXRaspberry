@@ -5,6 +5,8 @@ import useUniverseState from "@/store";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import useWebSocket from "react-use-websocket";
+import WebsocketMessage from "../types/websocketmessage";
 
 
 const findIntensityChannel = (fixture: Fixture) => {
@@ -43,6 +45,9 @@ export default function FixtureCard(props: {
     index: number
 }) {
     const universeState = useUniverseState();
+    const websocket = useWebSocket("ws://192.168.178.150:4000/api/ws", {
+        share: true
+    });
     let fixture = props.fixture;
     const intensityChannel = findIntensityChannel(fixture);
     const initial_value = intensityChannel >= 0 
@@ -66,10 +71,17 @@ export default function FixtureCard(props: {
         universeState.updateFixture({
             ...f,
         })
-        axios.post("/api/fixtures/update", fixture)
-        .then(res => res.data)
-        .catch(err => err)
-    }
+        let msg: WebsocketMessage = {
+            url: "/fixtures/update",
+            text: JSON.stringify(f)
+        }
+        try{
+            websocket.sendJsonMessage(msg);
+        }
+        catch{
+            console.log("Kein Websocket")
+        }
+}
 
     // const handleChangeNoIntensity = (event, value) => {
     //     fixture.active_mode.forEach(channel => {
@@ -113,10 +125,18 @@ export default function FixtureCard(props: {
                             universeState.updateFixture({
                                 ...f,
                             })
-                            axios.post("/api/fixtures/update", fixture)
-                            .then(res => res.data)
-                            .catch(err => err)
-                                            }}
+                            let msg: WebsocketMessage = {
+                                url: "/fixtures/update",
+                                text: JSON.stringify(f)
+                            }
+                            try{
+                                websocket.sendJsonMessage(msg);
+                            }
+                            catch{
+                                console.log("Kein Websocket")
+                            }
+                            setValue(newValue as number);
+                            }}
                         onClick={event => {
                             event.stopPropagation();
                             event.preventDefault();
@@ -154,7 +174,21 @@ export default function FixtureCard(props: {
                         max={255}
                         aria-label="Intensity"
                         value={value}
-                        onChangeCommitted={handleChange} onChange={(event, newValue) => {
+                        onChange={(event, newValue) => {
+                            let f = updateIntensity(fixture, value as number);
+                            universeState.updateFixture({
+                                ...f,
+                            })
+                            let msg: WebsocketMessage = {
+                                url: "/fixtures/update",
+                                text: JSON.stringify(f)
+                            }
+                            try{
+                                websocket.sendJsonMessage(msg);
+                            }
+                            catch{
+                                console.log("Kein Websocket")
+                            }                    
                             setValue(newValue as number);
                         }}
                         onClick={event => {
