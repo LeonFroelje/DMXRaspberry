@@ -30,17 +30,6 @@ const updateIntensity = (fixture: Fixture, value: number) => {
     return fixture
 }
 
-const updateAll = (fixture: Fixture, value: number) => {
-    for(let i = 0; i < fixture.active_mode.length; i++){
-        let channel = fixture.active_mode[i];
-        console.log(channel.data);
-        fixture.active_mode[i].data = channel.data > 0 
-         ? channel.data - 1:
-         channel.data;
-        console.log(fixture.active_mode[i].data)
-    }
-    return fixture
-}
 
 export default function FixtureCard(props: {
     fixture: Fixture,
@@ -67,6 +56,30 @@ export default function FixtureCard(props: {
             return f.data / f.address
         };
     const [value, setValue] = useState(initial_value);
+
+    const updateAll = (fixture: Fixture, newValue: number) => {
+        if(newValue < value){
+            for(let i = 0; i < fixture.active_mode.length; i++){
+                let channel = fixture.active_mode[i];
+                console.log(channel.data);
+                fixture.active_mode[i].data = channel.data > 0 
+                ? channel.data - 1:
+                channel.data;
+                console.log(fixture.active_mode[i].data)
+            }
+        }
+        else{
+            for(let i = 0; i < fixture.active_mode.length; i++){
+                let channel = fixture.active_mode[i];
+                console.log(channel.data);
+                fixture.active_mode[i].data = channel.data > 0 
+                ? channel.data + 1:
+                channel.data;
+                console.log(fixture.active_mode[i].data)
+            }
+        }
+        return fixture
+    }    
 
     const handleChange = (event: Event | SyntheticEvent<Element, Event>, value: number | number[]) => {
         let f = updateIntensity(fixture, value as number);
